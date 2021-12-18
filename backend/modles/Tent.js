@@ -98,4 +98,4 @@ const tentSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model.Tent || mongoose.model("Tent", tentSchema);
+export default mongoose.models.Tent || mongoose.model("Tent", tentSchema);
