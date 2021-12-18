@@ -58,7 +58,7 @@ const tentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter tent category"],
     enum: {
-      values: ["Small", "Medium", "Large"],
+      values: ["small", "medium", "large"],
       message: "Please select correct tent category",
     },
   },

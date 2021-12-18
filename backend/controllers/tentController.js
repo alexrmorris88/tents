@@ -1,15 +1,27 @@
 import Tent from "../modles/Tent";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
+import APIFeatures from "../utils/apiFeatures";
 
 // Get All Tents
 // Path: /api/tents
 const allTents = catchAsyncErrors(async (req, res) => {
-  const tents = await Tent.find();
+  const resPerPage = 8;
+  const tentsCount = await Tent.countDocuments();
+
+  const apiFeatures = new APIFeatures(Tent.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resPerPage);
+
+  let tents = await apiFeatures.query;
+  let filteredTentsCount = tents.length;
 
   res.status(200).json({
     success: true,
-    count: tents.length,
+    tentsCount,
+    resPerPage,
+    filteredTentsCount,
     tents,
   });
 });
