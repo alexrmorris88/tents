@@ -8,8 +8,10 @@ import {
   updateTentById,
   deleteTentById,
 } from "../../../backend/controllers/tentController";
+//Error Import
+import onError from "../../../backend/middlewares/errors";
 
-const handler = nc();
+const handler = nc({ onError });
 dbConnect();
 
 handler.get(getTentById);

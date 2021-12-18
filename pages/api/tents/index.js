@@ -4,8 +4,10 @@ import nc from "next-connect";
 import dbConnect from "../../../backend/config/dbConnect";
 // Controller Import
 import { allTents, newTent } from "../../../backend/controllers/tentController";
+//Error Import
+import onError from "../../../backend/middlewares/errors";
 
-const handler = nc();
+const handler = nc({ onError });
 dbConnect();
 
 handler.get(allTents);
