@@ -1,14 +1,11 @@
 import Layout from "../components/layout/Layout";
+import Home from "../components/home/Home";
 
-export default function Home() {
+export default function Index() {
   return (
     <div>
       <Layout>
-        <div className="p-2">
-          <main>
-            <h1>Welcome to Saint John Tents!</h1>
-          </main>
-        </div>
+        <Home />
       </Layout>
     </div>
   );

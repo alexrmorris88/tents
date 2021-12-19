@@ -1,15 +1,24 @@
+//Next-React
 import React, { useState } from "react";
 import Head from "next/head";
-
+//UI Components
+import { styled } from "@mui/material/styles";
+//Components
 import Header from "./Header";
 import MobileHeader from "./MobileHeader";
 import { Footer } from "./Footer";
+
+const MainLayoutRoot = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  height: "100%",
+  paddingTop: 64,
+}));
 
 const Layout = ({ children, title = "Saint John Tents" }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div>
+    <MainLayoutRoot>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -23,7 +32,7 @@ const Layout = ({ children, title = "Saint John Tents" }) => {
       />
       {children}
       <Footer />
-    </div>
+    </MainLayoutRoot>
   );
 };
 
