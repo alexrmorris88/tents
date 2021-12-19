@@ -2,14 +2,14 @@
 import { Divider } from "@mui/material";
 //Components
 import { HomeHero } from "./home-hero";
-import Products from "./products";
+import HomeProducts from "./home-products";
 
 const Home = () => {
   return (
     <main>
       <HomeHero />
       <Divider />
-      <Products />
+      <HomeProducts />
     </main>
   );
 };
