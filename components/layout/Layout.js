@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 
 import Header from "./Header";
-import Footer from "./Footer";
+import MobileHeader from "./MobileHeader";
+import { Footer } from "./Footer";
 
 const Layout = ({ children, title = "Saint John Tents" }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
     <div>
       <Head>
@@ -13,7 +16,11 @@ const Layout = ({ children, title = "Saint John Tents" }) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <Header />
+      <Header onOpenSidebar={() => setIsSidebarOpen(true)} />
+      <MobileHeader
+        onClose={() => setIsSidebarOpen(false)}
+        open={isSidebarOpen}
+      />
       {children}
       <Footer />
     </div>
