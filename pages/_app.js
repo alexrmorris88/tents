@@ -5,7 +5,6 @@ import {
 } from "../contexts/settings-context";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "../theme";
-import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
