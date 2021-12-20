@@ -10,6 +10,16 @@ import {
 } from "@mui/material";
 import { Menu as MenuIcon } from "../../icons/menu";
 import { Logo } from "./logo";
+import { styled } from "@mui/material/styles";
+
+const HeaderLink = styled(Link)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+  display: "block",
+  padding: theme.spacing(0.5),
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
 
 export default function Header(props) {
   const { onOpenSidebar } = props;
@@ -63,30 +73,34 @@ export default function Header(props) {
             }}
           >
             <NextLink href="/products" passHref>
-              <Link color="textSecondary" underline="none" variant="subtitle2">
+              <HeaderLink
+                color="textSecondary"
+                underline="none"
+                variant="subtitle2"
+              >
                 Products
-              </Link>
+              </HeaderLink>
             </NextLink>
             <NextLink href="/about" passHref>
-              <Link
+              <HeaderLink
                 color="textSecondary"
                 sx={{ ml: 2 }}
                 underline="none"
                 variant="subtitle2"
               >
                 About
-              </Link>
+              </HeaderLink>
             </NextLink>
             <NextLink href="/profile" passHref>
-              <Link
+              <HeaderLink
                 color="textSecondary"
                 component="a"
                 sx={{ ml: 2 }}
-                underline="none"
                 variant="subtitle2"
+                underline="none"
               >
                 Profile
-              </Link>
+              </HeaderLink>
             </NextLink>
           </Box>
         </Toolbar>

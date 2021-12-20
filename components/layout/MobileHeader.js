@@ -70,16 +70,6 @@ export default function MobileHeader(props) {
             Documentation
           </MainSidebarLink>
         </NextLink>
-        <Button
-          component="a"
-          fullWidth
-          href="https://material-ui.com/store/items/devias-kit-pro"
-          sx={{ mt: 1.5 }}
-          target="_blank"
-          variant="contained"
-        >
-          Buy Now
-        </Button>
       </Box>
     </Drawer>
   );
