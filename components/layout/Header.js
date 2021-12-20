@@ -62,9 +62,9 @@ export default function Header(props) {
               },
             }}
           >
-            <NextLink href="/dashboard" passHref>
+            <NextLink href="/products" passHref>
               <Link color="textSecondary" underline="none" variant="subtitle2">
-                Dashboard
+                Products
               </Link>
             </NextLink>
             <NextLink href="/about" passHref>
