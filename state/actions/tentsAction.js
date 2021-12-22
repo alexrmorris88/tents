@@ -1,6 +1,8 @@
 import {
   ALL_TENTS_SUCCESS,
   ALL_TENTS_FAIL,
+  TENTS_DETAILS_SUCCESS,
+  TENTS_DETAILS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 import axios from "axios";
@@ -20,6 +22,25 @@ export const getTents = (req) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ALL_TENTS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get Tent Details
+export const getTentDetails = (req, id) => async (dispatch) => {
+  try {
+    const { origin } = absoluteUrl(req);
+
+    const { data } = await axios.get(`${origin}/api/tents/${id}`);
+
+    dispatch({
+      type: TENTS_DETAILS_SUCCESS,
+      payload: data.tent,
+    });
+  } catch (error) {
+    dispatch({
+      type: TENTS_DETAILS_FAIL,
       payload: error.response.data.message,
     });
   }

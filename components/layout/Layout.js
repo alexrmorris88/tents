@@ -7,6 +7,9 @@ import { styled } from "@mui/material/styles";
 import Header from "./Header";
 import MobileHeader from "./MobileHeader";
 import { Footer } from "./Footer";
+// CSS
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MainLayoutRoot = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -30,6 +33,7 @@ const Layout = ({ children, title = "Saint John Tents" }) => {
         onClose={() => setIsSidebarOpen(false)}
         open={isSidebarOpen}
       />
+      <ToastContainer />
       {children}
       <Footer />
     </MainLayoutRoot>

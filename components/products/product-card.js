@@ -31,44 +31,45 @@ export default function ProductCard() {
 
   const sx_card_layout = { maxWidth: 270 };
 
-  const tentHandler = () => {
-    router.push("/");
+  const tentHandler = (id) => {
+    router.push(`/products/${id}`);
   };
 
   return (
     <Layout title="Products">
       <Container maxWidth="lg">
         <Grid alignItems="center" container justifyContent="center">
-          {tents.map((tent) => {
-            const { name, description, images } = tent;
+          {tents &&
+            tents.map((tent) => {
+              const { name, description, images, _id } = tent;
 
-            return (
-              <Box sx={sx_box_layout} key={name}>
-                <Card sx={sx_card_layout}>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={images[0].url}
-                    alt={name}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Share</Button>
-                    <Button size="small" onClick={() => tentHandler()}>
-                      {name} Details
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Box>
-            );
-          })}
+              return (
+                <Box sx={sx_box_layout} key={name}>
+                  <Card sx={sx_card_layout}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={images[0].url}
+                      alt={name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {name}
+                      </Typography>
+                      <Typography variant="body2" noWrap color="text.secondary">
+                        {description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Share</Button>
+                      <Button size="small" onClick={() => tentHandler(_id)}>
+                        {name} Details
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Box>
+              );
+            })}
         </Grid>
       </Container>
     </Layout>
