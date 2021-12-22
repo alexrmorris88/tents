@@ -1,6 +1,8 @@
 // Next-React Imports
 import * as React from "react";
 import { useRouter } from "next/router";
+// Redux Imports
+import { useSelector } from "react-redux";
 // UI imports
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -11,35 +13,12 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
 // Component Imports
 import Layout from "../layout/Layout";
 
-const getProducts = (theme) => [
-  {
-    image: "/tents/large-tent.jpg",
-    title: "Large Tent",
-    description:
-      "Our large tents are perfect for your wedding! Please create an account to book your wedding tent today! Please do not hesitate, tents are booking quickly",
-  },
-  {
-    image: "/tents/medium-tent.jpg",
-    title: "Medium Tent",
-    description:
-      "Our large tents are perfect for your wedding! Please create an account to book your wedding tent today! Please do not hesitate, tents are booking quickly",
-  },
-  {
-    image: "/tents/small-tent.jpg",
-    title: "Small Tent",
-    description:
-      "Our large tents are perfect for your wedding! Please create an account to book your wedding tent today! Please do not hesitate, tents are booking quickly",
-  },
-];
-
 export default function ProductCard() {
+  const { tents } = useSelector((state) => state.allTents);
   const router = useRouter();
-  const theme = useTheme();
-  const products = getProducts(theme.palette.mode);
 
   const sx_box_layout = {
     m: 1,
@@ -60,21 +39,21 @@ export default function ProductCard() {
     <Layout title="Products">
       <Container maxWidth="lg">
         <Grid alignItems="center" container justifyContent="center">
-          {products.map((product) => {
-            const { image, title, description } = product;
+          {tents.map((tent) => {
+            const { name, description, images } = tent;
 
             return (
-              <Box sx={sx_box_layout} key={title}>
+              <Box sx={sx_box_layout} key={name}>
                 <Card sx={sx_card_layout}>
                   <CardMedia
                     component="img"
                     height="140"
-                    image={image}
-                    alt={title}
+                    image={images[0].url}
+                    alt={name}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {title}
+                      {name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {description}
@@ -83,7 +62,7 @@ export default function ProductCard() {
                   <CardActions>
                     <Button size="small">Share</Button>
                     <Button size="small" onClick={() => tentHandler()}>
-                      {title} Details
+                      {name} Details
                     </Button>
                   </CardActions>
                 </Card>

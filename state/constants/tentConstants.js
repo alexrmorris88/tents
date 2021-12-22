@@ -1,0 +1,4 @@
+export const ALL_TENTS_SUCCESS = "ALL_TENTS_SUCCESS";
+export const ALL_TENTS_FAIL = "ALL_TENTS_FAIL";
+
+export const CLEAR_ERRORS = "CLEAR_ERRORS";

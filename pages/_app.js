@@ -5,6 +5,7 @@ import {
 } from "../contexts/settings-context";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "../theme";
+import { wrapper } from "../state/store";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -26,4 +27,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
