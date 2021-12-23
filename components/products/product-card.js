@@ -1,6 +1,7 @@
 // Next-React Imports
 import * as React from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 // Redux Imports
 import { useSelector } from "react-redux";
 // UI imports
@@ -37,6 +38,9 @@ export default function ProductCard() {
 
   return (
     <Layout title="Products">
+      <Head>
+        <title>{tents.name}</title>
+      </Head>
       <Container maxWidth="lg">
         <Grid alignItems="center" container justifyContent="center">
           {tents &&
@@ -44,7 +48,7 @@ export default function ProductCard() {
               const { name, description, images, _id } = tent;
 
               return (
-                <Box sx={sx_box_layout} key={name}>
+                <Box sx={sx_box_layout} key={_id}>
                   <Card sx={sx_card_layout}>
                     <CardMedia
                       component="img"

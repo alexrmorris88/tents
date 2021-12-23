@@ -1,6 +1,7 @@
 // Next-React Imports
 import React from "react";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 // UI imports
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -22,6 +23,10 @@ export default function productDetails() {
 
   return (
     <Layout title="Products">
+      <Head>
+        <title>{name}</title>
+      </Head>
+
       <Container maxWidth="lg">
         <Grid alignItems="top" container justifyContent="center" spacing={3}>
           <Grid
@@ -36,19 +41,22 @@ export default function productDetails() {
             }}
           >
             <Carousel autoPlay={false} controls={true} indicators={true}>
-              {images.map((image) => {
-                return (
-                  <Image
-                    src={image.url}
-                    alt={name}
-                    title={name}
-                    width="100%"
-                    height="100%"
-                    layout="responsive"
-                    objectFit="contain"
-                  />
-                );
-              })}
+              {images &&
+                images.map((image) => {
+                  return (
+                    <Image
+                      key={image.url}
+                      src={image.url}
+                      alt={name}
+                      title={name}
+                      width="100%"
+                      height="100%"
+                      layout="responsive"
+                      objectFit="contain"
+                      priority
+                    />
+                  );
+                })}
             </Carousel>
           </Grid>
           <Grid

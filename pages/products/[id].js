@@ -7,7 +7,7 @@ import { getTentDetails } from "../../state/actions/tentsAction";
 import { wrapper } from "../../state/store";
 
 export default function index() {
-  return <ProductDetails />;
+  return <ProductDetails title="Product Details" />;
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
