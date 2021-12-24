@@ -47,6 +47,20 @@ const info = {
   contrastText: neutral[900],
 };
 
+const addToCart = {
+  main: "#fdd835",
+  light: "#ffeb3b",
+  dark: "#fbc02d",
+  contrastText: neutral[900],
+};
+
+const BuyNow = {
+  main: "#ffc107",
+  light: "#ffca28",
+  dark: "#ffa000",
+  contrastText: neutral[900],
+};
+
 const warning = {
   main: "#FFB020",
   light: "#FFBF4C",
@@ -171,6 +185,8 @@ export const darkThemeOptions = {
     divider,
     error,
     info,
+    addToCart,
+    BuyNow,
     mode: "dark",
     neutral,
     primary,

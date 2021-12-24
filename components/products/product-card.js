@@ -14,6 +14,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Rating from "@mui/material/Rating";
+import Truncate from "react-truncate";
 // Component Imports
 import Layout from "../layout/Layout";
 
@@ -60,10 +62,14 @@ export default function ProductCard() {
                       <Typography gutterBottom variant="h5" component="div">
                         {name}
                       </Typography>
-                      <Typography variant="body2" noWrap color="text.secondary">
-                        {description}
+
+                      <Typography variant="body2" color="text.secondary">
+                        <Truncate lines={3}>{description}</Truncate>
                       </Typography>
                     </CardContent>
+                    <Grid ml={3}>
+                      <Rating disabled />
+                    </Grid>
                     <CardActions>
                       <Button size="small">Share</Button>
                       <Button size="small" onClick={() => tentHandler(_id)}>
