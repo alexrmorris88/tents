@@ -10,11 +10,11 @@ import absoluteUrl from "next-absolute-url";
 
 // Get All Tents
 export const getTents =
-  (req, currentPage = 1) =>
+  (req, page = 1) =>
   async (dispatch) => {
     try {
       const { origin } = absoluteUrl(req);
-      const link = `${origin}/api/tents?page=${currentPage}`;
+      const link = `${origin}/api/tents?page=${page}`;
       const { data } = await axios.get(`${link}`);
 
       dispatch({
