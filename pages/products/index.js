@@ -12,7 +12,7 @@ export default function index() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
-    async ({ req }) => {
-      await store.dispatch(getTents(req));
+    async ({ req, query }) => {
+      await store.dispatch(getTents(req, query.page));
     }
 );

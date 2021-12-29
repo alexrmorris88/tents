@@ -6,7 +6,7 @@ import APIFeatures from "../utils/apiFeatures";
 // Get All Tents
 // Path: /api/tents
 const allTents = catchAsyncErrors(async (req, res) => {
-  const resPerPage = 8;
+  const resPerPage = 2;
   const tentsCount = await Tent.countDocuments();
 
   const apiFeatures = new APIFeatures(Tent.find(), req.query)
@@ -16,12 +16,14 @@ const allTents = catchAsyncErrors(async (req, res) => {
 
   let tents = await apiFeatures.query;
   let filteredTentsCount = tents.length;
+  let numOfPages = Math.ceil(tentsCount / resPerPage);
 
   res.status(200).json({
     success: true,
     tentsCount,
     resPerPage,
     filteredTentsCount,
+    numOfPages: Number(numOfPages),
     tents,
   });
 });

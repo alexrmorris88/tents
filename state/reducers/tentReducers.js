@@ -14,6 +14,7 @@ export const allTentsReducer = (state = { tents: [] }, action) => {
         tentsCount: action.payload.tentsCount,
         resPerPage: action.payload.resPerPage,
         filteredTentsCount: action.payload.filteredTentsCount,
+        numOfPages: action.payload.numOfPages,
         tents: action.payload.tents,
       };
 

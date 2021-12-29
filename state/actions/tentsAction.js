@@ -9,23 +9,25 @@ import axios from "axios";
 import absoluteUrl from "next-absolute-url";
 
 // Get All Tents
-export const getTents = (req) => async (dispatch) => {
-  try {
-    const { origin } = absoluteUrl(req);
+export const getTents =
+  (req, currentPage = 1) =>
+  async (dispatch) => {
+    try {
+      const { origin } = absoluteUrl(req);
+      const link = `${origin}/api/tents?page=${currentPage}`;
+      const { data } = await axios.get(`${link}`);
 
-    const { data } = await axios.get(`${origin}/api/tents`);
-
-    dispatch({
-      type: ALL_TENTS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_TENTS_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: ALL_TENTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_TENTS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // Get Tent Details
 export const getTentDetails = (req, id) => async (dispatch) => {
