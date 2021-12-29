@@ -24,6 +24,7 @@ export const allTentsReducer = (state = { tents: [] }, action) => {
 
     case CLEAR_ERRORS:
       return {
+        ...state,
         error: null,
       };
 
@@ -47,6 +48,7 @@ export const tentDetailsReducer = (state = { tent: {} }, action) => {
 
     case CLEAR_ERRORS:
       return {
+        ...state,
         error: null,
       };
 

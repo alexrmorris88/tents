@@ -1,6 +1,6 @@
 //React-Next Imports
 import React from "react";
-//Component Imports
+// Component Imports
 import ProductCard from "../../components/products/product-card";
 // Redux Imports
 import { getTents } from "../../state/actions/tentsAction";

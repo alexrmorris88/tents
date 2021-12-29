@@ -1,9 +1,11 @@
 // Next-React Imports
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 // Redux Imports
-import { useSelector } from "react-redux";
+import { clearErrors } from "../../state/actions/tentsAction";
+import { useSelector, useDispatch } from "react-redux";
 // UI imports
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -15,17 +17,20 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
+import { toast } from "react-toastify";
 import Truncate from "react-truncate";
 // Component Imports
 import Layout from "../layout/Layout";
 
 export default function ProductCard() {
-  const { tents } = useSelector((state) => state.allTents);
+  const dispatch = useDispatch();
   const router = useRouter();
+  const { tents, error } = useSelector((state) => state.allTents);
 
   const sx_box_layout = {
     m: 1,
     display: "flex",
+    height: "33vw",
     flexWrap: "wrap",
     "&:hover": {
       boxShadow: 3,
@@ -34,6 +39,11 @@ export default function ProductCard() {
 
   const sx_card_layout = { maxWidth: 270 };
 
+  useEffect(() => {
+    toast.error(error);
+    dispatch(clearErrors());
+  }, []);
+
   const tentHandler = (id) => {
     router.push(`/products/${id}`);
   };
@@ -41,7 +51,7 @@ export default function ProductCard() {
   return (
     <Layout title="Products">
       <Head>
-        <title>{tents.name}</title>
+        <title>Products</title>
       </Head>
       <Container maxWidth="lg">
         <Grid alignItems="center" container justifyContent="center">

@@ -1,6 +1,5 @@
 // Next-React Imports
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import Head from "next/head";
 // UI imports
 import Container from "@mui/material/Container";
@@ -10,20 +9,24 @@ import Carousel from "react-material-ui-carousel";
 import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
+import { toast } from "react-toastify";
 import Typography from "@mui/material/Typography";
 // Component Imports
 import Layout from "../layout/Layout";
-import { palette } from "@mui/system";
+// Redux Imports
+import { clearErrors } from "../../state/actions/tentsAction";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function productDetails() {
+  const dispatch = useDispatch();
   const { tent } = useSelector((state) => state.tentDetails);
-  const { name, price, description, images } = tent;
+  const { name, price, description, images, error } = tent;
+
+  useEffect(() => {
+    toast.error(error);
+    dispatch(clearErrors());
+  }, []);
 
   return (
     <Layout title="Products">

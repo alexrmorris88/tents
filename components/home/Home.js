@@ -1,6 +1,6 @@
-//UI components
+// UI Imports
 import { Divider } from "@mui/material";
-//Components
+// Component Imports
 import { HomeHero } from "./home-hero";
 import HomeProducts from "./home-products";
 
