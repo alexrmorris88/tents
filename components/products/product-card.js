@@ -55,8 +55,8 @@ export default function ProductCard() {
     router.push(`/products/${id}`);
   };
 
-  const handlePagination = (event, value) => {
-    router.push(`?page=${value}`);
+  const handlePagination = (e, pageNum) => {
+    router.push(`?page=${pageNum}`);
   };
 
   return (
@@ -116,9 +116,9 @@ export default function ProductCard() {
             >
               <Pagination
                 color="primary"
-                component="Link"
-                variant="outlined"
-                size={"small"}
+                variant="outlined" 
+                shape="rounded"
+                size="small"
                 count={numOfPages}
                 page={page}
                 onChange={handlePagination}

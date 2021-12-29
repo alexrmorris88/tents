@@ -177,6 +177,7 @@ export const lightThemeOptions = {
       active: neutral[500],
       focus: "rgba(55, 65, 81, 0.12)",
       hover: "rgba(55, 65, 81, 0.04)",
+      navHover: "rgba(80, 72, 229, 1)",
       selected: "rgba(55, 65, 81, 0.08)",
       disabledBackground: "rgba(55, 65, 81, 0.12)",
       disabled: "rgba(55, 65, 81, 0.26)",

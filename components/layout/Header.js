@@ -7,6 +7,7 @@ import {
   IconButton,
   Link,
   Toolbar,
+  Button,
 } from "@mui/material";
 import { Menu as MenuIcon } from "../../icons/menu";
 import { Logo } from "./logo";
@@ -17,7 +18,7 @@ const HeaderLink = styled(Link)(({ theme }) => ({
   display: "block",
   padding: theme.spacing(0.5),
   "&:hover": {
-    backgroundColor: theme.palette.action.hover,
+    color: theme.palette.action.navHover,
   },
 }));
 
@@ -81,27 +82,21 @@ export default function Header(props) {
                 Products
               </HeaderLink>
             </NextLink>
-            <NextLink href="/about" passHref>
-              <HeaderLink
-                color="textSecondary"
-                sx={{ ml: 2 }}
-                underline="none"
-                variant="subtitle2"
-              >
-                About
-              </HeaderLink>
-            </NextLink>
-            <NextLink href="/profile" passHref>
-              <HeaderLink
-                color="textSecondary"
-                component="a"
-                sx={{ ml: 2 }}
-                variant="subtitle2"
-                underline="none"
-              >
-                Profile
-              </HeaderLink>
-            </NextLink>
+
+            <Button
+              component="a"
+              href="/"
+              size="small"
+              sx={{
+                ml: 2,
+                "&:hover": {
+                  boxShadow: 3,
+                },
+              }}
+              variant="outlined"
+            >
+              Login
+            </Button>
           </Box>
         </Toolbar>
       </Container>
