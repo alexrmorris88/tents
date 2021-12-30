@@ -1,23 +1,43 @@
+// Next-React Imports
 import { useEffect } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import PropTypes from "prop-types";
-import { Box, Button, Drawer, Link, useMediaQuery } from "@mui/material";
+import { signOut } from "next-auth/client";
+// UI Imports
+import {
+  Box,
+  Button,
+  Drawer,
+  Link,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+// Redux Imports
+import { useDispatch, useSelector } from "react-redux";
+// Component Imports
+import { loadUser } from "../../state/actions/userActions";
+// Utils Imports
+import PropTypes from "prop-types";
 
 const MainSidebarLink = styled(Link)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   display: "block",
-  padding: theme.spacing(1.5),
+  padding: theme.spacing(1),
   "&:hover": {
-    backgroundColor: theme.palette.action.hover,
+    color: theme.palette.action.navHover,
   },
 }));
 
 export default function MobileHeader(props) {
   const { onClose, open } = props;
-  const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { user, loading } = useSelector((state) => state.loadedUser);
 
   const handlePathChange = () => {
     if (open) {
@@ -25,11 +45,31 @@ export default function MobileHeader(props) {
     }
   };
 
-  useEffect(
+  const sx_nav_button = {
+    m: 2,
+    pl: 10,
+    pr: 10,
+    display: "flex",
+    flexDirection: "center",
+    "&:hover": {
+      boxShadow: 3,
+    },
+  };
+
+  const NavList = [
+    { link: "/", title: "Home" },
+    { link: "/products", title: "Products" },
+  ];
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(loadUser());
+    }
+
     handlePathChange,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.asPath]
-  );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [router.asPath];
+  }, [dispatch, user]);
 
   return (
     <Drawer
@@ -42,34 +82,62 @@ export default function MobileHeader(props) {
       }}
       variant="temporary"
     >
-      <Box sx={{ p: 2 }}>
-        <NextLink href="/dashboard" passHref>
-          <MainSidebarLink
-            color="textSecondary"
-            underline="none"
-            variant="subtitle2"
+      <Box sx={{ p: 1 }}>
+        <Typography
+          color="text.secondary"
+          variant="overline"
+          sx={{ fontSize: ".75rem" }}
+        >
+          {user ? "Welcome  " : ""}
+        </Typography>
+        <Typography
+          color="primary"
+          variant="overline"
+          sx={{ fontSize: ".90rem" }}
+        >
+          {user ? `${user.firstName} ${user.lastName} ` : "Nav"}
+        </Typography>
+        <Divider />
+        {NavList.map((items) => {
+          return (
+            <NextLink href={items.link} passHref>
+              <MainSidebarLink
+                color="textSecondary"
+                underline="none"
+                variant="subtitle2"
+              >
+                {items.title}
+              </MainSidebarLink>
+            </NextLink>
+          );
+        })}
+
+        <br />
+        <Divider />
+
+        {user ? (
+          <Button
+            color="inherit"
+            component="a"
+            size="small"
+            sx={sx_nav_button}
+            variant="outlined"
+            onClick={() => signOut({ callbackUrl: router.push("/") })}
           >
-            Live Demo
-          </MainSidebarLink>
-        </NextLink>
-        <NextLink href="/browse" passHref>
-          <MainSidebarLink
-            color="textSecondary"
-            underline="none"
-            variant="subtitle2"
+            Logout
+          </Button>
+        ) : (
+          <Button
+            color="primary"
+            component="a"
+            href="/login"
+            size="small"
+            sx={sx_nav_button}
+            variant="contained"
           >
-            Components
-          </MainSidebarLink>
-        </NextLink>
-        <NextLink href="/docs/welcome" passHref>
-          <MainSidebarLink
-            color="textSecondary"
-            underline="none"
-            variant="subtitle2"
-          >
-            Documentation
-          </MainSidebarLink>
-        </NextLink>
+            Login
+          </Button>
+        )}
       </Box>
     </Drawer>
   );

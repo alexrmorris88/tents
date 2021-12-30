@@ -105,6 +105,7 @@ export default function Header(props) {
 
             {user ? (
               <Button
+                color="inherit"
                 component="a"
                 size="small"
                 sx={{
@@ -120,6 +121,7 @@ export default function Header(props) {
               </Button>
             ) : (
               <Button
+                color="primary"
                 component="a"
                 href="/login"
                 size="small"

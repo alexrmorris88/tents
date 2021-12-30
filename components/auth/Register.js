@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/client";
 // Components Layout
 import Layout from "../../components/layout/Layout";
 import { registerUser, clearErrors } from "../../state/actions/userActions";
