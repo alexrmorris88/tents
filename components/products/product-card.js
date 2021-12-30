@@ -21,7 +21,6 @@ import Rating from "@mui/material/Rating";
 import { toast } from "react-toastify";
 import Truncate from "react-truncate";
 import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 // Component Imports
 import Layout from "../layout/Layout";
 
@@ -116,7 +115,7 @@ export default function ProductCard() {
             >
               <Pagination
                 color="primary"
-                variant="outlined" 
+                variant="outlined"
                 shape="rounded"
                 size="small"
                 count={numOfPages}

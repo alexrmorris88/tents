@@ -85,7 +85,7 @@ export default function Header(props) {
 
             <Button
               component="a"
-              href="/"
+              href="/login"
               size="small"
               sx={{
                 ml: 2,

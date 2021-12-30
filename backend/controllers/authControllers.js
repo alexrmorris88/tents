@@ -30,4 +30,38 @@ const register = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { register };
+// @route   POST /users/login
+// @desc    Loggin with Auth Token
+// @access  Public
+const login = catchAsyncErrors(async (req, res, next) => {
+  let { email, password } = req.body;
+
+  // Check if email and password is entered
+  if (!email || !password) {
+    throw new Error("Please enter email or password");
+  }
+
+  // Set email to lowercase
+  email = email.toLowerCase();
+
+  // Finding the user in the database
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    throw new Error("Invalid Email or Password");
+  }
+
+  // Check if password is correct
+  const isPasswordMatched = await user.comparePassword(password);
+
+  if (!isPasswordMatched) {
+    throw new Error("Invalid Email or Password");
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+export { register, login };
