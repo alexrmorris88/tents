@@ -1,83 +1,70 @@
 // Next-React Imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/client";
-import NextLink from "next/link";
+// Components Layout
+import Layout from "../../components/layout/Layout";
+import { registerUser, clearErrors } from "../../state/actions/userActions";
+// Reduc Imports
+import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 // UI Imports
 import { useFormik } from "formik";
-import {
-  Alert,
-  Box,
-  Typography,
-  FormHelperText,
-  TextField,
-  Link,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, FormHelperText, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTheme } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-// Components Layout
-import Layout from "../../components/layout/Layout";
 
-const AlertLink = styled(Link)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
-  display: "inline",
-  padding: theme.spacing(0.5),
-  fontSize: "0.9rem",
-  "&:hover": {
-    color: theme.palette.action.navHover,
-  },
-}));
-
-export default function Login(props) {
+export default function Register(props) {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+
+  const { success, error, loading } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (success) {
+      router.push("/");
+    }
+
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, success, error]);
 
   const formik = useFormik({
     initialValues: {
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
       submit: null,
     },
     validationSchema: Yup.object({
+      firstName: Yup.string().max(255).required("First name is required"),
+      lastName: Yup.string().max(255).required("Last name is required"),
       email: Yup.string()
         .email("Must be a valid email")
         .max(255)
         .required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
+      confirmPassword: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: async (values, helpers) => {
-      try {
-        setLoading(true);
-        const result = await signIn("credentials", {
-          redirect: false,
-          email: values.email,
-          password: values.password,
-        });
-        setLoading(false);
-
-        if (result.error) {
-          toast.error(result.error);
-        } else {
-          router.push("/");
-        }
-      } catch (error) {
-        toast.error(error);
-      }
+      dispatch(registerUser(values));
     },
   });
 
   return (
     <Layout>
       <Head>
-        <title>Login</title>
+        <title>Register</title>
       </Head>
       <Container
         maxWidth="sm"
@@ -99,10 +86,37 @@ export default function Login(props) {
           <form noValidate onSubmit={formik.handleSubmit} {...props}>
             <TextField
               autoFocus
+              error={Boolean(
+                formik.touched.firstName && formik.errors.firstName
+              )}
+              fullWidth
+              helperText={formik.touched.firstName && formik.errors.firstName}
+              label="First Name"
+              margin="normal"
+              name="firstName"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="text"
+              value={formik.values.firstName}
+            />
+            <TextField
+              autoFocus
+              error={Boolean(formik.touched.lastName && formik.errors.lastName)}
+              fullWidth
+              helperText={formik.touched.lastName && formik.errors.lastName}
+              label="Last Name"
+              margin="normal"
+              name="lastName"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="text"
+              value={formik.values.lastName}
+            />
+            <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
+              label="Email"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
@@ -122,6 +136,22 @@ export default function Login(props) {
               type="password"
               value={formik.values.password}
             />
+            <TextField
+              error={Boolean(
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              )}
+              fullWidth
+              helperText={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
+              label="Confirm Password"
+              margin="normal"
+              name="confirmPassword"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="password"
+              value={formik.values.confirmPassword}
+            />
             {formik.errors.submit && (
               <Box sx={{ mt: 3 }}>
                 <FormHelperText error>{formik.errors.submit}</FormHelperText>
@@ -137,21 +167,8 @@ export default function Login(props) {
                 loadingIndicator="Loading..."
                 variant="contained"
               >
-                Log In
+                Register
               </LoadingButton>
-            </Box>
-            <Box sx={{ mt: 2 }}>
-              <Alert severity="info">
-                <Typography variant="body2">
-                  If you do not have an account, please
-                  <NextLink href="/register" passHref>
-                    <AlertLink color="textSecondary" variant="subtitle2">
-                      Register
-                    </AlertLink>
-                  </NextLink>
-                  here!
-                </Typography>
-              </Alert>
             </Box>
           </form>
         </Grid>

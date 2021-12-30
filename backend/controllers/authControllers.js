@@ -12,7 +12,7 @@ const register = catchAsyncErrors(async (req, res, next) => {
   if (password !== confirmPassword) {
     return res.status(400).json({
       success: false,
-      error: "Passwords do not match",
+      message: "Passwords do not match",
     });
   }
 
