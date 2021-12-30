@@ -1,5 +1,5 @@
 // Next-React Imports
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import NextLink from "next/link";
 import { signOut } from "next-auth/client";
 import { useRouter } from "next/router";
@@ -9,19 +9,24 @@ import {
   Box,
   Container,
   IconButton,
+  ButtonBase,
+  Avatar,
   Link,
   Toolbar,
   Button,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 // Component Imports
 import { Menu as MenuIcon } from "../../icons/menu";
 import { Logo } from "./logo";
 import { loadUser } from "../../state/actions/userActions";
+import { NavPopout } from "./nav-popout";
 // Redux Imports
 import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
 import PropTypes from "prop-types";
+import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
 
 const HeaderLink = styled(Link)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -31,6 +36,50 @@ const HeaderLink = styled(Link)(({ theme }) => ({
     color: theme.palette.action.navHover,
   },
 }));
+
+const LoggedInUser = () => {
+  const anchorRef = useRef(null);
+  const [openPopover, setOpenPopover] = useState(false);
+  const { user, loading } = useSelector((state) => state.loadedUser);
+
+  const handleOpenPopover = () => {
+    setOpenPopover(true);
+  };
+
+  const handleClosePopover = () => {
+    setOpenPopover(false);
+  };
+
+  return (
+    <>
+      <Box
+        component={ButtonBase}
+        onClick={handleOpenPopover}
+        ref={anchorRef}
+        sx={{
+          alignItems: "center",
+          display: "flex",
+          ml: 2,
+        }}
+      >
+        <Avatar
+          sx={{
+            height: 40,
+            width: 40,
+          }}
+          src={user.avatar}
+        >
+          <UserCircleIcon fontSize="small" />
+        </Avatar>
+      </Box>
+      <NavPopout
+        anchorEl={anchorRef.current}
+        onClose={handleClosePopover}
+        open={openPopover}
+      />
+    </>
+  );
+};
 
 export default function Header(props) {
   const { onOpenSidebar } = props;
@@ -104,21 +153,7 @@ export default function Header(props) {
             </NextLink>
 
             {user ? (
-              <Button
-                color="inherit"
-                component="a"
-                size="small"
-                sx={{
-                  ml: 2,
-                  "&:hover": {
-                    boxShadow: 3,
-                  },
-                }}
-                variant="outlined"
-                onClick={() => signOut({ callbackUrl: router.push("/") })}
-              >
-                Logout
-              </Button>
+              <LoggedInUser />
             ) : (
               <Button
                 color="primary"

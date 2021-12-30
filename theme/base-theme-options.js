@@ -276,7 +276,7 @@ export const baseThemeOptions = {
       fontSize: "0.75rem",
       fontWeight: 600,
       letterSpacing: "0.5px",
-      lineHeight: 2.5,
+      lineHeight: 1,
       textTransform: "uppercase",
     },
     caption: {

@@ -10,6 +10,7 @@ import {
   Drawer,
   Link,
   Typography,
+  Grid,
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -83,24 +84,27 @@ export default function MobileHeader(props) {
       variant="temporary"
     >
       <Box sx={{ p: 1 }}>
-        <Typography
-          color="text.secondary"
-          variant="overline"
-          sx={{ fontSize: ".75rem" }}
-        >
-          {user ? "Welcome  " : ""}
-        </Typography>
-        <Typography
-          color="primary"
-          variant="overline"
-          sx={{ fontSize: ".90rem" }}
-        >
-          {user ? `${user.firstName} ${user.lastName} ` : "Nav"}
-        </Typography>
+        <Box sx={{ textAlign: "right" }}>
+          <Typography
+            color="primary"
+            variant="overline"
+            sx={{ fontSize: ".90rem" }}
+          >
+            {user ? `${user.firstName} ${user.lastName}  ` : "Nav"}
+          </Typography>
+          <br />
+          <Typography
+            color="text.secondary"
+            variant="overline"
+            sx={{ fontSize: ".75rem" }}
+          >
+            {user ? `${user.role}` : ""}
+          </Typography>
+        </Box>
         <Divider />
         {NavList.map((items) => {
           return (
-            <NextLink href={items.link} passHref>
+            <NextLink href={items.link} passHref key={items.link}>
               <MainSidebarLink
                 color="textSecondary"
                 underline="none"
