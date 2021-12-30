@@ -83,7 +83,7 @@ export default function Register(props) {
             color="primary"
             sx={{ fontSize: "1.5rem" }}
           >
-            Login
+            Register
           </Typography>
           <form noValidate onSubmit={formik.handleSubmit} {...props}>
             <TextField
