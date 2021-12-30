@@ -12,6 +12,9 @@ import {
 import { Menu as MenuIcon } from "../../icons/menu";
 import { Logo } from "./logo";
 import { styled } from "@mui/material/styles";
+import { useSession } from "next-auth/client";
+import { signOut } from "next-auth/client";
+import { useRouter } from "next/router";
 
 const HeaderLink = styled(Link)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -24,6 +27,8 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 
 export default function Header(props) {
   const { onOpenSidebar } = props;
+  const [session, loading] = useSession();
+  const router = useRouter();
 
   return (
     <AppBar
@@ -83,20 +88,37 @@ export default function Header(props) {
               </HeaderLink>
             </NextLink>
 
-            <Button
-              component="a"
-              href="/login"
-              size="small"
-              sx={{
-                ml: 2,
-                "&:hover": {
-                  boxShadow: 3,
-                },
-              }}
-              variant="outlined"
-            >
-              Login
-            </Button>
+            {session ? (
+              <Button
+                component="a"
+                size="small"
+                sx={{
+                  ml: 2,
+                  "&:hover": {
+                    boxShadow: 3,
+                  },
+                }}
+                variant="outlined"
+                onClick={() => signOut({ callbackUrl: router.push("/") })}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                component="a"
+                href="/login"
+                size="small"
+                sx={{
+                  ml: 2,
+                  "&:hover": {
+                    boxShadow: 3,
+                  },
+                }}
+                variant="contained"
+              >
+                Login
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </Container>
