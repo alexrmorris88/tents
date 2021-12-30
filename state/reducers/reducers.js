@@ -3,14 +3,15 @@ import { combineReducers } from "redux";
 // Tents Reducer
 import { allTentsReducer, tentDetailsReducer } from "./tentReducers";
 // User Reducer
-import { authReducer } from "./userReducer";
+import { registerUserReducer, loadedUserReducer } from "./userReducer";
 
 const reducer = combineReducers({
   // tent reducer
   allTents: allTentsReducer,
   tentDetails: tentDetailsReducer,
   // user reducer
-  auth: authReducer,
+  registerUser: registerUserReducer,
+  loadedUser: loadedUserReducer,
 });
 
 export default reducer;

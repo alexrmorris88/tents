@@ -24,7 +24,9 @@ export default function Register(props) {
   const theme = useTheme();
   const router = useRouter();
 
-  const { success, error, loading } = useSelector((state) => state.auth);
+  const { success, error, loading } = useSelector(
+    (state) => state.registerUser
+  );
 
   useEffect(() => {
     if (success) {

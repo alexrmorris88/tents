@@ -1,5 +1,9 @@
-import PropTypes from "prop-types";
+// Next-React Imports
+import React, { useEffect } from "react";
 import NextLink from "next/link";
+import { signOut } from "next-auth/client";
+import { useRouter } from "next/router";
+// UI Imports
 import {
   AppBar,
   Box,
@@ -9,12 +13,15 @@ import {
   Toolbar,
   Button,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
+// Component Imports
 import { Menu as MenuIcon } from "../../icons/menu";
 import { Logo } from "./logo";
-import { styled } from "@mui/material/styles";
-import { useSession } from "next-auth/client";
-import { signOut } from "next-auth/client";
-import { useRouter } from "next/router";
+import { loadUser } from "../../state/actions/userActions";
+// Redux Imports
+import { useDispatch, useSelector } from "react-redux";
+// Utils Imports
+import PropTypes from "prop-types";
 
 const HeaderLink = styled(Link)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -27,8 +34,16 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 
 export default function Header(props) {
   const { onOpenSidebar } = props;
-  const [session, loading] = useSession();
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { user, loading } = useSelector((state) => state.loadedUser);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, user]);
 
   return (
     <AppBar
@@ -88,7 +103,7 @@ export default function Header(props) {
               </HeaderLink>
             </NextLink>
 
-            {session ? (
+            {user ? (
               <Button
                 component="a"
                 size="small"

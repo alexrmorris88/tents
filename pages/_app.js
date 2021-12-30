@@ -10,23 +10,21 @@ import { Provider } from "next-auth/client";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider session={pageProps.session}>
-      <SettingsProvider>
-        <SettingsConsumer>
-          {({ settings }) => (
-            <ThemeProvider
-              theme={createTheme({
-                direction: settings.direction,
-                responsiveFontSizes: settings.responsiveFontSizes,
-                mode: settings.theme,
-              })}
-            >
-              <Component {...pageProps} />
-            </ThemeProvider>
-          )}
-        </SettingsConsumer>
-      </SettingsProvider>
-    </Provider>
+    <SettingsProvider>
+      <SettingsConsumer>
+        {({ settings }) => (
+          <ThemeProvider
+            theme={createTheme({
+              direction: settings.direction,
+              responsiveFontSizes: settings.responsiveFontSizes,
+              mode: settings.theme,
+            })}
+          >
+            <Component {...pageProps} />
+          </ThemeProvider>
+        )}
+      </SettingsConsumer>
+    </SettingsProvider>
   );
 }
 

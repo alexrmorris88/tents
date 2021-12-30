@@ -32,7 +32,7 @@ const register = catchAsyncErrors(async (req, res, next) => {
 
 // Current User Profile
 // Path: /api/profile
-const getProfile = catchAsyncErrors(async (req, res, next) => {
+const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user._id);
 
   res.status(200).json({
@@ -41,4 +41,4 @@ const getProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { register, getProfile };
+export { register, getUserProfile };
