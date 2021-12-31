@@ -46,12 +46,6 @@ const updateProfile = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
-  user = await User.findByIdAndUpdate(req.user._id, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  });
-
   if (user) {
     user.firstName = firstName;
     user.lastName = lastName;

@@ -36,7 +36,6 @@ export default function Profile(props) {
     firstName: "",
     lastName: "",
     email: "",
-    password: "",
   });
 
   useEffect(() => {
@@ -64,7 +63,7 @@ export default function Profile(props) {
       firstName: User.firstName,
       lastName: User.lastName,
       email: User.email,
-      password: User.password,
+      password: "",
       confirmPassword: "",
       submit: null,
     },
