@@ -91,7 +91,7 @@ export const NavPopout = (props) => {
       </Box>
       <Divider />
       <Box sx={{ my: 1 }}>
-        <NextLink href="/api/profile" passHref>
+        <NextLink href="/user/profile" passHref>
           <MenuItem component="a">
             <ListItemIcon>
               <UserCircleIcon fontSize="small" />

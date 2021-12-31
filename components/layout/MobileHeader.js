@@ -62,6 +62,8 @@ export default function MobileHeader(props) {
     { link: "/products", title: "Products" },
   ];
 
+  const Auth_NavList = [{ link: "/user/profile", title: "Profile" }];
+
   useEffect(() => {
     if (!user) {
       dispatch(loadUser());
@@ -115,6 +117,20 @@ export default function MobileHeader(props) {
             </NextLink>
           );
         })}
+        {user &&
+          Auth_NavList.map((items) => {
+            return (
+              <NextLink href={items.link} passHref key={items.link}>
+                <MainSidebarLink
+                  color="textSecondary"
+                  underline="none"
+                  variant="subtitle2"
+                >
+                  {items.title}
+                </MainSidebarLink>
+              </NextLink>
+            );
+          })}
 
         <br />
         <Divider />

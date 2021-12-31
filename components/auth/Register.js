@@ -55,7 +55,10 @@ export default function Register(props) {
         .max(255)
         .required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
-      confirmPassword: Yup.string().max(255).required("Password is required"),
+      confirmPassword: Yup.string()
+        .max(255)
+        .required("Password is required")
+        .oneOf([Yup.ref("password"), null], "Passwords must match"),
     }),
     onSubmit: async (values, helpers) => {
       dispatch(registerUser(values));
@@ -101,7 +104,6 @@ export default function Register(props) {
               value={formik.values.firstName}
             />
             <TextField
-              autoFocus
               error={Boolean(formik.touched.lastName && formik.errors.lastName)}
               fullWidth
               helperText={formik.touched.lastName && formik.errors.lastName}

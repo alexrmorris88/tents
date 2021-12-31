@@ -3,7 +3,11 @@ import { combineReducers } from "redux";
 // Tents Reducer
 import { allTentsReducer, tentDetailsReducer } from "./tentReducers";
 // User Reducer
-import { registerUserReducer, loadedUserReducer } from "./userReducer";
+import {
+  registerUserReducer,
+  loadedUserReducer,
+  modifyUserReducer,
+} from "./userReducer";
 
 const reducer = combineReducers({
   // tent reducer
@@ -12,6 +16,7 @@ const reducer = combineReducers({
   // user reducer
   registerUser: registerUserReducer,
   loadedUser: loadedUserReducer,
+  modifyUser: modifyUserReducer,
 });
 
 export default reducer;

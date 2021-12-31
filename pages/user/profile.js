@@ -1,12 +1,18 @@
 // React-Next Imports
 import React from "react";
 import { getSession } from "next-auth/client";
+//Component Imports
+import Profile from "../../components/user/Profile";
+import Layout from "../../components/layout/Layout";
 
-const Update = () => {
+import { wrapper } from "../../state/store";
+import { loadUser } from "../../state/actions/userActions";
+
+const UserProfile = () => {
   return (
-    <div>
-      <h1>User Profile</h1>
-    </div>
+    <Layout>
+      <Profile title="Profile" />
+    </Layout>
   );
 };
 
@@ -30,4 +36,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default Update;
+export default UserProfile;

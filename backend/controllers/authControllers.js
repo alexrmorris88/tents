@@ -33,22 +33,40 @@ const register = catchAsyncErrors(async (req, res, next) => {
 // Update User Profile
 // Path: /user/update
 const updateProfile = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user._id);
+  const { firstName, lastName, email, password } = req.body;
+
+  let user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(
+      res.status(404).json({
+        success: false,
+        message: "User does not exist",
+      })
+    );
+  }
+
+  user = await User.findByIdAndUpdate(req.user._id, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
 
   if (user) {
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.email = req.body.email;
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email.toLowerCase();
 
-    if (req.body.password) user.password = req.body.password;
+    if (password) user.password = password;
   }
 
   // Handle avatar
 
-  await user.save;
+  await user.save();
 
   res.status(200).json({
     success: true,
+    user,
   });
 });
 
