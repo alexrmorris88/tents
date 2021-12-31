@@ -46,8 +46,8 @@ export const NavPopout = (props) => {
     <Popover
       anchorEl={anchorEl}
       anchorOrigin={{
-        horizontal: "center",
-        vertical: "bottom",
+        horizontal: "right",
+        vertical: "top",
       }}
       keepMounted
       onClose={onClose}

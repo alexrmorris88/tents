@@ -1,7 +1,6 @@
 // Next-React Imports
 import React, { useEffect, useState, useRef } from "react";
 import NextLink from "next/link";
-import { signOut } from "next-auth/client";
 import { useRouter } from "next/router";
 // UI Imports
 import {
@@ -18,14 +17,14 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 // Component Imports
-import { Menu as MenuIcon } from "../../icons/menu";
-import { Logo } from "./logo";
 import { loadUser } from "../../state/actions/userActions";
 import { NavPopout } from "./nav-popout";
 // Redux Imports
 import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
 import PropTypes from "prop-types";
+import { Menu as MenuIcon } from "../../icons/menu";
+import { Logo } from "./logo";
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
 
 const HeaderLink = styled(Link)(({ theme }) => ({
@@ -40,7 +39,7 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 const LoggedInUser = () => {
   const anchorRef = useRef(null);
   const [openPopover, setOpenPopover] = useState(false);
-  const { user, loading } = useSelector((state) => state.loadedUser);
+  const { user } = useSelector((state) => state.loadedUser);
 
   const handleOpenPopover = () => {
     setOpenPopover(true);
