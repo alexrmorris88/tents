@@ -4,6 +4,7 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import APIFeatures from "../utils/apiFeatures";
 import absoluteUrl from "next-absolute-url";
 import sendEmail from "../../utils/sendEmail";
+import crypto from "crypto";
 
 // Regester User
 // Path: /api/auth/register
