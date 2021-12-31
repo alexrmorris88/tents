@@ -2,7 +2,7 @@ import User from "../modles/User";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import APIFeatures from "../utils/apiFeatures";
-import { absoluteUrl } from "next-absolute-url";
+import absoluteUrl from "next-absolute-url";
 import sendEmail from "../../utils/sendEmail";
 
 // Regester User
@@ -64,14 +64,15 @@ const updateProfile = catchAsyncErrors(async (req, res, next) => {
 // Forgot Password
 // Path: /api/password/forgot
 const forgotPassword = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+  const { email } = req.body;
+  const user = await User.findOne({ email });
 
   if (!user) {
     return new ErrorHandler("User not found", 404);
   }
 
   // Get Reset Token
-  const resetToken = user.getPasswordResetToken();
+  const resetToken = user.getResetPasswordToken();
 
   await user.save({ validateBeforeSave: false });
 
