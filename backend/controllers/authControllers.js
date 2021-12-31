@@ -2,6 +2,8 @@ import User from "../modles/User";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import APIFeatures from "../utils/apiFeatures";
+import { absoluteUrl } from "next-absolute-url";
+import sendEmail from "../../utils/sendEmail";
 
 // Regester User
 // Path: /api/auth/register
@@ -38,12 +40,7 @@ const updateProfile = catchAsyncErrors(async (req, res, next) => {
   let user = await User.findById(req.user._id);
 
   if (!user) {
-    return next(
-      res.status(404).json({
-        success: false,
-        message: "User does not exist",
-      })
-    );
+    return new ErrorHandler("User not found", 404);
   }
 
   if (user) {
@@ -64,6 +61,47 @@ const updateProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// Forgot Password
+// Path: /api/password/forgot
+const forgotPassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return new ErrorHandler("User not found", 404);
+  }
+
+  // Get Reset Token
+  const resetToken = user.getPasswordResetToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  // Create Reset Password URL
+  const { origin } = absoluteUrl(req);
+  const resetUrl = `${origin}/password/reset/${resetToken}`;
+
+  const message = `Your password reset url is: \n\n ${resetUrl} \n\n if you have not requested this email, then please ignore.`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "SJ Tents Password Recovery",
+      message,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Email sent to: ${user.email}`,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
 // Current User Profile
 // Path: /api/profile
 const getUserProfile = catchAsyncErrors(async (req, res, next) => {
@@ -75,4 +113,4 @@ const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { register, getUserProfile, updateProfile };
+export { register, getUserProfile, updateProfile, forgotPassword };
