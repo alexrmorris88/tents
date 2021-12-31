@@ -8,6 +8,9 @@ import {
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAIL,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAIL,
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
@@ -108,6 +111,35 @@ export const forgotPassword = (email) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FORGOT_PASSWORD_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Reset Password
+export const resetPassword = (token, passwords) => async (dispatch) => {
+  try {
+    dispatch({ type: RESET_PASSWORD_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      `/api/password/reset/${token}`,
+      passwords,
+      config
+    );
+
+    dispatch({
+      type: RESET_PASSWORD_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: RESET_PASSWORD_FAIL,
       payload: error.response.data.message,
     });
   }

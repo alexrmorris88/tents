@@ -16,6 +16,7 @@ import {
   FormHelperText,
   TextField,
   Link,
+  Divider,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -142,16 +143,28 @@ export default function Login(props) {
             </Box>
             <Box sx={{ mt: 2 }}>
               <Alert severity="info">
-                <Typography variant="body2">
-                  If you do not have an account, please
-                  <NextLink href="/register" passHref>
+                <Typography textAlign={"center"} variant="body2">
+                  <NextLink href="/password/forgot" passHref>
                     <AlertLink color="textSecondary" variant="subtitle2">
-                      Register
+                      Forgot Password?
                     </AlertLink>
                   </NextLink>
-                  here!
                 </Typography>
               </Alert>
+            </Box>
+            <Box sx={{ mt: 2 }}>
+              <Divider />
+            </Box>
+            <Box textAlign={"center"} sx={{ mt: 2 }}>
+              <Typography variant="body2">
+                If you do not have an account, please
+                <NextLink href="/register" passHref>
+                  <AlertLink color="primary" variant="subtitle2">
+                    Register
+                  </AlertLink>
+                </NextLink>
+                here!
+              </Typography>
             </Box>
           </form>
         </Grid>

@@ -1,10 +1,11 @@
 // Next-React Imports
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 // Components Layout
 import Loader from "../layout/Loader";
 // Redux Imports
-import { forgotPassword, clearErrors } from "../../state/actions/userActions";
+import { resetPassword, clearErrors } from "../../state/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
 import { toast } from "react-toastify";
@@ -17,8 +18,9 @@ import { useTheme } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
-export default function ResetPassword(props) {
+export default function NewPassword(props) {
   const dispatch = useDispatch();
+  const router = useRouter();
   const theme = useTheme();
 
   const { error, loading, message } = useSelector(
@@ -32,28 +34,36 @@ export default function ResetPassword(props) {
     }
 
     if (message) {
-      toast.success(message);
+      router.push("/login");
     }
   }, [dispatch, message, error]);
 
   const formik = useFormik({
     initialValues: {
       email: "",
+      password: "",
+      confirmPassword: "",
       submit: null,
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255),
+      password: Yup.string().max(255),
+      confirmPassword: Yup.string()
+        .max(255)
+        .oneOf([Yup.ref("password"), null], "Passwords must match"),
     }),
     onSubmit: async (values) => {
-      await dispatch(forgotPassword(values));
+      await dispatch(
+        resetPassword(router.query.token, { password, confirmPassword })
+      );
     },
   });
 
   return (
     <>
       <Head>
-        <title>Forgot Password</title>
+        <title>Reset Password</title>
       </Head>
 
       {loading ? (
@@ -74,7 +84,7 @@ export default function ResetPassword(props) {
               color="primary"
               sx={{ fontSize: "1.5rem" }}
             >
-              Forgot Password
+              Reset Password
             </Typography>
             <form noValidate onSubmit={formik.handleSubmit} {...props}>
               <TextField
@@ -89,6 +99,38 @@ export default function ResetPassword(props) {
                 onChange={formik.handleChange}
                 type="email"
                 value={formik.values.email}
+              />
+              <TextField
+                error={Boolean(
+                  formik.touched.password && formik.errors.password
+                )}
+                fullWidth
+                helperText={formik.touched.password && formik.errors.password}
+                label="Password"
+                margin="normal"
+                name="password"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="password"
+                value={formik.values.password}
+              />
+              <TextField
+                error={Boolean(
+                  formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword
+                )}
+                fullWidth
+                helperText={
+                  formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword
+                }
+                label="Confirm Password"
+                margin="normal"
+                name="confirmPassword"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="password"
+                value={formik.values.confirmPassword}
               />
 
               {formik.errors.submit && (
