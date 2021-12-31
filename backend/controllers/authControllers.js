@@ -30,6 +30,28 @@ const register = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// Update User Profile
+// Path: /user/update
+const updateProfile = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.email = req.body.email;
+
+    if (req.body.password) user.password = req.body.password;
+  }
+
+  // Handle avatar
+
+  await user.save;
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
 // Current User Profile
 // Path: /api/profile
 const getUserProfile = catchAsyncErrors(async (req, res, next) => {
@@ -41,4 +63,4 @@ const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { register, getUserProfile };
+export { register, getUserProfile, updateProfile };
