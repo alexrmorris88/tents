@@ -19,6 +19,7 @@ import { styled } from "@mui/material/styles";
 // Component Imports
 import { loadUser } from "../../state/actions/userActions";
 import { NavPopout } from "./nav-popout";
+import Loader from "../../components/layout/Loader";
 // Redux Imports
 import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
@@ -39,7 +40,7 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 const LoggedInUser = () => {
   const anchorRef = useRef(null);
   const [openPopover, setOpenPopover] = useState(false);
-  const { user } = useSelector((state) => state.loadedUser);
+  const { user, loading } = useSelector((state) => state.loadedUser);
 
   const handleOpenPopover = () => {
     setOpenPopover(true);
@@ -151,7 +152,9 @@ export default function Header(props) {
               </HeaderLink>
             </NextLink>
 
-            {user ? (
+            {loading ? (
+              <Loader />
+            ) : user ? (
               <LoggedInUser />
             ) : (
               <Button
