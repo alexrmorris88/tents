@@ -6,18 +6,14 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-export default function calendarDateRangePicker() {
-  const [value, setValue] = React.useState([null, null]);
-
+export default function Calendar({ setCalandarDates, onChangeCalendar }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateRangePicker
         startText="Rental Date Start"
         endText="Rental Date End"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
+        value={setCalandarDates}
+        onChange={onChangeCalendar}
         renderInput={(startProps, endProps) => (
           <React.Fragment>
             <TextField variant="outlined" size="small" {...startProps} />

@@ -1,6 +1,7 @@
 // Next-React Imports
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 // UI imports
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -15,20 +16,27 @@ import { toast } from "react-toastify";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import DateRangePicker from "@mui/lab/DateRangePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 // Component Imports
 import Layout from "../layout/Layout";
 import Calendar from "../../utils/Calendar";
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
 import { useSelector, useDispatch } from "react-redux";
-
-const NextImage = styled(Image)(({ theme }) => ({
-  borderRadius: 1,
-}));
+// Utils Imports
+import axios from "axios";
 
 export default function productDetails() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const theme = useTheme();
+
+  const [calendarDates, setCalendarDates] = useState([null, null]);
+  const [rentalDays, setRentalDays] = useState(0);
+
   const { tent } = useSelector((state) => state.tentDetails);
   const { name, price, description, images, error } = tent;
 
@@ -36,6 +44,41 @@ export default function productDetails() {
     toast.error(error);
     dispatch(clearErrors());
   }, []);
+
+  const newBookingHandler = async () => {
+    const [RentalStartDate, RentalEndDate] = calendarDates;
+
+    const bookingData = {
+      tent: router.query.id,
+      rentalPickupDate: RentalStartDate,
+      rentalDroptDate: RentalEndDate,
+      dayOfRental: rentalDays,
+      amountPaid: 90,
+      paymentInfo: {
+        id: "STRIPE_PAYMENT_ID",
+        status: "STRIPE_PAYMENT_STATUS",
+      },
+    };
+    console.log(bookingData);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post("/api/rentals", bookingData, config);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const NextImage = styled(Image)(({ theme }) => ({
+    borderRadius: 1,
+  }));
 
   return (
     <Layout title="Products">
@@ -55,7 +98,9 @@ export default function productDetails() {
           <Grid alignItems="top" container justifyContent="center" spacing={3}>
             <Grid
               item
+              lg={6}
               md={6}
+              sm={12}
               xs={12}
               sx={{
                 order: 1,
@@ -83,8 +128,9 @@ export default function productDetails() {
             </Grid>
             <Grid
               item
+              lg={6}
               md={6}
-              sm={8}
+              sm={12}
               xs={12}
               sx={{
                 order: 2,
@@ -93,14 +139,53 @@ export default function productDetails() {
               <Typography color="primary" variant="h1">
                 {name}
               </Typography>
+
               <Typography variant="h3">${price}</Typography>
               <Typography variant="body1">{description}</Typography>
-              <Grid sx={{ mt: 2, mb: 2, mr: 2 }}>
-                <Grid sx={{ mb: 1 }}>
-                  <Typography variant="overline">Rental Date</Typography>
-                </Grid>
-                <Calendar />
+
+              <Grid sx={{ mb: 1 }}>
+                <Typography variant="overline">Rental Date</Typography>
               </Grid>
+              {/* Calandar */}
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateRangePicker
+                  startText="Rental Date Start"
+                  endText="Rental Date End"
+                  value={calendarDates}
+                  onChange={(date) => {
+                    setCalendarDates(date);
+                    const [RentalStartDate, RentalEndDate] = calendarDates;
+
+                    if (RentalStartDate && RentalEndDate) {
+                      const days = Math.floor(
+                        (new Date(RentalEndDate) - new Date(RentalStartDate)) /
+                          86400000 +
+                          1
+                      );
+
+                      setRentalDays(days);
+                    }
+                  }}
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        {...startProps}
+                      />
+                      <Box sx={{ mx: 2 }}>
+                        <Typography variant="overline"> to </Typography>
+                      </Box>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        {...endProps}
+                      />
+                    </React.Fragment>
+                  )}
+                />
+              </LocalizationProvider>
+
               <Grid item mt={3} width={200}>
                 <Stack spacing={2} direction="column">
                   <Button
@@ -114,6 +199,7 @@ export default function productDetails() {
                     variant="contained"
                     color="BuyNow"
                     sx={{ boxShadow: 3 }}
+                    onClick={newBookingHandler}
                   >
                     Rent Now
                   </Button>
