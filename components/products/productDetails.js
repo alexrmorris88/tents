@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 // UI imports
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -12,7 +13,6 @@ import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { toast } from "react-toastify";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -22,7 +22,6 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 // Component Imports
 import Layout from "../layout/Layout";
-import Calendar from "../../utils/Calendar";
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
 import { useSelector, useDispatch } from "react-redux";
@@ -59,7 +58,6 @@ export default function productDetails() {
         status: "STRIPE_PAYMENT_STATUS",
       },
     };
-    console.log(bookingData);
 
     try {
       const config = {
@@ -69,10 +67,8 @@ export default function productDetails() {
       };
 
       const { data } = await axios.post("/api/rentals", bookingData, config);
-
-      console.log(data);
     } catch (error) {
-      console.log(error.response);
+      toast.error(error.response);
     }
   };
 
