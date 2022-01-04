@@ -139,14 +139,14 @@ export default function productDetails() {
               <Typography variant="h3">${price}</Typography>
               <Typography variant="body1">{description}</Typography>
 
-              <Grid sx={{ mb: 1, mt: 2 }}>
-                {/* Calandar */}
+              <Grid sx={{ mb: 1 }}>
                 <Typography variant="overline">Rental Date</Typography>
               </Grid>
+              {/* Calandar */}
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateRangePicker
-                  startText="Start Date"
-                  endText="End Date"
+                  startText="Rental Date Start"
+                  endText="Rental Date End"
                   value={calendarDates}
                   onChange={(date) => {
                     setCalendarDates(date);
@@ -167,7 +167,6 @@ export default function productDetails() {
                       <TextField
                         variant="outlined"
                         size="small"
-                        required
                         {...startProps}
                       />
                       <Box sx={{ mx: 2 }}>
@@ -176,7 +175,6 @@ export default function productDetails() {
                       <TextField
                         variant="outlined"
                         size="small"
-                        required
                         {...endProps}
                       />
                     </React.Fragment>
