@@ -1,7 +1,10 @@
 import Rental from "../modles/Rentals";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
-import APIFeatures from "../utils/apiFeatures";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
+
+const moment = extendMoment(Moment);
 
 // Create New Rental
 // Path: /api/rentals
@@ -13,6 +16,7 @@ const newRental = catchAsyncErrors(async (req, res, next) => {
     dayOfRental,
     amountPaid,
     paymentInfo,
+    paidAt,
   } = req.body;
 
   const rental = await Rental.create({
@@ -23,6 +27,7 @@ const newRental = catchAsyncErrors(async (req, res, next) => {
     dayOfRental,
     amountPaid,
     paymentInfo,
+    paidAt,
   });
 
   res.status(200).json({
@@ -31,9 +36,6 @@ const newRental = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-<<<<<<< HEAD
-export { newRental };
-=======
 // Check Rental Availability
 // Path: /api/rentals/check
 const rentalAvailability = catchAsyncErrors(async (req, res, next) => {
@@ -58,20 +60,12 @@ const rentalAvailability = catchAsyncErrors(async (req, res, next) => {
     ],
   });
 
-  // Check if Rental Dates are available
+  // Check if there is any booking available
   let isAvailable;
 
   if (rental && rental.length === 0) {
     isAvailable = true;
   } else {
-    isAvailable = false;
-  }
-
-  if (rentalPickupDate > rentalDroptDate) {
-    isAvailable = false;
-  }
-
-  if (rentalDroptDate < rentalPickupDate) {
     isAvailable = false;
   }
 
@@ -134,4 +128,3 @@ export {
   rentalCalendarAvailability,
   getUserRentals,
 };
->>>>>>> 5d3f897... added order page

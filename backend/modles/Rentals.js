@@ -40,7 +40,7 @@ const rentalSchema = new mongoose.Schema({
   },
   paidAt: {
     type: Date,
-    default: Date.now,
+    required: true,
   },
   createdAt: {
     type: Date,

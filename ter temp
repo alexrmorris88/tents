@@ -1,0 +1,69 @@
+* [33mb44a909[m[33m ([m[1;36mHEAD -> [m[1;32mtemp[m[33m)[m cleanup
+* [33m0d0ba94[m cleanup
+* [33mc04b839[m Revert "fixed minor issues"
+* [33m8fbd265[m[33m ([m[1;31morigin/main[m[33m)[m fixed minor issues
+[31m|[m * [33m1e5641c[m[33m ([m[1;32mmain[m[33m)[m fixing branches
+[31m|[m *   [33mc8af370[m fixed branch issues
+[31m|[m [33m|[m[34m\[m  
+[31m|[m [33m|[m * [33mbb3914e[m added order page
+[31m|[m [33m|[m * [33ma3b41ae[m added calendar functionality for blocking off dates
+[31m|[m [33m|[m * [33m6dd10d1[m need to figure out shouldDisableDate
+[31m|[m [33m|[m * [33m1c2b803[m added tent calandar availablity
+[31m|[m [33m|[m * [33m008121d[m added rental availability route
+[31m|[m [33m|[m * [33ma89f43c[m added rental availability controller
+[31m|[m [33m|[m[31m/[m  
+[31m|[m[31m/[m[33m|[m   
+[31m|[m * [33m54972eb[m Revert "added order page"
+[31m|[m * [33m5d3f897[m added order page
+[31m|[m * [33m72af525[m added calendar functionality for blocking off dates
+[31m|[m * [33m3db914c[m need to figure out shouldDisableDate
+[31m|[m * [33mab6d26e[m added tent calandar availablity
+[31m|[m * [33m06554ef[m added rental availability route
+[31m|[m * [33m2e209e3[m added rental availability controller
+[31m|[m[31m/[m  
+* [33m51bdb7d[m calendar component in Product Details
+* [33mae032e1[m calendar component in Product Details
+* [33m68c8eff[m added in calendar
+* [33ma91064c[m rental schema
+* [33mdd811e9[m added reset password component
+* [33m67bd21c[m added reset password component
+* [33mcf0c6d0[m added password reset component
+* [33m82a102e[m added nodemailer and reset password token
+* [33mfa8714e[m fixed errors
+* [33ma02c7a9[m added profile page and state
+* [33m4da267d[m added update user routes
+* [33mbc5f98a[m added protected routes
+* [33ma271c32[m added popdown nav
+* [33m8eadacb[m fiixed mobile nav
+* [33mf7876f8[m fixed minor issues
+* [33ma9890b8[m added loadUser state
+* [33mf5143db[m added authentication and getProfile route
+* [33md2fd078[m added authentication and getProfile route
+* [33m0696a07[m added user register form and state
+* [33m8e04da2[m added login/logout buttons
+* [33mc77c6ac[m fidex login issues
+* [33m2159fd4[m added user model and api route
+* [33m12aad14[m added in new color options
+* [33m3cae369[m added MUI pagination to the products page
+* [33mccc2042[m added MUI pagination to the products page
+* [33mad6cd87[m fixed issues, added in error alert to product index and details
+* [33m8f16711[m added to product-card/productDetail page
+* [33m51d41e2[m added title
+* [33me81c0d4[m added product details and carousel
+* [33m5ea2643[m added product details and state
+* [33mba6ab35[m setup redux
+* [33md2e1e88[m fixed css
+* [33m9e1c539[m added in the product card component and map over multiple
+* [33m1395ad3[m added the products section in the home page
+* [33m28e8040[m added the products section in the home page
+* [33m0d1a9b0[m removed the styles css folder
+* [33m1727120[m added home components
+* [33m6364659[m setup Material UI theme and Contexts
+* [33mdc8b3bd[m added in layout components and _document
+* [33mb41dc83[m updated mdb pass and env vars
+* [33m5d991ea[m env updates
+* [33m31345d0[m added search, filter, and pagination
+* [33m20f6726[m added catch for async errors, error handler, and error middleware
+* [33me8f5ec2[m added update and delete api routes
+* [33mf510461[m added backend, tent controlers, tent models, tent api
+* [33m849f3d8[m Initial commit from Create Next App

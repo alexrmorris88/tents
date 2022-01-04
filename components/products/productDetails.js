@@ -1,5 +1,5 @@
 // Next-React Imports
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
@@ -12,26 +12,32 @@ import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import { Box } from "@mui/system";
+import { FormHelperText } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import DateRangePicker from "@mui/lab/DateRangePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { Calendar } from "../../icons/calendar";
 // Component Imports
 import Layout from "../layout/Layout";
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  checkRental,
+  getCalendarAvailability,
+} from "../../state/actions/rentalActions";
+import { CHECK_RENTAL_RESET } from "../../state/constants/rentalConstants";
 // Utils Imports
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function productDetails() {
   const dispatch = useDispatch();
   const router = useRouter();
   const theme = useTheme();
+  const { id } = router.query;
 
   const [calendarDates, setCalendarDates] = useState([null, null]);
   const [rentalDays, setRentalDays] = useState(0);
@@ -39,16 +45,58 @@ export default function productDetails() {
   const { tent } = useSelector((state) => state.tentDetails);
   const { name, price, description, images, error } = tent;
 
+  const { available } = useSelector((state) => state.checkRental);
+  const { dates } = useSelector((state) => state.calendarAvailability);
+  const { rentals } = useSelector((state) => state.userRentals);
+  const { user } = useSelector((state) => state.loadedUser);
+
+  const excludedDates = [];
+  if (dates) {
+    dates.forEach((date) => {
+      excludedDates.push(new Date(date));
+    });
+  }
+
   useEffect(() => {
+    dispatch(getCalendarAvailability(id));
+
     toast.error(error);
     dispatch(clearErrors());
-  }, []);
+
+    return () => {
+      dispatch({ type: CHECK_RENTAL_RESET });
+    };
+  }, [dispatch, id]);
+
+  const onChange = (calendarDates) => {
+    const [RentalStartDate, RentalEndDate] = calendarDates;
+
+    setCalendarDates([RentalStartDate, RentalEndDate]);
+
+    if (RentalStartDate && RentalEndDate) {
+      // Calclate days of stay
+
+      const days = Math.floor(
+        (new Date(RentalEndDate) - new Date(RentalStartDate)) / 86400000 + 1
+      );
+
+      setRentalDays(days);
+
+      dispatch(
+        checkRental(
+          id,
+          RentalStartDate.toISOString(),
+          RentalEndDate.toISOString()
+        )
+      );
+    }
+  };
 
   const newBookingHandler = async () => {
     const [RentalStartDate, RentalEndDate] = calendarDates;
 
     const bookingData = {
-      tent: router.query.id,
+      tent: id,
       rentalPickupDate: RentalStartDate,
       rentalDroptDate: RentalEndDate,
       dayOfRental: rentalDays,
@@ -57,7 +105,10 @@ export default function productDetails() {
         id: "STRIPE_PAYMENT_ID",
         status: "STRIPE_PAYMENT_STATUS",
       },
+      paidAt: Date.now(),
     };
+
+    console.log(bookingData);
 
     try {
       const config = {
@@ -67,6 +118,12 @@ export default function productDetails() {
       };
 
       const { data } = await axios.post("/api/rentals", bookingData, config);
+
+      console.log(data);
+
+      if (data) {
+        toast.success(`${tent.name} booked!`);
+      }
     } catch (error) {
       toast.error(error.response);
     }
@@ -75,6 +132,20 @@ export default function productDetails() {
   const NextImage = styled(Image)(({ theme }) => ({
     borderRadius: 1,
   }));
+
+  const CalendarComponent = forwardRef(({ value, onClick }, ref) => (
+    <Button
+      startIcon={<Calendar />}
+      variant="outlined"
+      onClick={onClick}
+      ref={ref}
+    >
+      <Typography variant="overline">
+        {" "}
+        {value ? value : "MM/DD/YYYY - MM/DD/YYYY"}
+      </Typography>
+    </Button>
+  ));
 
   return (
     <Layout title="Products">
@@ -139,48 +210,37 @@ export default function productDetails() {
               <Typography variant="h3">${price}</Typography>
               <Typography variant="body1">{description}</Typography>
 
-              <Grid sx={{ mb: 1 }}>
+              <Grid sx={{ mb: 1, mt: 2 }}>
                 <Typography variant="overline">Rental Date</Typography>
               </Grid>
               {/* Calandar */}
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DateRangePicker
-                  startText="Rental Date Start"
-                  endText="Rental Date End"
-                  value={calendarDates}
-                  onChange={(date) => {
-                    setCalendarDates(date);
-                    const [RentalStartDate, RentalEndDate] = calendarDates;
 
-                    if (RentalStartDate && RentalEndDate) {
-                      const days = Math.floor(
-                        (new Date(RentalEndDate) - new Date(RentalStartDate)) /
-                          86400000 +
-                          1
-                      );
+              <DatePicker
+                selectsRange
+                startDate={calendarDates[0]}
+                onChange={onChange}
+                startDate={calendarDates[0]}
+                endDate={calendarDates[1]}
+                minDate={new Date()}
+                excludeDates={excludedDates}
+                withPortal
+                customInput={<CalendarComponent />}
+              />
+              {available === true && (
+                <FormHelperText sx={{ color: "green" }}>
+                  Room is available. Book now.
+                </FormHelperText>
+              )}
 
-                      setRentalDays(days);
-                    }
-                  }}
-                  renderInput={(startProps, endProps) => (
-                    <React.Fragment>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        {...startProps}
-                      />
-                      <Box sx={{ mx: 2 }}>
-                        <Typography variant="overline"> to </Typography>
-                      </Box>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        {...endProps}
-                      />
-                    </React.Fragment>
-                  )}
-                />
-              </LocalizationProvider>
+              {available === false && (
+                <FormHelperText error>
+                  Room not available. Try different dates.
+                </FormHelperText>
+              )}
+
+              {available && !user && (
+                <FormHelperText error>Login to book room.</FormHelperText>
+              )}
 
               <Grid item mt={3} width={200}>
                 <Stack spacing={2} direction="column">
@@ -191,14 +251,38 @@ export default function productDetails() {
                   >
                     Add to Cart
                   </Button>
-                  <Button
-                    variant="contained"
-                    color="BuyNow"
-                    sx={{ boxShadow: 3 }}
-                    onClick={newBookingHandler}
-                  >
-                    Rent Now
-                  </Button>
+
+                  {available && user ? (
+                    <Button
+                      variant="contained"
+                      color="BuyNow"
+                      sx={{ boxShadow: 3 }}
+                      onClick={newBookingHandler}
+                    >
+                      Rent Now
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="BuyNow"
+                      sx={{ boxShadow: 3 }}
+                      onClick={() => {
+                        if (!user && available) {
+                          toast.error("Please login");
+                        }
+
+                        if (user && !available) {
+                          toast.error("Please select different dates");
+                        }
+
+                        if (!user && !available) {
+                          toast.error("Please login & select different dates");
+                        }
+                      }}
+                    >
+                      Rent Now
+                    </Button>
+                  )}
                 </Stack>
               </Grid>
             </Grid>

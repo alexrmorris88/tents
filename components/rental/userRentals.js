@@ -265,11 +265,7 @@ const CustomerList = () => {
     <>
       <Head>
         <title>
-          {userLoading ? (
-            <Loader />
-          ) : (
-            `${user.firstName} ${user.lastName} Orders`
-          )}
+          {userLoading ? "" : `${user.firstName} ${user.lastName} Orders`}
         </title>
       </Head>
       <Box
