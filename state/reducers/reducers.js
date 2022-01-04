@@ -9,15 +9,12 @@ import {
   modifyUserReducer,
   forgotPasswordReducer,
 } from "./userReducer";
-<<<<<<< HEAD
-=======
 // Booking Reducer
 import {
   checkRentalReducer,
   calendarAvailabilityReducer,
   userRentalsReducer,
 } from "./rentalReducer";
->>>>>>> 5d3f897... added order page
 
 const reducer = combineReducers({
   // tent reducer
@@ -28,13 +25,10 @@ const reducer = combineReducers({
   loadedUser: loadedUserReducer,
   modifyUser: modifyUserReducer,
   forgotPassword: forgotPasswordReducer,
-<<<<<<< HEAD
-=======
   // Rental Reducers
   checkRental: checkRentalReducer,
   calendarAvailability: calendarAvailabilityReducer,
   userRentals: userRentalsReducer,
->>>>>>> 5d3f897... added order page
 });
 
 export default reducer;
