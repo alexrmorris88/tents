@@ -108,8 +108,6 @@ export default function productDetails() {
       paidAt: Date.now(),
     };
 
-    console.log(bookingData);
-
     try {
       const config = {
         headers: {
@@ -118,8 +116,6 @@ export default function productDetails() {
       };
 
       const { data } = await axios.post("/api/rentals", bookingData, config);
-
-      console.log(data);
 
       if (data) {
         toast.success(`${tent.name} booked!`);
