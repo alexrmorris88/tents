@@ -10,11 +10,11 @@ const moment = extendMoment(Moment);
 // Get All User Booking
 // Path: /api/rentals/user
 const getUserOrders = catchAsyncErrors(async (req, res, next) => {
-  const rentals = await Rental.find({ user: req.user._id });
+  const orders = await Rental.find({ user: req.user._id });
 
   res.status(200).json({
     success: true,
-    rentals,
+    orders,
   });
 });
 

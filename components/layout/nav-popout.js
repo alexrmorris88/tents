@@ -101,6 +101,16 @@ export const NavPopout = (props) => {
             />
           </MenuItem>
         </NextLink>
+        <NextLink href="/user/orders" passHref>
+          <MenuItem component="a">
+            <ListItemIcon>
+              <CogIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Typography variant="body1">Orders</Typography>}
+            />
+          </MenuItem>
+        </NextLink>
         <NextLink href="/" passHref>
           <MenuItem component="a">
             <ListItemIcon>

@@ -1,9 +1,12 @@
 // React-Next Imports
 import React from "react";
 import { getSession } from "next-auth/client";
+import { wrapper } from "../../state/store";
 //Component Imports
 import UserRentals from "../../components/user/userOrders";
+// Redux Import
 import Layout from "../../components/layout/Layout";
+import { getUserOrder, loadUser } from "../../state/actions/userActions";
 
 const UserOrders = () => {
   return (
@@ -14,23 +17,22 @@ const UserOrders = () => {
 };
 
 // Protected Route
-export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res }) => {
+      const session = await getSession({ req });
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+      if (!session) {
+        return {
+          redirect: {
+            destination: "/login",
+            permanent: false,
+          },
+        };
+      }
 
-  return {
-    props: {
-      session,
-    },
-  };
-}
+      await store.dispatch(getUserOrder(req.headers.cookie, req));
+    }
+);
 
 export default UserOrders;

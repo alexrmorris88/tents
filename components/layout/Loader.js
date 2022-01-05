@@ -5,7 +5,7 @@ import Image from "next/image";
 const Loader = () => {
   return (
     <div>
-      <Image src="/loader/loader.svg" width={"64px"} height={"64px"} />
+      <Image src="/loader/loader.svg" width={"20px"} height={"20px"} />
     </div>
   );
 };

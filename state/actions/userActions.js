@@ -20,6 +20,7 @@ import {
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 import axios from "axios";
+import absoluteUrl from "next-absolute-url";
 
 // Register User
 export const registerUser = (userData) => async (dispatch) => {
@@ -149,7 +150,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 };
 
 // Get User Order
-export const getUserOrder = (req, id) => async (dispatch) => {
+export const getUserOrder = (authCookie, req) => async (dispatch) => {
   try {
     dispatch({
       type: USER_ORDERS_REQUEST,
@@ -163,16 +164,16 @@ export const getUserOrder = (req, id) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get(`${origin}/api/bookings/me`, config);
+    const { data } = await axios.get(`${origin}/api/user/orders`, config);
 
     dispatch({
-      type: MY_BOOKINGS_SUCCESS,
-      payload: data.bookings,
+      type: USER_ORDERS_SUCCESS,
+      payload: data.orders,
     });
   } catch (error) {
     dispatch({
       type: USER_ORDERS_FAIL,
-      payload: error.response.data.message,
+      payload: "No data",
     });
   }
 };

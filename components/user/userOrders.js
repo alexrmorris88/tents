@@ -1,5 +1,7 @@
+// React-Next Imports
 import { useState, useEffect, useCallback, useRef } from "react";
 import Head from "next/head";
+// UI Imports
 import {
   Box,
   Button,
@@ -13,20 +15,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { OrderTable } from "../../utils/OrderTable";
-import { useMounted } from "../../hooks/use-mounted";
+// Redux Imports
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrors } from "../../state/actions/userActions";
+// Utils Imports
 import { Download as DownloadIcon } from "../../icons/download";
 import { Plus as PlusIcon } from "../../icons/plus";
 import { Search as SearchIcon } from "../../icons/search";
 import { Upload as UploadIcon } from "../../icons/upload";
+import { OrderTable } from "../../utils/OrderTable";
 import { gtm } from "../../utils/gtm";
-
-import { useDispatch, useSelector } from "react-redux";
-
 import Loader from "../layout/Loader";
-
-import { getUserRentals } from "../../state/actions/rentalActions";
 import { toast } from "react-toastify";
+import moment from "moment";
+import { id } from "date-fns/locale";
+import { number } from "yup";
 
 const tabs = [
   {
@@ -66,15 +69,15 @@ const sortOptions = [
   },
 ];
 
-const applyFilters = (customers, filters) =>
-  customers.filter((customer) => {
+const applyFilters = (orders, filters) =>
+  orders.filter((order) => {
     if (filters.query) {
       let queryMatched = false;
       const properties = ["email", "name"];
 
       properties.forEach((property) => {
         if (
-          customer[property].toLowerCase().includes(filters.query.toLowerCase())
+          order[property].toLowerCase().includes(filters.query.toLowerCase())
         ) {
           queryMatched = true;
         }
@@ -85,15 +88,15 @@ const applyFilters = (customers, filters) =>
       }
     }
 
-    if (filters.hasAcceptedMarketing && !customer.hasAcceptedMarketing) {
+    if (filters.hasAcceptedMarketing && !order.hasAcceptedMarketing) {
       return false;
     }
 
-    if (filters.isProspect && !customer.isProspect) {
+    if (filters.isProspect && !order.isProspect) {
       return false;
     }
 
-    if (filters.isReturning && !customer.isReturning) {
+    if (filters.isReturning && !order.isReturning) {
       return false;
     }
 
@@ -117,10 +120,10 @@ const getComparator = (order, orderBy) =>
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 
-const applySort = (customers, sort) => {
+const applySort = (orders, sort) => {
   const [orderBy, order] = sort.split("|");
   const comparator = getComparator(order, orderBy);
-  const stabilizedThis = customers.map((el, index) => [el, index]);
+  const stabilizedThis = orders.map((el, index) => [el, index]);
 
   stabilizedThis.sort((a, b) => {
     const newOrder = comparator(a[0], b[0]);
@@ -135,14 +138,13 @@ const applySort = (customers, sort) => {
   return stabilizedThis.map((el) => el[0]);
 };
 
-const applyPagination = (customers, page, rowsPerPage) =>
-  customers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+const applyPagination = (orders, page, rowsPerPage) =>
+  orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-const CustomerList = () => {
+const UserOrders = () => {
   const dispatch = useDispatch();
-  const isMounted = useMounted();
   const queryRef = useRef(null);
-  const [customers, setCustomers] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [currentTab, setCurrentTab] = useState("all");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -154,64 +156,46 @@ const CustomerList = () => {
     isReturning: null,
   });
 
-  const { rentals } = useSelector((state) => state.userRentals);
+  const {
+    orders: userOrders,
+    error: ordersError,
+    loading: orderLoading,
+  } = useSelector((state) => state.userOrders);
   const { user, loading: userLoading } = useSelector(
     (state) => state.loadedUser
   );
 
   useEffect(() => {
+    if (ordersError) {
+      toast.error(ordersError);
+      dispatch(clearErrors);
+    }
+
     gtm.push({ event: "page_view" });
   }, []);
 
-  const getOrders = useCallback(() => {
-    try {
-      const data = (customers = [
-        {
-          id: "5e887ac47eed253091be10cb",
-          avatar: "",
-          city: "Cleveland",
-          country: "USA",
-          currency: "$",
-          email: "carson.darrin@devias.io",
-          hasAcceptedMarketing: true,
-          isProspect: false,
-          isReturning: true,
-          name: "Carson Darrin",
-          state: "Ohio",
-          totalAmountSpent: 300.0,
-          totalOrders: 3,
-          updatedAt: subDays(subHours(now, 7), 1).getTime(),
-        },
-        {
-          id: "5e887b209c28ac3dd97f6db5",
-          avatar: "",
-          city: "Atlanta",
-          country: "USA",
-          currency: "$",
-          email: "fran.perez@devias.io",
-          hasAcceptedMarketing: true,
-          isProspect: true,
-          isReturning: false,
-          name: "Fran Perez",
-          state: "Georgia",
-          totalAmountSpent: 0.0,
-          totalOrders: 0,
-          updatedAt: subDays(subHours(now, 1), 2).getTime(),
-        },
-      ]);
+  const orderData = [];
 
-      if (isMounted()) {
-        setCustomers(data);
-      }
-    } catch (error) {
-      toast.error(error);
-    }
-  }, [isMounted]);
+  if (userOrders) {
+    userOrders.forEach((order) =>
+      orderData.push({
+        id: order._id,
+        tent: order.tent,
+        pickupDate: order.rentalPickupDate,
+        dropDate: order.rentalDroptDate,
+        amountPaid: order.amountPaid,
+        paidAt: order.paidAt,
+        status: "Booked",
+        currency: "CAD",
+      })
+    );
+  }
 
   useEffect(
     () => {
-      getOrders();
+      setOrders(orderData);
     },
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
@@ -253,13 +237,9 @@ const CustomerList = () => {
   };
 
   // Usually query is done on backend with indexing solutions
-  const filteredCustomers = applyFilters(customers, filters);
-  const sortedCustomers = applySort(filteredCustomers, sort);
-  const paginatedCustomers = applyPagination(
-    sortedCustomers,
-    page,
-    rowsPerPage
-  );
+  const filteredOrders = applyFilters(orders, filters);
+  const sortedOrders = applySort(filteredOrders, sort);
+  const paginatedOrders = applyPagination(sortedOrders, page, rowsPerPage);
 
   return (
     <>
@@ -356,7 +336,7 @@ const CustomerList = () => {
                       </InputAdornment>
                     ),
                   }}
-                  placeholder="Search customers"
+                  placeholder="Search Orders"
                 />
               </Box>
               <TextField
@@ -375,14 +355,18 @@ const CustomerList = () => {
                 ))}
               </TextField>
             </Box>
-            <OrderTable
-              customers={paginatedCustomers}
-              customersCount={filteredCustomers.length}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              rowsPerPage={rowsPerPage}
-              page={page}
-            />
+            {userLoading && orderLoading ? (
+              <Loader />
+            ) : (
+              <OrderTable
+                orders={paginatedOrders}
+                ordersCount={filteredOrders.length}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                rowsPerPage={rowsPerPage}
+                page={page}
+              />
+            )}
           </Card>
         </Container>
       </Box>
@@ -390,4 +374,4 @@ const CustomerList = () => {
   );
 };
 
-export default CustomerList;
+export default UserOrders;

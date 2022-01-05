@@ -62,7 +62,10 @@ export default function MobileHeader(props) {
     { link: "/products", title: "Products" },
   ];
 
-  const Auth_NavList = [{ link: "/user/profile", title: "Profile" }];
+  const Auth_NavList = [
+    { link: "/user/profile", title: "Profile" },
+    { link: "/user/orders", title: "Orders" },
+  ];
 
   useEffect(() => {
     if (!user) {

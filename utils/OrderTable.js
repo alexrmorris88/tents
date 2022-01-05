@@ -16,55 +16,74 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Alert,
 } from "@mui/material";
 import { ArrowRight as ArrowRightIcon } from "../icons/arrow-right";
 import { PencilAlt as PencilAltIcon } from "../icons/pencil-alt";
 import { getInitials } from "../utils/get-initials";
 import { Scrollbar } from "../utils/scrollbar";
+import moment from "moment";
+import { useSelector } from "react-redux";
+import Loader from "../components/layout/Loader";
 
 export const OrderTable = (props) => {
+  const { user, loading: userLoading } = useSelector(
+    (state) => state.loadedUser
+  );
+
   const {
-    customers,
-    customersCount,
+    orders,
+    ordersCount,
     onPageChange,
     onRowsPerPageChange,
     page,
     rowsPerPage,
     ...other
   } = props;
-  const [selectedCustomers, setSelectedCustomers] = useState([]);
+  const [selectedTab, setSelectedTab] = useState([]);
 
-  // Reset selected customers when customers change
+  // Reset selected orders when orders change
   useEffect(
     () => {
-      if (selectedCustomers.length) {
-        setSelectedCustomers([]);
+      if (selectedTab.length) {
+        setSelectedTab([]);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [customers]
+    [orders]
   );
 
-  const handleSelectAllCustomers = (event) => {
-    setSelectedCustomers(
-      event.target.checked ? customers.map((customer) => customer.id) : []
-    );
+  // Handle the Order status
+  const orderStatus = (status) => {
+    if (status === "Pending") {
+      return <Alert severity="error">{status}</Alert>;
+    } else if (status === "Booked") {
+      return <Alert severity="warning">{status}</Alert>;
+    } else if (status === "Completed") {
+      return <Alert severity="success">{status}</Alert>;
+    } else {
+      return <Alert severity="info">{status}</Alert>;
+    }
   };
 
-  const handleSelectOneCustomer = (event, customerId) => {
-    if (!selectedCustomers.includes(customerId)) {
-      setSelectedCustomers((prevSelected) => [...prevSelected, customerId]);
+  const handleSelectAllTabs = (event) => {
+    setSelectedTab(event.target.checked ? orders.map((order) => order.id) : []);
+  };
+
+  const handleSelectOneTab = (event, orderId) => {
+    if (!selectedTab.includes(orderId)) {
+      setSelectedTab((prevSelected) => [...prevSelected, orderId]);
     } else {
-      setSelectedCustomers((prevSelected) =>
-        prevSelected.filter((id) => id !== customerId)
+      setSelectedTab((prevSelected) =>
+        prevSelected.filter((id) => id !== orderId)
       );
     }
   };
 
-  const enableBulkActions = selectedCustomers.length > 0;
-  const selectedSomeCustomers =
-    selectedCustomers.length > 0 && selectedCustomers.length < customers.length;
-  const selectedAllCustomers = selectedCustomers.length === customers.length;
+  const enableBulkActions = selectedTab.length > 0;
+  const selectedSomeTabs =
+    selectedTab.length > 0 && selectedTab.length < orders.length;
+  const selectedAllTabs = selectedTab.length === orders.length;
 
   return (
     <div {...other}>
@@ -77,9 +96,9 @@ export const OrderTable = (props) => {
         }}
       >
         <Checkbox
-          checked={selectedAllCustomers}
-          indeterminate={selectedSomeCustomers}
-          onChange={handleSelectAllCustomers}
+          checked={selectedAllTabs}
+          indeterminate={selectedSomeTabs}
+          onChange={handleSelectAllTabs}
         />
         <Button size="small" sx={{ ml: 2 }}>
           Delete
@@ -96,33 +115,30 @@ export const OrderTable = (props) => {
             <TableRow>
               <TableCell padding="checkbox">
                 <Checkbox
-                  checked={selectedAllCustomers}
-                  indeterminate={selectedSomeCustomers}
-                  onChange={handleSelectAllCustomers}
+                  checked={selectedAllTabs}
+                  indeterminate={selectedSomeTabs}
+                  onChange={handleSelectAllTabs}
                 />
               </TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Orders</TableCell>
-              <TableCell>Spent</TableCell>
+              <TableCell>Tent Info</TableCell>
+              <TableCell>Order ID</TableCell>
+              <TableCell>Rental Dates</TableCell>
+              <TableCell>Payment Info</TableCell>
+              <TableCell>Status</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {customers.map((customer) => {
-              const isCustomerSelected = selectedCustomers.includes(
-                customer.id
-              );
+            {orders.map((order) => {
+              const isTabSelected = selectedTab.includes(order.id);
 
               return (
-                <TableRow hover key={customer.id} selected={isCustomerSelected}>
+                <TableRow hover key={order.id} selected={isTabSelected}>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={isCustomerSelected}
-                      onChange={(event) =>
-                        handleSelectOneCustomer(event, customer.id)
-                      }
-                      value={isCustomerSelected}
+                      checked={isTabSelected}
+                      onChange={(event) => handleSelectOneTab(event, order.id)}
+                      value={isTabSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -133,44 +149,56 @@ export const OrderTable = (props) => {
                       }}
                     >
                       <Avatar
-                        src={customer.avatar}
+                        src={order.avatar}
                         sx={{
                           height: 42,
                           width: 42,
                         }}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
+                      ></Avatar>
                       <Box sx={{ ml: 1 }}>
-                        <NextLink href="/dashboard/customers/1" passHref>
+                        <NextLink href="#" passHref>
                           <Link color="inherit" variant="subtitle2">
-                            {customer.name}
+                            {userLoading ? (
+                              <Loader />
+                            ) : (
+                              `${user.firstName} ${user.lastName}`
+                            )}
                           </Link>
                         </NextLink>
                         <Typography color="textSecondary" variant="body2">
-                          {customer.email}
+                          {order.tent}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell>
-                    {`${customer.city}, ${customer.state}, ${customer.country}`}
-                  </TableCell>
-                  <TableCell>{customer.totalOrders}</TableCell>
+                  <TableCell>{`${order.id}`}</TableCell>
+                  <TableCell>{`${moment(order.pickupDate).format(
+                    "LL"
+                  )} - ${moment(order.dropDate).format("LL")}`}</TableCell>
                   <TableCell>
                     <Typography color="success.main" variant="subtitle2">
-                      {numeral(customer.totalAmountSpent).format(
-                        `${customer.currency}0,0.00`
+                      {numeral(order.amountPaid).format(
+                        `${order.currency}0,0.00`
                       )}
                     </Typography>
+                    <Typography color="success.main" variant="subtitle2">
+                      {order.paidAt}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <TableCell>
+                      <Typography variant="subtitle2">
+                        {orderStatus(order.status)}
+                      </Typography>
+                    </TableCell>
                   </TableCell>
                   <TableCell align="right">
-                    <NextLink href="/dashboard/customers/1/edit" passHref>
+                    <NextLink href="#" passHref>
                       <IconButton component="a">
                         <PencilAltIcon fontSize="small" />
                       </IconButton>
                     </NextLink>
-                    <NextLink href="/dashboard/customers/1" passHref>
+                    <NextLink href="#" passHref>
                       <IconButton component="a">
                         <ArrowRightIcon fontSize="small" />
                       </IconButton>
@@ -184,7 +212,7 @@ export const OrderTable = (props) => {
       </Scrollbar>
       <TablePagination
         component="div"
-        count={customersCount}
+        count={ordersCount}
         onPageChange={onPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         page={page}
@@ -196,8 +224,8 @@ export const OrderTable = (props) => {
 };
 
 OrderTable.propTypes = {
-  customers: PropTypes.array.isRequired,
-  customersCount: PropTypes.number.isRequired,
+  orders: PropTypes.array.isRequired,
+  ordersCount: PropTypes.number.isRequired,
   onPageChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
   page: PropTypes.number.isRequired,
