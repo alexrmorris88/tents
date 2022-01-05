@@ -3,7 +3,7 @@ import nc from "next-connect";
 // Databse Import
 import dbConnect from "../../../backend/config/dbConnect";
 // Controller Import
-import { getUserRentals } from "../../../backend/controllers/rentalController";
+import { getUserOrders } from "../../../backend/controllers/userController";
 //Utils/Middlewares Import
 import onError from "../../../backend/middlewares/errors";
 // Auth Import
@@ -12,6 +12,6 @@ import { isAuthenticatedUser } from "../../../backend/middlewares/auth";
 const handler = nc({ onError });
 dbConnect();
 
-handler.use(isAuthenticatedUser).get(getUserRentals);
+handler.use(isAuthenticatedUser).get(getUserOrders);
 
 export default handler;

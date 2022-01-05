@@ -110,21 +110,3 @@ const rentalCalendarAvailability = catchAsyncErrors(async (req, res, next) => {
     rentalDates,
   });
 });
-
-// Get All User Booking
-// Path: /api/rentals/user
-const getUserRentals = catchAsyncErrors(async (req, res, next) => {
-  const rentals = await Rental.find({ user: req.user._id });
-
-  res.status(200).json({
-    success: true,
-    rentals,
-  });
-});
-
-export {
-  newRental,
-  rentalAvailability,
-  rentalCalendarAvailability,
-  getUserRentals,
-};

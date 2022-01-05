@@ -15,6 +15,9 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_RESET,
+  USER_ORDERS_REQUEST,
+  USER_ORDERS_SUCCESS,
+  USER_ORDERS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 
@@ -146,6 +149,37 @@ export const forgotPasswordReducer = (state = {}, action) => {
 
     case FORGOT_PASSWORD_FAIL:
     case RESET_PASSWORD_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// User Orders
+export const userOrdersReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case USER_ORDERS_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case USER_ORDERS_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload,
+      };
+
+    case USER_ORDERS_FAIL:
       return {
         loading: false,
         error: action.payload,

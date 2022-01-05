@@ -2,10 +2,10 @@
 import React from "react";
 import { getSession } from "next-auth/client";
 //Component Imports
-import UserRentals from "../../components/rental/userRentals";
+import UserRentals from "../../components/user/userOrders";
 import Layout from "../../components/layout/Layout";
 
-const GetUserRentals = () => {
+const UserOrders = () => {
   return (
     <Layout>
       <UserRentals title="User Rentals" />
@@ -33,4 +33,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default GetUserRentals;
+export default UserOrders;

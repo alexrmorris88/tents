@@ -8,6 +8,7 @@ import {
   loadedUserReducer,
   modifyUserReducer,
   forgotPasswordReducer,
+  userOrdersReducer,
 } from "./userReducer";
 // Booking Reducer
 import {
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   loadedUser: loadedUserReducer,
   modifyUser: modifyUserReducer,
   forgotPassword: forgotPasswordReducer,
+  userOrders: userOrdersReducer,
   // Rental Reducers
   checkRental: checkRentalReducer,
   calendarAvailability: calendarAvailabilityReducer,

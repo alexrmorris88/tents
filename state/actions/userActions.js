@@ -14,6 +14,9 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
+  USER_ORDERS_REQUEST,
+  USER_ORDERS_SUCCESS,
+  USER_ORDERS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 import axios from "axios";
@@ -140,6 +143,35 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: RESET_PASSWORD_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get User Order
+export const getUserOrder = (req, id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_ORDERS_REQUEST,
+    });
+
+    const { origin } = absoluteUrl(req);
+
+    const config = {
+      headers: {
+        cookie: authCookie,
+      },
+    };
+
+    const { data } = await axios.get(`${origin}/api/bookings/me`, config);
+
+    dispatch({
+      type: MY_BOOKINGS_SUCCESS,
+      payload: data.bookings,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_ORDERS_FAIL,
       payload: error.response.data.message,
     });
   }
