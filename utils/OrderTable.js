@@ -165,32 +165,50 @@ export const OrderTable = (props) => {
                             )}
                           </Link>
                         </NextLink>
+
                         <Typography color="textSecondary" variant="body2">
                           {order.tent}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell>{`${order.id}`}</TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        display: "flex",
+                      }}
+                    >
+                      <NextLink
+                        href={{
+                          pathname: `/user/[slug]`,
+                          query: { slug: `${order.id}` },
+                        }}
+                        passHref
+                      >
+                        <Link color="inherit" variant="subtitle2">
+                          {`${order.id}`}
+                        </Link>
+                      </NextLink>
+                    </Box>
+                  </TableCell>
                   <TableCell>{`${moment(order.pickupDate).format(
                     "LL"
                   )} - ${moment(order.dropDate).format("LL")}`}</TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography color="success.main" variant="subtitle2">
                       {numeral(order.amountPaid).format(
                         `${order.currency}0,0.00`
                       )}
                     </Typography>
                     <Typography color="success.main" variant="subtitle2">
-                      {order.paidAt}
+                      {moment(order.paidAt).format("LL")}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <TableCell>
-                      <Typography variant="subtitle2">
-                        {orderStatus(order.status)}
-                      </Typography>
-                    </TableCell>
+                    <Typography variant="subtitle2">
+                      {orderStatus(order.status)}
+                    </Typography>
                   </TableCell>
                   <TableCell align="right">
                     <NextLink href="#" passHref>

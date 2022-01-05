@@ -110,3 +110,5 @@ const rentalCalendarAvailability = catchAsyncErrors(async (req, res, next) => {
     rentalDates,
   });
 });
+
+export { newRental, rentalAvailability, rentalCalendarAvailability };

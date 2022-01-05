@@ -17,6 +17,9 @@ import {
   USER_ORDERS_REQUEST,
   USER_ORDERS_SUCCESS,
   USER_ORDERS_FAIL,
+  USER_ORDER_DETAILS_REQUEST,
+  USER_ORDER_DETAILS_SUCCESS,
+  USER_ORDER_DETAILS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 import axios from "axios";
@@ -173,10 +176,40 @@ export const getUserOrder = (authCookie, req) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_ORDERS_FAIL,
-      payload: "No data",
+      payload: error.response.data.message,
     });
   }
 };
+
+// Get User Order Details
+export const getUserOrderDetails =
+  (authCookie, req, id) => async (dispatch) => {
+    try {
+      dispatch({
+        type: USER_ORDERS_REQUEST,
+      });
+
+      const { origin } = absoluteUrl(req);
+
+      const config = {
+        headers: {
+          cookie: authCookie,
+        },
+      };
+
+      const { data } = await axios.get(`${origin}/api/user/${id}`, config);
+
+      dispatch({
+        type: USER_ORDERS_SUCCESS,
+        payload: data.order,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_ORDERS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {

@@ -9,6 +9,7 @@ import {
   modifyUserReducer,
   forgotPasswordReducer,
   userOrdersReducer,
+  userOrderDetailsReducer,
 } from "./userReducer";
 // Booking Reducer
 import {
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   modifyUser: modifyUserReducer,
   forgotPassword: forgotPasswordReducer,
   userOrders: userOrdersReducer,
+  userOrderDetails: userOrderDetailsReducer,
   // Rental Reducers
   checkRental: checkRentalReducer,
   calendarAvailability: calendarAvailabilityReducer,

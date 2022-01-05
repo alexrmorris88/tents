@@ -18,4 +18,25 @@ const getUserOrders = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { getUserOrders };
+// Get User Order Details
+// Path: /api/rentals/:OrderID
+const getOrderDetails = catchAsyncErrors(async (req, res, next) => {
+  const order = await Rental.findById(req.query.orderID)
+    .populate({
+      path: "tent",
+      model: "Tent",
+      select: "name price images",
+    })
+    .populate({
+      path: "user",
+      model: "User",
+      select: "firstName lastName email",
+    });
+
+  res.status(200).json({
+    success: true,
+    order,
+  });
+});
+
+export { getUserOrders, getOrderDetails };
