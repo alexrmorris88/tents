@@ -1,17 +1,17 @@
 // React-Next Imports
 import React from "react";
 import { getSession } from "next-auth/client";
-import { wrapper } from "../../state/store";
+import { wrapper } from "../../../state/store";
 //Component Imports
-import UserRentals from "../../components/user/userOrders";
+import UserRentals from "../../../components/user/userOrders";
 // Redux Import
-import Layout from "../../components/layout/Layout";
-import { getUserOrder, loadUser } from "../../state/actions/userActions";
+import Layout from "../../../components/layout/Layout";
+import { getUserOrder } from "../../../state/actions/userActions";
 
 const UserOrders = () => {
   return (
     <Layout>
-      <UserRentals title="User Rentals" />
+      <UserRentals title="User Orders" />
     </Layout>
   );
 };

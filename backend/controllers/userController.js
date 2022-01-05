@@ -1,5 +1,6 @@
 import Rental from "../modles/Rentals";
 import User from "../modles/User";
+import Tent from "../modles/Tent";
 import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import Moment from "moment";
@@ -21,21 +22,40 @@ const getUserOrders = catchAsyncErrors(async (req, res, next) => {
 // Get User Order Details
 // Path: /api/rentals/:OrderID
 const getOrderDetails = catchAsyncErrors(async (req, res, next) => {
-  const order = await Rental.findById(req.query.orderID)
-    .populate({
-      path: "tent",
-      model: "Tent",
-      select: "name price images",
-    })
-    .populate({
-      path: "user",
-      model: "User",
-      select: "firstName lastName email",
-    });
+  const order = await Rental.findById(req.query.orderID);
+  const {
+    paymentInfo,
+    _id,
+    tent,
+    user,
+    rentalPickupDate,
+    rentalDroptDate,
+    amountPaid,
+    dayOfRental,
+    paidAt,
+  } = order;
+
+  const userDetails = await User.findById(user);
+
+  const tentDetails = await Tent.findById(tent);
+
+  const orderDetails = {
+    paymentInfo,
+    _id,
+    tent,
+    user,
+    rentalPickupDate,
+    rentalDroptDate,
+    amountPaid,
+    dayOfRental,
+    paidAt,
+    userDetails,
+    tentDetails,
+  };
 
   res.status(200).json({
     success: true,
-    order,
+    orderDetails,
   });
 });
 

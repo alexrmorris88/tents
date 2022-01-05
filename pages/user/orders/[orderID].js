@@ -1,18 +1,20 @@
 // React-Next Imports
 import React from "react";
 import { getSession } from "next-auth/client";
-import { wrapper } from "../../state/store";
+import { wrapper } from "../../../state/store";
 //Component Imports
-// import OrderDetails from "../../components/user/orderDetails";
+import OrderDetails from "../../../components/user/orderDetails/orderDetails";
 // Redux Import
-import Layout from "../../components/layout/Layout";
-import { getUserOrderDetails } from "../../state/actions/userActions";
+import Layout from "../../../components/layout/Layout";
+import {
+  getUserOrderDetails,
+  getUserOrder,
+} from "../../../state/actions/userActions";
 
 const UserOrders = () => {
   return (
     <Layout>
-      {/* <OrderDetails title="User Order Details" /> */}
-      <h1>Order Details</h1>
+      <OrderDetails title="User Order Details" />
     </Layout>
   );
 };
@@ -35,6 +37,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       await store.dispatch(
         getUserOrderDetails(req.headers.cookie, req, params.orderID)
       );
+      await store.dispatch(getUserOrder(req.headers.cookie, req));
     }
 );
 

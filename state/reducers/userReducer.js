@@ -200,7 +200,10 @@ export const userOrdersReducer = (state = { orders: [] }, action) => {
 };
 
 // User Orders
-export const userOrderDetailsReducer = (state = { order: {} }, action) => {
+export const userOrderDetailsReducer = (
+  state = { orderDetails: {} },
+  action
+) => {
   switch (action.type) {
     case USER_ORDER_DETAILS_REQUEST:
       return {
@@ -210,7 +213,7 @@ export const userOrderDetailsReducer = (state = { order: {} }, action) => {
     case USER_ORDER_DETAILS_SUCCESS:
       return {
         loading: false,
-        order: action.payload,
+        orderDetails: action.payload,
       };
 
     case USER_ORDER_DETAILS_FAIL:

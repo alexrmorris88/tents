@@ -186,7 +186,7 @@ export const getUserOrderDetails =
   (authCookie, req, id) => async (dispatch) => {
     try {
       dispatch({
-        type: USER_ORDERS_REQUEST,
+        type: USER_ORDER_DETAILS_REQUEST,
       });
 
       const { origin } = absoluteUrl(req);
@@ -200,12 +200,12 @@ export const getUserOrderDetails =
       const { data } = await axios.get(`${origin}/api/user/${id}`, config);
 
       dispatch({
-        type: USER_ORDERS_SUCCESS,
-        payload: data.order,
+        type: USER_ORDER_DETAILS_SUCCESS,
+        payload: data.orderDetails,
       });
     } catch (error) {
       dispatch({
-        type: USER_ORDERS_FAIL,
+        type: USER_ORDER_DETAILS_FAIL,
         payload: error.response.data.message,
       });
     }

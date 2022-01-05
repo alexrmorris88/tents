@@ -181,7 +181,7 @@ export const OrderTable = (props) => {
                     >
                       <NextLink
                         href={{
-                          pathname: `/user/[slug]`,
+                          pathname: `/user/orders/[slug]`,
                           query: { slug: `${order.id}` },
                         }}
                         passHref
@@ -216,7 +216,13 @@ export const OrderTable = (props) => {
                         <PencilAltIcon fontSize="small" />
                       </IconButton>
                     </NextLink>
-                    <NextLink href="#" passHref>
+                    <NextLink
+                      href={{
+                        pathname: `/user/orders/[slug]`,
+                        query: { slug: `${order.id}` },
+                      }}
+                      passHref
+                    >
                       <IconButton component="a">
                         <ArrowRightIcon fontSize="small" />
                       </IconButton>
