@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Cog as CogIcon } from "../../icons/cog";
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
 import { SwitchHorizontalOutlined as SwitchHorizontalOutlinedIcon } from "../../icons/switch-horizontal-outlined";
+import { ShoppingCart } from "../../icons/shopping-cart";
 
 export const NavPopout = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
@@ -104,7 +105,7 @@ export const NavPopout = (props) => {
         <NextLink href="/user/orders" passHref>
           <MenuItem component="a">
             <ListItemIcon>
-              <CogIcon fontSize="small" />
+              <ShoppingCart fontSize="small" />
             </ListItemIcon>
             <ListItemText
               primary={<Typography variant="body1">Orders</Typography>}
