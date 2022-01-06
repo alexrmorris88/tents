@@ -17,7 +17,7 @@ const stripeCheckoutSession = catchAsyncErrors(async (req, res) => {
   // Get tent details
   const tent = await Tent.findById(req.query.tentID);
 
-  const { rentalPickupDate, rentalDroptDate, dayOfRental } = req.query;
+  const { rentalPickupDate, rentalDroptDate } = req.query;
 
   // get origin url
   const { origin } = absoluteUrl(req);
@@ -29,7 +29,7 @@ const stripeCheckoutSession = catchAsyncErrors(async (req, res) => {
     cancel_url: `${origin}/products/${tent._id}`,
     customer_email: req.user.email,
     client_reference_id: req.query.tentID,
-    metadata: { rentalPickupDate, rentalDroptDate, dayOfRental },
+    metadata: { rentalPickupDate, rentalDroptDate },
     line_items: [
       {
         name: tent.name,

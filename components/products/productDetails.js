@@ -12,7 +12,6 @@ import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { Box } from "@mui/system";
 import { FormHelperText } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
@@ -32,6 +31,7 @@ import { CHECK_RENTAL_RESET } from "../../state/constants/rentalConstants";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import getStripe from "../../utils/getStripe";
 
 export default function productDetails() {
   const dispatch = useDispatch();
@@ -41,6 +41,7 @@ export default function productDetails() {
 
   const [calendarDates, setCalendarDates] = useState([null, null]);
   const [rentalDays, setRentalDays] = useState(0);
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const { tent } = useSelector((state) => state.tentDetails);
   const { name, price, description, images, error } = tent;
@@ -122,6 +123,29 @@ export default function productDetails() {
       }
     } catch (error) {
       toast.error(error.response);
+    }
+  };
+
+  const rentTent = async (id, amount) => {
+    const [RentalStartDate, RentalEndDate] = calendarDates;
+
+    setPaymentLoading(true);
+
+    try {
+      const link = `/api/checkout_session/${id}?rentalPickupDate=${RentalStartDate.toISOString()}&rentalDroptDate=${RentalEndDate.toISOString()}`;
+
+      const { data } = await axios.get(link, { params: { amount } });
+
+      const stripe = await getStripe();
+
+      // Redirect to checkout
+      stripe.redirectToCheckout({ sessionId: data.session.id });
+
+      setPaymentLoading(false);
+    } catch (error) {
+      setPaymentLoading(false);
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -253,7 +277,7 @@ export default function productDetails() {
                       variant="contained"
                       color="BuyNow"
                       sx={{ boxShadow: 3 }}
-                      onClick={newBookingHandler}
+                      onClick={() => rentTent(id, price)}
                     >
                       Rent Now
                     </Button>
