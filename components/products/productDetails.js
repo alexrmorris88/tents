@@ -144,7 +144,7 @@ export default function productDetails() {
       setPaymentLoading(false);
     } catch (error) {
       setPaymentLoading(false);
-      console.log(error);
+
       toast.error(error.message);
     }
   };
