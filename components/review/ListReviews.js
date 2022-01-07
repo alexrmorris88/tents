@@ -28,8 +28,6 @@ const ReviewText = styled(Typography)(({ theme }) => ({
 }));
 
 const ListReviews = ({ reviews }) => {
-  const { rentals } = useSelector((state) => state.userRentals);
-
   return (
     <>
       <Grid sx={{ mt: 2 }}>
@@ -46,6 +44,7 @@ const ListReviews = ({ reviews }) => {
                 alignItems: "center",
                 display: "flex",
                 overflow: "hidden",
+                mt:1
               }}
             >
               <Avatar
@@ -64,7 +63,7 @@ const ListReviews = ({ reviews }) => {
                   overflow: "hidden",
                 }}
               >
-                <Rating readOnly value={5} />
+                <Rating readOnly value={review.rating} />
                 <FormHelperText>
                   {`by ${review.firstName} ${review.lastName}`}
                 </FormHelperText>

@@ -93,6 +93,25 @@ const deleteTentById = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// Get Reviews
+// Path: /api/review/getreviews
+const getReviews = catchAsyncErrors(async (req, res, next) => {
+  const { getreviews } = req.query;
+
+  const tent = await Tent.findById(getreviews);
+
+  if (!tent) {
+    return next(new ErrorHandler(`No tent with this ID: ${getreviews}`, 400));
+  }
+
+  const { reviews } = tent;
+
+  res.status(200).json({
+    success: true,
+    reviews,
+  });
+});
+
 // Create New Review
 // Path: /api/review
 const createTentReview = catchAsyncErrors(async (req, res, next) => {
@@ -117,6 +136,8 @@ const createTentReview = catchAsyncErrors(async (req, res, next) => {
       if (review.user.toString() === req.user._id.toString()) {
         review.comment = comment;
         review.rating = rating;
+        review.firstName = req.user.firstName;
+        review.lastName = req.user.lastName;
       }
     });
   } else {
@@ -144,4 +165,5 @@ export {
   updateTentById,
   deleteTentById,
   createTentReview,
+  getReviews,
 };

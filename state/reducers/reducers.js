@@ -4,7 +4,7 @@ import { combineReducers } from "redux";
 import {
   allTentsReducer,
   tentDetailsReducer,
-  newReviewReducer,
+  reviewReducer,
 } from "./tentReducers";
 // User Reducer
 import {
@@ -26,7 +26,7 @@ const reducer = combineReducers({
   // tent reducer
   allTents: allTentsReducer,
   tentDetails: tentDetailsReducer,
-  newReview: newReviewReducer,
+  review: reviewReducer,
   // user reducer
   registerUser: registerUserReducer,
   loadedUser: loadedUserReducer,

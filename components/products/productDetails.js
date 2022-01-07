@@ -28,6 +28,7 @@ import {
   checkRental,
   getCalendarAvailability,
 } from "../../state/actions/rentalActions";
+import { getReview } from "../../state/actions/tentsAction";
 import { CHECK_RENTAL_RESET } from "../../state/constants/rentalConstants";
 // Utils Imports
 import axios from "axios";
@@ -47,11 +48,20 @@ export default function productDetails() {
   const [paymentLoading, setPaymentLoading] = useState(false);
 
   const { tent } = useSelector((state) => state.tentDetails);
-  const { name, price, description, images, error } = tent;
+  const {
+    name,
+    price,
+    description,
+    images,
+    error,
+    loading: tentLoading,
+  } = tent;
 
   const { available } = useSelector((state) => state.checkRental);
   const { dates } = useSelector((state) => state.calendarAvailability);
-  const { rentals } = useSelector((state) => state.userRentals);
+  const { reviews, loading: reviewLoading } = useSelector(
+    (state) => state.review
+  );
   const { user, loading: userLoading } = useSelector(
     (state) => state.loadedUser
   );
@@ -65,6 +75,7 @@ export default function productDetails() {
 
   useEffect(() => {
     dispatch(getCalendarAvailability(id));
+    dispatch(getReview(id));
 
     toast.error(error);
     dispatch(clearErrors());
@@ -322,12 +333,20 @@ export default function productDetails() {
             </Grid>
           </Grid>
           <Grid sx={{ p: 1 }}>
-            <Divider />
-            {user ? <NewReview reviewID={id} /> : <></>}
+            {userLoading ? (
+              <Loader />
+            ) : user ? (
+              <NewReview reviewID={id} />
+            ) : (
+              <></>
+            )}
           </Grid>
+          <Divider />
           <Grid sx={{ p: 1 }}>
-            {tent.reviews && tent.reviews.length > 0 ? (
-              <ListReviews reviews={tent.reviews} />
+            {reviewLoading ? (
+              <Loader />
+            ) : reviews && reviews.length > 0 ? (
+              <ListReviews reviews={reviews} />
             ) : (
               <></>
             )}

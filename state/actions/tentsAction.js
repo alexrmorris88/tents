@@ -7,6 +7,9 @@ import {
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
+  GET_REVIEW_REQUEST,
+  GET_REVIEW_SUCCESS,
+  GET_REVIEW_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 import axios from "axios";
@@ -76,6 +79,25 @@ export const newReview = (reviewData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_REVIEW_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get Review
+export const getReview = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_REVIEW_REQUEST });
+
+    const { data } = await axios.get(`/api/reviews/${id}`);
+
+    dispatch({
+      type: GET_REVIEW_SUCCESS,
+      payload: data.reviews,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_REVIEW_FAIL,
       payload: error.response.data.message,
     });
   }

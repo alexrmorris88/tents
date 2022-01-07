@@ -5,6 +5,7 @@ import {
   CHECK_RENTAL_RESET,
   CALENDAR_AVAILABILITY_SUCCESS,
   CALENDAR_AVAILABILITY_FAIL,
+  USER_RENTALS_REQUEST,
   USER_RENTALS_SUCCESS,
   USER_RENTALS_FAIL,
   CLEAR_ERRORS,
@@ -76,6 +77,11 @@ export const calendarAvailabilityReducer = (state = { dates: [] }, action) => {
 // User Rentals
 export const userRentalsReducer = (state = { rentals: [] }, action) => {
   switch (action.type) {
+    case USER_RENTALS_REQUEST:
+      return {
+        loading: true,
+      };
+
     case USER_RENTALS_SUCCESS:
       return {
         loading: false,

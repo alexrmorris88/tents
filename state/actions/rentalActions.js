@@ -4,6 +4,7 @@ import {
   CHECK_RENTAL_FAIL,
   CALENDAR_AVAILABILITY_SUCCESS,
   CALENDAR_AVAILABILITY_FAIL,
+  USER_RENTALS_REQUEST,
   USER_RENTALS_SUCCESS,
   USER_RENTALS_FAIL,
   CLEAR_ERRORS,
@@ -56,7 +57,11 @@ export const getCalendarAvailability = (tentId) => async (dispatch) => {
 // Get User Rentals
 export const getUserRentals = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/api/rentals/user`);
+    dispatch({
+      type: USER_RENTALS_REQUEST,
+    });
+
+    const { data } = await axios.get(`/api/user/orders`);
 
     dispatch({
       type: USER_RENTALS_SUCCESS,

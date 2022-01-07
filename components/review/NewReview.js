@@ -28,7 +28,7 @@ const NewReview = ({ reviewID }) => {
   const [comment, setComment] = useState("");
   const [open, setOpen] = useState(false);
 
-  const { error, success } = useSelector((state) => state.newReview);
+  const { error, success } = useSelector((state) => state.review);
   const { tent, loading: tentLoading } = useSelector(
     (state) => state.tentDetails
   );
@@ -58,6 +58,7 @@ const NewReview = ({ reviewID }) => {
       tentID: reviewID,
     };
     dispatch(newReview(reviewData));
+    window.location.reload()
   };
 
   return (

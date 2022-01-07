@@ -4,6 +4,9 @@ import {
   TENTS_DETAILS_REQUEST,
   TENTS_DETAILS_SUCCESS,
   TENTS_DETAILS_FAIL,
+  GET_REVIEW_REQUEST,
+  GET_REVIEW_SUCCESS,
+  GET_REVIEW_FAIL,
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
@@ -71,9 +74,10 @@ export const tentDetailsReducer = (state = { tent: {} }, action) => {
 };
 
 // New Review Reducer
-export const newReviewReducer = (state = {}, action) => {
+export const reviewReducer = (state = {}, action) => {
   switch (action.type) {
     case NEW_REVIEW_REQUEST:
+    case GET_REVIEW_REQUEST:
       return {
         loading: true,
       };
@@ -84,7 +88,14 @@ export const newReviewReducer = (state = {}, action) => {
         success: action.payload,
       };
 
+    case GET_REVIEW_SUCCESS:
+      return {
+        loading: false,
+        reviews: action.payload,
+      };
+
     case NEW_REVIEW_FAIL:
+    case GET_REVIEW_FAIL:
       return {
         loading: false,
         error: action.payload,
