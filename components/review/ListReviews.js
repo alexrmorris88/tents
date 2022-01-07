@@ -70,8 +70,8 @@ const ListReviews = ({ reviews }) => {
                 </FormHelperText>
               </Grid>
             </Grid>
-
-            <ReviewText>{review.comment}</ReviewText>
+            <FormHelperText>comment:</FormHelperText>
+            <ReviewText sx={{ ml: 2, p: 0 }}>{review.comment}</ReviewText>
 
             {reviews.length > 1 ? <Divider /> : <></>}
           </>

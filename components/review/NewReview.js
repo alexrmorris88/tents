@@ -102,7 +102,7 @@ const NewReview = ({ reviewID }) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} autoFocus>
+            <Button onClick={handleClose} sx={{ p: 0 }}>
               Submit Review
             </Button>
           </DialogActions>

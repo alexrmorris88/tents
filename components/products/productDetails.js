@@ -174,170 +174,166 @@ export default function productDetails() {
 
   return (
     <>
-      {userLoading ? (
-        <Loader />
-      ) : (
-        <Layout title="Products">
-          <Head>
-            <title>{name}</title>
-          </Head>
+      <Layout title="Products">
+        <Head>
+          <title>{name}</title>
+        </Head>
 
-          <Container
-            maxWidth="lg"
-            sx={{
-              backgroundColor: theme.palette.background.paper,
-              borderRadius: 1,
-              mb: 2,
-            }}
-          >
-            <Grid container justifyContent="center" sx={{ p: 3 }}>
+        <Container
+          maxWidth="lg"
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: 1,
+            mb: 2,
+          }}
+        >
+          <Grid container justifyContent="center" sx={{ p: 3 }}>
+            <Grid
+              alignItems="top"
+              container
+              justifyContent="center"
+              spacing={3}
+            >
               <Grid
-                alignItems="top"
-                container
-                justifyContent="center"
-                spacing={3}
+                item
+                lg={6}
+                md={6}
+                sm={12}
+                xs={12}
+                sx={{
+                  order: 1,
+                }}
               >
-                <Grid
-                  item
-                  lg={6}
-                  md={6}
-                  sm={12}
-                  xs={12}
-                  sx={{
-                    order: 1,
-                  }}
-                >
-                  <Carousel autoPlay={false} controls={true} indicators={true}>
-                    {images &&
-                      images.map((image) => {
-                        return (
-                          <NextImage
-                            key={image.url}
-                            src={image.url}
-                            alt={name}
-                            title={name}
-                            width="100%"
-                            height="65%"
-                            layout="responsive"
-                            objectFit="contain"
-                            className="avatar"
-                            priority
-                          />
-                        );
-                      })}
-                  </Carousel>
+                <Carousel autoPlay={false} controls={true} indicators={true}>
+                  {images &&
+                    images.map((image) => {
+                      return (
+                        <NextImage
+                          key={image.url}
+                          src={image.url}
+                          alt={name}
+                          title={name}
+                          width="100%"
+                          height="65%"
+                          layout="responsive"
+                          objectFit="contain"
+                          className="avatar"
+                          priority
+                        />
+                      );
+                    })}
+                </Carousel>
+              </Grid>
+              <Grid
+                item
+                lg={6}
+                md={6}
+                sm={12}
+                xs={12}
+                sx={{
+                  order: 2,
+                }}
+              >
+                <Typography color="primary" variant="h1">
+                  {name}
+                </Typography>
+
+                <Typography variant="h3">${price}</Typography>
+                <Typography variant="body1">{description}</Typography>
+
+                <Grid sx={{ mb: 1, mt: 2 }}>
+                  <Typography variant="overline">Rental Date</Typography>
                 </Grid>
-                <Grid
-                  item
-                  lg={6}
-                  md={6}
-                  sm={12}
-                  xs={12}
-                  sx={{
-                    order: 2,
-                  }}
-                >
-                  <Typography color="primary" variant="h1">
-                    {name}
-                  </Typography>
+                {/* Calandar */}
 
-                  <Typography variant="h3">${price}</Typography>
-                  <Typography variant="body1">{description}</Typography>
+                <DatePicker
+                  selectsRange
+                  startDate={calendarDates[0]}
+                  onChange={onChange}
+                  startDate={calendarDates[0]}
+                  endDate={calendarDates[1]}
+                  minDate={new Date()}
+                  excludeDates={excludedDates}
+                  withPortal
+                  customInput={<CalendarComponent />}
+                />
+                {available === true && (
+                  <FormHelperText sx={{ color: "green" }}>
+                    Room is available. Book now.
+                  </FormHelperText>
+                )}
 
-                  <Grid sx={{ mb: 1, mt: 2 }}>
-                    <Typography variant="overline">Rental Date</Typography>
-                  </Grid>
-                  {/* Calandar */}
+                {available === false && (
+                  <FormHelperText error>
+                    Room not available. Try different dates.
+                  </FormHelperText>
+                )}
 
-                  <DatePicker
-                    selectsRange
-                    startDate={calendarDates[0]}
-                    onChange={onChange}
-                    startDate={calendarDates[0]}
-                    endDate={calendarDates[1]}
-                    minDate={new Date()}
-                    excludeDates={excludedDates}
-                    withPortal
-                    customInput={<CalendarComponent />}
-                  />
-                  {available === true && (
-                    <FormHelperText sx={{ color: "green" }}>
-                      Room is available. Book now.
-                    </FormHelperText>
-                  )}
+                {available && !user && (
+                  <FormHelperText error>Login to book room.</FormHelperText>
+                )}
 
-                  {available === false && (
-                    <FormHelperText error>
-                      Room not available. Try different dates.
-                    </FormHelperText>
-                  )}
+                <Grid item mt={3} width={200}>
+                  <Stack spacing={2} direction="column">
+                    <Button
+                      variant="contained"
+                      color="addToCart"
+                      sx={{ boxShadow: 3 }}
+                    >
+                      Add to Cart
+                    </Button>
 
-                  {available && !user && (
-                    <FormHelperText error>Login to book room.</FormHelperText>
-                  )}
-
-                  <Grid item mt={3} width={200}>
-                    <Stack spacing={2} direction="column">
+                    {available && user ? (
                       <Button
                         variant="contained"
-                        color="addToCart"
+                        color="BuyNow"
                         sx={{ boxShadow: 3 }}
+                        onClick={() => rentTent(id, price)}
                       >
-                        Add to Cart
+                        Rent Now
                       </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="BuyNow"
+                        sx={{ boxShadow: 3 }}
+                        onClick={() => {
+                          if (!user && available) {
+                            toast.error("Please login");
+                          }
 
-                      {available && user ? (
-                        <Button
-                          variant="contained"
-                          color="BuyNow"
-                          sx={{ boxShadow: 3 }}
-                          onClick={() => rentTent(id, price)}
-                        >
-                          Rent Now
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          color="BuyNow"
-                          sx={{ boxShadow: 3 }}
-                          onClick={() => {
-                            if (!user && available) {
-                              toast.error("Please login");
-                            }
+                          if (user && !available) {
+                            toast.error("Please select different dates");
+                          }
 
-                            if (user && !available) {
-                              toast.error("Please select different dates");
-                            }
-
-                            if (!user && !available) {
-                              toast.error(
-                                "Please login & select different dates"
-                              );
-                            }
-                          }}
-                        >
-                          Rent Now
-                        </Button>
-                      )}
-                    </Stack>
-                  </Grid>
+                          if (!user && !available) {
+                            toast.error(
+                              "Please login & select different dates"
+                            );
+                          }
+                        }}
+                      >
+                        Rent Now
+                      </Button>
+                    )}
+                  </Stack>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid sx={{ p: 1 }}>
-              <Divider />
-              <NewReview reviewID={id} />
-            </Grid>
-            <Grid sx={{ p: 1 }}>
-              {tent.reviews && tent.reviews.length > 0 ? (
-                <ListReviews reviews={tent.reviews} />
-              ) : (
-                <></>
-              )}
-            </Grid>
-          </Container>
-        </Layout>
-      )}
+          </Grid>
+          <Grid sx={{ p: 1 }}>
+            <Divider />
+            {user ? <NewReview reviewID={id} /> : <></>}
+          </Grid>
+          <Grid sx={{ p: 1 }}>
+            {tent.reviews && tent.reviews.length > 0 ? (
+              <ListReviews reviews={tent.reviews} />
+            ) : (
+              <></>
+            )}
+          </Grid>
+        </Container>
+      </Layout>
     </>
   );
 }
