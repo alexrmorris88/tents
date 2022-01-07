@@ -20,6 +20,7 @@ import { Calendar } from "../../icons/calendar";
 // Component Imports
 import Layout from "../layout/Layout";
 import NewReview from "../review/NewReview";
+import ListReviews from "../review/ListReviews";
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
 import { useSelector, useDispatch } from "react-redux";
@@ -326,6 +327,13 @@ export default function productDetails() {
             <Grid sx={{ p: 1 }}>
               <Divider />
               <NewReview reviewID={id} />
+            </Grid>
+            <Grid sx={{ p: 1 }}>
+              {tent.reviews && tent.reviews.length > 0 ? (
+                <ListReviews reviews={tent.reviews} />
+              ) : (
+                <></>
+              )}
             </Grid>
           </Container>
         </Layout>

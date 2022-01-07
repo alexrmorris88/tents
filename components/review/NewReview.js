@@ -1,6 +1,6 @@
 // Next-React Imports
 import React, { useState, useEffect } from "react";
-import router, { useRouter } from "next/router";
+import { useSession } from "next-auth/client";
 // Redux Imports
 import { useDispatch, useSelector } from "react-redux";
 import { newReview, clearErrors } from "../../state/actions/tentsAction";
@@ -18,17 +18,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 // Utils Imports
 import { toast } from "react-toastify";
+import Loader from "../../components/layout/Loader";
 
 const NewReview = ({ reviewID }) => {
+  const [session, loading] = useSession();
   const dispatch = useDispatch();
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const { error, success } = useSelector((state) => state.newReview);
-  const { user: userData, loading: userLoading } = useSelector(
-    (state) => state.loadedUser
+  const { tent, loading: tentLoading } = useSelector(
+    (state) => state.tentDetails
   );
 
   useEffect(() => {
@@ -55,66 +57,57 @@ const NewReview = ({ reviewID }) => {
       comment,
       tentID: reviewID,
     };
-    console.log(reviewData);
     dispatch(newReview(reviewData));
   };
 
   return (
     <>
-      {userLoading ? (
-        <Loader />
-      ) : (
-        <Grid sx={{ m: 2 }}>
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Submit Review
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            fullWidth
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Submit Your Review:"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                <Grid sx={{ mt: 2 }}>
-                  <Typography
-                    color="primary"
-                    variant="overline"
-                    display="block"
-                  >
-                    Rating:
-                  </Typography>
-                </Grid>
-                <Rating
-                  value={rating}
-                  onChange={(event, newRating) => setRating(newRating)}
+      <Grid sx={{ m: 2 }}>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Submit Review
+        </Button>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullWidth
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Submit Your Review:"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <Grid sx={{ mt: 2 }}>
+                <Typography color="primary" variant="overline" display="block">
+                  Rating:
+                </Typography>
+              </Grid>
+              <Rating
+                value={rating}
+                onChange={(event, newRating) => setRating(newRating)}
+              />
+              <Grid sx={{ mt: 2 }}>
+                <TextField
+                  id="outlined-multiline-static"
+                  label="Review"
+                  multiline
+                  rows={6}
+                  fullWidth
+                  defaultValue=""
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                 />
-                <Grid sx={{ mt: 2 }}>
-                  <TextField
-                    id="outlined-multiline-static"
-                    label="Review"
-                    multiline
-                    rows={6}
-                    fullWidth
-                    defaultValue=""
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                </Grid>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} autoFocus>
-                Submit Review
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Grid>
-      )}
+              </Grid>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} autoFocus>
+              Submit Review
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
     </>
   );
 };

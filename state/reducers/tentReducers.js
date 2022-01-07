@@ -1,6 +1,7 @@
 import {
   ALL_TENTS_SUCCESS,
   ALL_TENTS_FAIL,
+  TENTS_DETAILS_REQUEST,
   TENTS_DETAILS_SUCCESS,
   TENTS_DETAILS_FAIL,
   NEW_REVIEW_REQUEST,
@@ -41,13 +42,20 @@ export const allTentsReducer = (state = { tents: [] }, action) => {
 // Tent Details Reducer
 export const tentDetailsReducer = (state = { tent: {} }, action) => {
   switch (action.type) {
+    case TENTS_DETAILS_REQUEST:
+      return {
+        loading: true,
+      };
+
     case TENTS_DETAILS_SUCCESS:
       return {
+        loading: false,
         tent: action.payload,
       };
 
     case TENTS_DETAILS_FAIL:
       return {
+        loading: false,
         error: action.payload,
       };
 

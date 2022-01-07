@@ -1,12 +1,12 @@
 import {
   ALL_TENTS_SUCCESS,
   ALL_TENTS_FAIL,
+  TENTS_DETAILS_REQUEST,
   TENTS_DETAILS_SUCCESS,
   TENTS_DETAILS_FAIL,
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
-  NEW_REVIEW_RESET,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 import axios from "axios";
@@ -36,6 +36,10 @@ export const getTents =
 // Get Tent Details
 export const getTentDetails = (req, id) => async (dispatch) => {
   try {
+    dispatch({
+      type: TENTS_DETAILS_REQUEST,
+    });
+
     const { origin } = absoluteUrl(req);
 
     const { data } = await axios.get(`${origin}/api/tents/${id}`);
