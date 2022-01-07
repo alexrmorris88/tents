@@ -82,7 +82,7 @@ const tentSchema = new mongoose.Schema({
         required: true,
       },
       comment: {
-        type: Number,
+        type: String,
         required: true,
       },
     },

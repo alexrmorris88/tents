@@ -12,6 +12,6 @@ import { isAuthenticatedUser } from "../../../backend/middlewares/auth";
 const handler = nc({ onError });
 dbConnect();
 
-handler.use(isAuthenticatedUser).get(createTentReview);
+handler.use(isAuthenticatedUser).put(createTentReview);
 
 export default handler;

@@ -57,7 +57,7 @@ export const registerUserReducer = (state = { loading: false }, action) => {
 
 // Load user reducer
 export const loadedUserReducer = (
-  state = { loading: true, user: null },
+  state = { loading: false, user: null },
   action
 ) => {
   switch (action.type) {
