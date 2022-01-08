@@ -44,7 +44,7 @@ const ListReviews = ({ reviews }) => {
                 alignItems: "center",
                 display: "flex",
                 overflow: "hidden",
-                mt:1
+                mt: 1,
               }}
             >
               <Avatar
@@ -70,7 +70,9 @@ const ListReviews = ({ reviews }) => {
               </Grid>
             </Grid>
             <FormHelperText>comment:</FormHelperText>
-            <ReviewText sx={{ ml: 2, p: 0 }}>{review.comment}</ReviewText>
+            <ReviewText sx={{ ml: 2, mb: 1, p: 0 }}>
+              {review.comment}
+            </ReviewText>
 
             {reviews.length > 1 ? <Divider /> : <></>}
           </>

@@ -55,6 +55,17 @@ const getTentById = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// Get Tent - ADMIN
+// Path: /api/admin/tents
+const getAllTentsAdmin = catchAsyncErrors(async (req, res, next) => {
+  const tent = await Tent.find();
+
+  res.status(200).json({
+    success: true,
+    tent,
+  });
+});
+
 // Update a Tent Details by ID
 // Path: /api/tents/:id
 const updateTentById = catchAsyncErrors(async (req, res, next) => {
@@ -166,4 +177,5 @@ export {
   deleteTentById,
   createTentReview,
   getReviews,
+  getAllTentsAdmin,
 };
