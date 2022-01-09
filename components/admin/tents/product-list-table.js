@@ -1,5 +1,5 @@
 // Next-React Imports
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 // UI Imports
 import {
   Box,
@@ -21,6 +21,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+// Redux Imports
+import { useDispatch } from "react-redux";
+import { updateTentAdmin } from "../../../state/actions/tentsAction";
 // Utils Imports
 import numeral from "numeral";
 import PropTypes from "prop-types";
@@ -58,14 +61,28 @@ export const ProductListTable = (props) => {
     ...other
   } = props;
   const [openProduct, setOpenProduct] = useState(null);
+  const [tentData, setTentData] = useState({
+    name: "",
+    sku: "",
+    category: "",
+    price: "",
+  });
+  const disaptch = useDispatch();
 
   const handleOpenProduct = (productId) => {
     setOpenProduct((prevValue) => (prevValue === productId ? null : productId));
   };
 
+  const handleOnChange = (event) => {
+    const { name, value } = event.target;
+    setTentData({ ...tentData, [name]: value });
+  };
+
   const handleUpdateProduct = () => {
     setOpenProduct(null);
     toast.success("Product updated");
+
+    disaptch(updateTentAdmin(products._id, tentData));
   };
 
   const handleCancelEdit = () => {
@@ -133,7 +150,7 @@ export const ProductListTable = (props) => {
                           display: "flex",
                         }}
                       >
-                        {product.images ? (
+                        {product.images.url ? (
                           <Box
                             sx={{
                               alignItems: "center",
@@ -244,26 +261,26 @@ export const ProductListTable = (props) => {
                               <Grid container spacing={3}>
                                 <Grid item md={6} xs={12}>
                                   <TextField
-                                    defaultValue={product.name}
                                     fullWidth
                                     label="Product name"
                                     name="name"
+                                    value={product.name}
                                   />
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                   <TextField
-                                    defaultValue={product.sku}
                                     fullWidth
                                     label="SKU"
                                     name="sku"
+                                    value={product.sku}
                                   />
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                   <TextField
-                                    defaultValue={product.category}
                                     fullWidth
                                     label="Category"
                                     select
+                                    value={product.category}
                                   >
                                     {categoryOptions.map((option) => (
                                       <MenuItem
@@ -277,10 +294,11 @@ export const ProductListTable = (props) => {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                   <TextField
-                                    defaultValue={product._id}
+                                    disabled
                                     fullWidth
-                                    label="Barcode"
-                                    name="barcode"
+                                    label="Product ID"
+                                    name="Product ID"
+                                    value={product._id}
                                   />
                                 </Grid>
                               </Grid>
@@ -293,10 +311,10 @@ export const ProductListTable = (props) => {
                               <Grid container spacing={3}>
                                 <Grid item md={6} xs={12}>
                                   <TextField
-                                    defaultValue={product.price}
                                     fullWidth
                                     label="Old price"
                                     name="old-price"
+                                    value={product.price}
                                     InputProps={{
                                       startAdornment: (
                                         <InputAdornment position="start">
@@ -309,10 +327,10 @@ export const ProductListTable = (props) => {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                   <TextField
-                                    defaultValue={product.price}
                                     fullWidth
                                     label="New price"
                                     name="new-price"
+                                    value={product.price}
                                     InputProps={{
                                       startAdornment: (
                                         <InputAdornment position="start">

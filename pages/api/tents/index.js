@@ -11,6 +11,5 @@ const handler = nc({ onError });
 dbConnect();
 
 handler.get(allTents);
-handler.post(newTent);
 
 export default handler;

@@ -1,9 +1,12 @@
 // Next-React Imports
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import toast from "react-toastify";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+// Redux Imports
+import { useDispatch, useSelector } from "react-redux";
+import { newTentAdmin, clearErrors } from "../../../state/actions/tentsAction";
 // UI Imports
 import {
   Box,
@@ -39,7 +42,18 @@ const categoryOptions = [
 
 export const ProductCreateForm = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
+
+  const { error, success, tent } = useSelector((state) => state.newTent);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+  });
+
   const formik = useFormik({
     initialValues: {
       barcode: "",
@@ -64,9 +78,20 @@ export const ProductCreateForm = (props) => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        // NOTE: Make API request
         toast.success("Product created!");
-        router.push("/admin/tents/");
+
+        const tentData = {
+          name: values.name,
+          description: values.description,
+          price: values.newPrice,
+          sku: values.sku,
+          category: values.category,
+          images: values.images,
+        };
+
+        dispatch(newTentAdmin(tentData));
+
+        router.push("/admin/tents");
       } catch (err) {
         console.error(err);
         toast.error("Something went wrong!");

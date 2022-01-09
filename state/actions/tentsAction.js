@@ -13,6 +13,12 @@ import {
   GET_TENTS_A_REQUEST,
   GET_TENTS_A_SUCCESS,
   GET_TENTS_A_FAIL,
+  NEW_TENTS_A_REQUEST,
+  NEW_TENTS_A_SUCCESS,
+  NEW_TENTS_A_FAIL,
+  UPDATE_TENTS_A_REQUEST,
+  UPDATE_TENTS_A_SUCCESS,
+  UPDATE_TENTS_A_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 import axios from "axios";
@@ -38,6 +44,64 @@ export const getTents =
       });
     }
   };
+
+// New Tent - ADMIN
+export const newTentAdmin = (tentData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: NEW_TENTS_A_REQUEST,
+    });
+
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(`/api/admin/tents/new`, tentData, config);
+
+    dispatch({
+      type: NEW_TENTS_A_SUCCESS,
+      payload: data.tent,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_TENTS_A_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Update Tent - ADMIN
+export const updateTentAdmin = (tentID, tentData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: UPDATE_TENTS_A_REQUEST,
+    });
+
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/admin/tents/${tentID}`,
+      tentData,
+      config
+    );
+
+    dispatch({
+      type: UPDATE_TENTS_A_SUCCESS,
+      payload: data.tent,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_TENTS_A_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Get All Admin Tents
 export const getAllTentsAdmin = () => async (dispatch) => {

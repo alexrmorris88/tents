@@ -29,7 +29,7 @@ const allTents = catchAsyncErrors(async (req, res) => {
   });
 });
 
-// Create New Tent
+// Create New Tent - ADMIN
 // Path: /api/tents
 const newTent = catchAsyncErrors(async (req, res) => {
   const tent = await Tent.create(req.body);
@@ -66,7 +66,7 @@ const getAllTentsAdmin = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Update a Tent Details by ID
+// Update a Tent Details by ID - ADMIN
 // Path: /api/tents/:id
 const updateTentById = catchAsyncErrors(async (req, res, next) => {
   let tent = await Tent.findById(req.query.id);
@@ -87,7 +87,7 @@ const updateTentById = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Delete a Tent by ID
+// Delete a Tent by ID - ADMIN
 // Path: /api/tents/:id
 const deleteTentById = catchAsyncErrors(async (req, res, next) => {
   let tent = await Tent.findById(req.query.id);

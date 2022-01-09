@@ -23,15 +23,15 @@ const tentSchema = new mongoose.Schema({
   },
   maxCapacity: {
     type: Number,
-    required: [true, "Please enter tent capacity"],
+    required: [false, "Please enter tent capacity"],
   },
   size: {
     type: String,
-    required: [true, "Please enter tent size"],
+    required: [false, "Please enter tent size"],
   },
   availability: {
     type: Boolean,
-    required: [true, "Please enter tent availability"],
+    required: [false, "Please enter tent availability"],
     default: false,
   },
   ratings: {
@@ -46,11 +46,11 @@ const tentSchema = new mongoose.Schema({
     {
       public_id: {
         type: String,
-        required: true,
+        required: false,
       },
       url: {
         type: String,
-        required: true,
+        required: false,
       },
     },
   ],

@@ -10,12 +10,15 @@ import {
 } from "../../../backend/controllers/tentController";
 //Error Import
 import onError from "../../../backend/middlewares/errors";
+// Auth Import
+import {
+  isAuthenticatedUser,
+  authorizeUserRoles,
+} from "../../../backend/middlewares/auth";
 
 const handler = nc({ onError });
 dbConnect();
 
 handler.get(getTentById);
-handler.put(updateTentById);
-handler.delete(deleteTentById);
 
 export default handler;

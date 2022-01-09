@@ -5,6 +5,7 @@ import {
   allTentsReducer,
   tentDetailsReducer,
   reviewReducer,
+  newTentReducer,
 } from "./tentReducers";
 // User Reducer
 import {
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   allTents: allTentsReducer,
   tentDetails: tentDetailsReducer,
   review: reviewReducer,
+  newTent: newTentReducer,
   // user reducer
   registerUser: registerUserReducer,
   loadedUser: loadedUserReducer,

@@ -14,8 +14,50 @@ import {
   GET_TENTS_A_REQUEST,
   GET_TENTS_A_SUCCESS,
   GET_TENTS_A_FAIL,
+  NEW_TENTS_A_REQUEST,
+  NEW_TENTS_A_SUCCESS,
+  NEW_TENTS_A_FAIL,
+  UPDATE_TENTS_A_REQUEST,
+  UPDATE_TENTS_A_SUCCESS,
+  UPDATE_TENTS_A_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
+
+// Create Tent Reducer
+export const newTentReducer = (state = { tent: {} }, action) => {
+  switch (action.type) {
+    case NEW_TENTS_A_REQUEST:
+    case UPDATE_TENTS_A_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case NEW_TENTS_A_SUCCESS:
+    case UPDATE_TENTS_A_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        tent: action.payload,
+      };
+
+    case NEW_TENTS_A_FAIL:
+    case UPDATE_TENTS_A_FAIL:
+      return {
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
 
 // All Tents Reducer
 export const allTentsReducer = (state = { tents: [] }, action) => {

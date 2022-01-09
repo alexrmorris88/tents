@@ -67,7 +67,7 @@ export default function Login(props) {
         if (result.error) {
           toast.error(result.error);
         } else {
-          router.push("/");
+          router.back();
         }
       } catch (error) {
         toast.error(error);
