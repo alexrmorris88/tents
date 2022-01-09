@@ -58,11 +58,11 @@ const getTentById = catchAsyncErrors(async (req, res, next) => {
 // Get Tent - ADMIN
 // Path: /api/admin/tents
 const getAllTentsAdmin = catchAsyncErrors(async (req, res, next) => {
-  const tent = await Tent.find();
+  const tents = await Tent.find();
 
   res.status(200).json({
     success: true,
-    tent,
+    tents,
   });
 });
 

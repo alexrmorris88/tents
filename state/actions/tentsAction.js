@@ -10,6 +10,9 @@ import {
   GET_REVIEW_REQUEST,
   GET_REVIEW_SUCCESS,
   GET_REVIEW_FAIL,
+  GET_TENTS_A_REQUEST,
+  GET_TENTS_A_SUCCESS,
+  GET_TENTS_A_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 import axios from "axios";
@@ -35,6 +38,27 @@ export const getTents =
       });
     }
   };
+
+// Get All Admin Tents
+export const getAllTentsAdmin = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_TENTS_A_REQUEST,
+    });
+
+    const { data } = await axios.get(`/api/admin/tents`);
+
+    dispatch({
+      type: GET_TENTS_A_SUCCESS,
+      payload: data.tents,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_TENTS_A_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Get Tent Details
 export const getTentDetails = (req, id) => async (dispatch) => {

@@ -11,12 +11,25 @@ import {
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
   NEW_REVIEW_RESET,
+  GET_TENTS_A_REQUEST,
+  GET_TENTS_A_SUCCESS,
+  GET_TENTS_A_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 
 // All Tents Reducer
 export const allTentsReducer = (state = { tents: [] }, action) => {
   switch (action.type) {
+    case GET_TENTS_A_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_TENTS_A_SUCCESS:
+      return {
+        loading: false,
+        tents: action.payload,
+      };
+
     case ALL_TENTS_SUCCESS:
       return {
         tentsCount: action.payload.tentsCount,
@@ -27,6 +40,7 @@ export const allTentsReducer = (state = { tents: [] }, action) => {
       };
 
     case ALL_TENTS_FAIL:
+    case GET_TENTS_A_FAIL:
       return {
         error: action.payload,
       };
