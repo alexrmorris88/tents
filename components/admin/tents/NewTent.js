@@ -27,13 +27,13 @@ const ProductCreate = () => {
               <NextLink href="/dashboard" passHref>
                 <Link variant="subtitle2">Dashboard</Link>
               </NextLink>
-              <NextLink href="/dashboard" passHref>
+              <NextLink href="/admin/tents" passHref>
                 <Link color="primary" variant="subtitle2">
-                  Management
+                  Products
                 </Link>
               </NextLink>
               <Typography color="textSecondary" variant="subtitle2">
-                Products
+                New
               </Typography>
             </Breadcrumbs>
           </Box>

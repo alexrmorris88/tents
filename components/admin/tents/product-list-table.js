@@ -93,11 +93,11 @@ export const ProductListTable = (props) => {
           </TableHead>
           <TableBody>
             {products.map((product) => {
-              const open = product.id === openProduct;
+              const open = product._id === openProduct;
 
               return (
-                <Fragment key={product.id}>
-                  <TableRow hover key={product.id}>
+                <Fragment key={product._id}>
+                  <TableRow hover key={product._id}>
                     <TableCell
                       padding="checkbox"
                       sx={{
@@ -116,7 +116,9 @@ export const ProductListTable = (props) => {
                       }}
                       width="25%"
                     >
-                      <IconButton onClick={() => handleOpenProduct(product.id)}>
+                      <IconButton
+                        onClick={() => handleOpenProduct(product._id)}
+                      >
                         {open ? (
                           <ChevronDownIcon fontSize="small" />
                         ) : (
@@ -131,12 +133,12 @@ export const ProductListTable = (props) => {
                           display: "flex",
                         }}
                       >
-                        {product.image ? (
+                        {product.images ? (
                           <Box
                             sx={{
                               alignItems: "center",
                               backgroundColor: "background.default",
-                              backgroundImage: `url(${product.image})`,
+                              backgroundImage: `url(${product.images[0].url})`,
                               backgroundPosition: "center",
                               backgroundSize: "cover",
                               borderRadius: 1,
@@ -251,7 +253,6 @@ export const ProductListTable = (props) => {
                                 <Grid item md={6} xs={12}>
                                   <TextField
                                     defaultValue={product.sku}
-                                    disabled
                                     fullWidth
                                     label="SKU"
                                     name="sku"
@@ -276,8 +277,7 @@ export const ProductListTable = (props) => {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                   <TextField
-                                    defaultValue={product.id}
-                                    disabled
+                                    defaultValue={product._id}
                                     fullWidth
                                     label="Barcode"
                                     name="barcode"
