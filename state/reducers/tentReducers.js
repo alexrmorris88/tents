@@ -20,6 +20,9 @@ import {
   UPDATE_TENTS_A_REQUEST,
   UPDATE_TENTS_A_SUCCESS,
   UPDATE_TENTS_A_FAIL,
+  DELETE_TENTS_A_REQUEST,
+  DELETE_TENTS_A_SUCCESS,
+  DELETE_TENTS_A_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 
@@ -28,12 +31,14 @@ export const newTentReducer = (state = { tent: {} }, action) => {
   switch (action.type) {
     case NEW_TENTS_A_REQUEST:
     case UPDATE_TENTS_A_REQUEST:
+      case DELETE_TENTS_A_REQUEST:
       return {
         loading: true,
       };
 
     case NEW_TENTS_A_SUCCESS:
     case UPDATE_TENTS_A_SUCCESS:
+      case DELETE_TENTS_A_SUCCESS:
       return {
         loading: false,
         success: true,
@@ -42,6 +47,7 @@ export const newTentReducer = (state = { tent: {} }, action) => {
 
     case NEW_TENTS_A_FAIL:
     case UPDATE_TENTS_A_FAIL:
+      case DELETE_TENTS_A_FAIL:
       return {
         loading: false,
         success: false,
@@ -58,6 +64,7 @@ export const newTentReducer = (state = { tent: {} }, action) => {
       return state;
   }
 };
+
 
 // All Tents Reducer
 export const allTentsReducer = (state = { tents: [] }, action) => {

@@ -67,15 +67,15 @@ const getAllTentsAdmin = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Update a Tent Details by ID - ADMIN
-// Path: /api/tents/:id
+// Path: /api/admin/tents/:id
 const updateTentById = catchAsyncErrors(async (req, res, next) => {
-  let tent = await Tent.findById(req.query.id);
+  let tent = await Tent.findById(req.query.tentID);
 
   if (!tent) {
     return next(new ErrorHandler("No tent with this ID", 400));
   }
 
-  tent = await Tent.findByIdAndUpdate(req.query.id, req.body, {
+  tent = await Tent.findByIdAndUpdate(req.query.tentID, req.body, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -88,9 +88,9 @@ const updateTentById = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Delete a Tent by ID - ADMIN
-// Path: /api/tents/:id
+// Path: /api/admin/tents/:id
 const deleteTentById = catchAsyncErrors(async (req, res, next) => {
-  let tent = await Tent.findById(req.query.id);
+  let tent = await Tent.findById(req.query.tentID);
 
   if (!tent) {
     return next(new ErrorHandler("No tent with this ID", 400));

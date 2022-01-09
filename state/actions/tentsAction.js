@@ -19,6 +19,9 @@ import {
   UPDATE_TENTS_A_REQUEST,
   UPDATE_TENTS_A_SUCCESS,
   UPDATE_TENTS_A_FAIL,
+  DELETE_TENTS_A_REQUEST,
+  DELETE_TENTS_A_SUCCESS,
+  DELETE_TENTS_A_FAIL,
   CLEAR_ERRORS,
 } from "../constants/tentConstants";
 import axios from "axios";
@@ -103,7 +106,28 @@ export const updateTentAdmin = (tentID, tentData) => async (dispatch) => {
   }
 };
 
-// Get All Admin Tents
+// Delete Tent - ADMIN
+export const deleteTentAdmin = (tentID) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DELETE_TENTS_A_REQUEST,
+    });
+
+    const { data } = await axios.delete(`/api/admin/tents/${tentID}`);
+
+    dispatch({
+      type: DELETE_TENTS_A_SUCCESS,
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_TENTS_A_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get All Tents - ADMIN
 export const getAllTentsAdmin = () => async (dispatch) => {
   try {
     dispatch({
