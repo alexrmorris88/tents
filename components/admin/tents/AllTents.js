@@ -113,7 +113,7 @@ const ProductList = () => {
       ) : (
         <>
           <Head>
-            <title>Products</title>
+            <title>Tents</title>
           </Head>
           <Box
             component="main"
@@ -126,7 +126,7 @@ const ProductList = () => {
               <Box sx={{ mb: 4 }}>
                 <Grid container justifyContent="space-between" spacing={3}>
                   <Grid item>
-                    <Typography variant="h4">Products</Typography>
+                    <Typography variant="h4">Tents</Typography>
                   </Grid>
                   <Grid item>
                     <NextLink href="/admin/tents/new" passHref>

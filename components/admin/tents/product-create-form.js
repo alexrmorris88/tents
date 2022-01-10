@@ -23,7 +23,6 @@ import {
 } from "@mui/material";
 // Component Imports
 import { FileDropzone } from "../../../utils/file-dropzone";
-import { QuillEditor } from "../../../utils/quill-editor";
 
 const categoryOptions = [
   {
@@ -145,7 +144,10 @@ export const ProductCreateForm = (props) => {
               >
                 Description
               </Typography>
-              <QuillEditor
+              <TextField
+              fullWidth
+              multiline
+              rows={16}
                 onChange={(value) => {
                   formik.setFieldValue("description", value);
                 }}

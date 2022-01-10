@@ -114,32 +114,32 @@ const getSections = (t) => [
         ],
       },
       {
-        title: t("Products"),
-        path: "/dashboard/products",
+        title: t("Tents"),
+        path: "/admin/tents",
         icon: <ShoppingBagIcon fontSize="small" />,
         children: [
           {
-            title: t("List"),
-            path: "/dashboard/products",
+            title: t("All Tents"),
+            path: "/admin/tents",
           },
           {
-            title: t("Create"),
-            path: "/dashboard/products/new",
+            title: t("New Tent"),
+            path: "/admin/tents/new",
           },
         ],
       },
       {
         title: t("Orders"),
         icon: <ShoppingCartIcon fontSize="small" />,
-        path: "/dashboard/orders",
+        path: "/admin/orders",
         children: [
           {
             title: t("List"),
-            path: "/dashboard/orders",
+            path: "/admin/orders",
           },
           {
-            title: t("Details"),
-            path: "/dashboard/orders/1",
+            title: t("New"),
+            path: "/admin/orders/new",
           },
         ],
       },

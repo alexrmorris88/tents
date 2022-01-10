@@ -3,16 +3,14 @@ import React from "react";
 import { getSession } from "next-auth/client";
 //Component Imports
 import NewTent from "../../../components/admin/tents/NewTent";
-import Layout from "../../../components/layout/Layout";
+import { DashboardLayout } from "../../../components/admin/dashboard/nav/dashboard-layout";
 
-import { wrapper } from "../../../state/store";
-import { loadUser } from "../../../state/actions/userActions";
 
 const AllRoomsAdmin = () => {
   return (
-    <Layout>
-      <NewTent title="Products" />
-    </Layout>
+    <DashboardLayout>
+      <NewTent title="New Tent" />
+    </DashboardLayout>
   );
 };
 

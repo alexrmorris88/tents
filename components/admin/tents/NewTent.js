@@ -5,13 +5,13 @@ import Head from "next/head";
 // UI Imports
 import { Box, Breadcrumbs, Container, Link, Typography } from "@mui/material";
 // Component Imports
-import { ProductCreateForm } from "../../../components/admin/tents/product-create-form";
+import { ProductCreateForm } from "./product-create-form";
 
 const ProductCreate = () => {
   return (
     <>
       <Head>
-        <title>Products</title>
+        <title>New Tent</title>
       </Head>
       <Box
         component="main"
@@ -22,7 +22,7 @@ const ProductCreate = () => {
       >
         <Container maxWidth="md">
           <Box sx={{ mb: 3 }}>
-            <Typography variant="h4">Create a new product</Typography>
+            <Typography variant="h4">Create a new tent</Typography>
             <Breadcrumbs separator="/" sx={{ mt: 1 }}>
               <NextLink href="/dashboard" passHref>
                 <Link variant="subtitle2">Dashboard</Link>
