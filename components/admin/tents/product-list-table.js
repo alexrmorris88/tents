@@ -155,7 +155,7 @@ export const ProductListTable = (props) => {
                               display: "flex",
                             }}
                           >
-                            {product.images[0].url ? (
+                            {product.images.url ? (
                               <Box
                                 sx={{
                                   alignItems: "center",
