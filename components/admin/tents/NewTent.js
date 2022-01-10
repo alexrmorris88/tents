@@ -29,7 +29,7 @@ const ProductCreate = () => {
               </NextLink>
               <NextLink href="/admin/tents" passHref>
                 <Link color="primary" variant="subtitle2">
-                  Products
+                  Tents
                 </Link>
               </NextLink>
               <Typography color="textSecondary" variant="subtitle2">
