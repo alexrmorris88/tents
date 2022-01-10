@@ -14,11 +14,11 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { ChatAlt as ChatAltIcon } from '../../../../icons/chat-alt';
-import { MailOpen as MailOpenIcon } from '../../../../icons/mail-open';
-import { X as XIcon } from '../../../../icons/x';
-import { UserCircle as UserCircleIcon } from '../../../../icons/user-circle';
-import { Scrollbar } from '../../../../utils/scrollbar';
+import { ChatAlt as ChatAltIcon } from '../../../../../icons/chat-alt';
+import { MailOpen as MailOpenIcon } from '../../../../../icons/mail-open';
+import { X as XIcon } from '../../../../../icons/x';
+import { UserCircle as UserCircleIcon } from '../../../../../icons/user-circle';
+import { Scrollbar } from '../../../../../utils/scrollbar';
 
 const now = new Date();
 

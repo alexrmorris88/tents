@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { Logo } from "../../../layout/logo";
 import { Scrollbar } from "../../../../utils/scrollbar";
 import { DashboardSidebarSection } from "./dashboard-sidebar-section";
-import { OrganizationPopover } from "../uitls/organization-popover";
+import { OrganizationPopover } from "../uitls/popovers/organization-popover";
 // UI Imports
 import {
   Box,
@@ -50,7 +50,7 @@ const getSections = (t) => [
     items: [
       {
         title: t("Overview"),
-        path: "/dashboard",
+        path: "/admin/dashboard",
         icon: <HomeIcon fontSize="small" />,
       },
       {

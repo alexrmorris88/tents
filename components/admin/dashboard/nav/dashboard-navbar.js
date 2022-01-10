@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 // Component Imports
-import { AccountPopover } from "../uitls/account-popover";
+import { AccountPopover } from "../uitls/popovers/account-popover";
 import { ContentSearchDialog } from "../uitls/content-search-dialog";
-import { NotificationsPopover } from "../uitls/notifications-popover";
-import { LanguagePopover } from "../uitls/language-popover";
-import { ContactsPopover } from "../uitls/contacts-popover";
+import { NotificationsPopover } from "../uitls/popovers/notifications-popover";
+import { LanguagePopover } from "../uitls/popovers/language-popover";
+import { ContactsPopover } from "../uitls/popovers/contacts-popover";
 // Utils Imports
 import { Menu as MenuIcon } from "../../../../icons/menu";
 import { Bell as BellIcon } from "../../../../icons/bell";

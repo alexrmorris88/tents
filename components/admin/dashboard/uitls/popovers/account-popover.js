@@ -14,9 +14,9 @@ import {
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from "next-auth/client";
-import { Cog as CogIcon } from '../../../../icons/cog';
-import { UserCircle as UserCircleIcon } from '../../../../icons/user-circle';
-import { SwitchHorizontalOutlined as SwitchHorizontalOutlinedIcon } from '../../../../icons/switch-horizontal-outlined';
+import { Cog as CogIcon } from '../../../../../icons/cog';
+import { UserCircle as UserCircleIcon } from '../../../../../icons/user-circle';
+import { SwitchHorizontalOutlined as SwitchHorizontalOutlinedIcon } from '../../../../../icons/switch-horizontal-outlined';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
