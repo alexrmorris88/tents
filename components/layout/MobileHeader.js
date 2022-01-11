@@ -63,6 +63,7 @@ export default function MobileHeader(props) {
   ];
 
   const Auth_NavList = [
+    { link: "/admin/dashboard", title: "Dashboard" },
     { link: "/user/profile", title: "Profile" },
     { link: "/user/orders", title: "Orders" },
   ];

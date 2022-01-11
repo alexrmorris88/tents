@@ -1,4 +1,7 @@
 import {
+  GET_USERS_A_REQUEST,
+  GET_USERS_A_SUCCESS,
+  GET_USERS_A_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
@@ -24,6 +27,27 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
+
+// Get All Users - ADMIN
+export const getAllUsersAdmin = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_USERS_A_REQUEST,
+    });
+
+    const { data } = await axios.get("/api/admin/customers");
+
+    dispatch({
+      type: GET_USERS_A_SUCCESS,
+      payload: data.users,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USERS_A_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Register User
 export const registerUser = (userData) => async (dispatch) => {

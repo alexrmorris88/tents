@@ -122,7 +122,7 @@ export const NavPopout = (props) => {
             />
           </MenuItem>
         </NextLink>
-        <NextLink href="/" passHref>
+        <NextLink href="/admin/dashboard" passHref>
           <MenuItem component="a">
             <ListItemIcon>
               <SwitchHorizontalOutlinedIcon fontSize="small" />

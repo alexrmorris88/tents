@@ -15,6 +15,7 @@ import {
   forgotPasswordReducer,
   userOrdersReducer,
   userOrderDetailsReducer,
+  getAllUsersAdminReducer,
 } from "./userReducer";
 // Booking Reducer
 import {
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   userOrders: userOrdersReducer,
   userOrderDetails: userOrderDetailsReducer,
+  getAllUsersAdmin: getAllUsersAdminReducer,
   // Rental Reducers
   checkRental: checkRentalReducer,
   calendarAvailability: calendarAvailabilityReducer,

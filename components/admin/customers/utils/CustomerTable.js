@@ -18,22 +18,15 @@ import {
   Typography,
   Alert,
 } from "@mui/material";
-import { ArrowRight as ArrowRightIcon } from "../icons/arrow-right";
-import { PencilAlt as PencilAltIcon } from "../icons/pencil-alt";
-import { getInitials } from "../utils/get-initials";
-import { Scrollbar } from "../utils/scrollbar";
+import { Trash as TrashCan } from "../../../../icons/trash";
+import { PencilAlt as PencilAltIcon } from "../../../../icons/pencil-alt";
+import { Scrollbar } from "../../../../utils/scrollbar";
 import moment from "moment";
-import { useSelector } from "react-redux";
-import Loader from "../components/layout/Loader";
 
-export const OrderTable = (props) => {
-  const { user, loading: userLoading } = useSelector(
-    (state) => state.loadedUser
-  );
-
+export const CustomerTable = (props) => {
   const {
-    orders,
-    ordersCount,
+    customers,
+    customerCount,
     onPageChange,
     onRowsPerPageChange,
     page,
@@ -42,7 +35,7 @@ export const OrderTable = (props) => {
   } = props;
   const [selectedTab, setSelectedTab] = useState([]);
 
-  // Reset selected orders when orders change
+  // Reset selected customers when customers change
   useEffect(
     () => {
       if (selectedTab.length) {
@@ -50,40 +43,29 @@ export const OrderTable = (props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [orders]
+    [customers]
   );
 
-  // Handle the Order status
-  const orderStatus = (status) => {
-    if (status === "Pending") {
-      return <Alert severity="error">{status}</Alert>;
-    } else if (status === "Booked") {
-      return <Alert severity="warning">{status}</Alert>;
-    } else if (status === "Completed") {
-      return <Alert severity="success">{status}</Alert>;
-    } else {
-      return <Alert severity="info">{status}</Alert>;
-    }
-  };
-
   const handleSelectAllTabs = (event) => {
-    setSelectedTab(event.target.checked ? orders.map((order) => order.id) : []);
+    setSelectedTab(
+      event.target.checked ? customers.map((customer) => customer.id) : []
+    );
   };
 
-  const handleSelectOneTab = (event, orderId) => {
-    if (!selectedTab.includes(orderId)) {
-      setSelectedTab((prevSelected) => [...prevSelected, orderId]);
+  const handleSelectOneTab = (event, customerId) => {
+    if (!selectedTab.includes(customerId)) {
+      setSelectedTab((prevSelected) => [...prevSelected, customerId]);
     } else {
       setSelectedTab((prevSelected) =>
-        prevSelected.filter((id) => id !== orderId)
+        prevSelected.filter((id) => id !== customerId)
       );
     }
   };
 
   const enableBulkActions = selectedTab.length > 0;
   const selectedSomeTabs =
-    selectedTab.length > 0 && selectedTab.length < orders.length;
-  const selectedAllTabs = selectedTab.length === orders.length;
+    selectedTab.length > 0 && selectedTab.length < customers.length;
+  const selectedAllTabs = selectedTab.length === customers.length;
 
   return (
     <div {...other}>
@@ -120,24 +102,25 @@ export const OrderTable = (props) => {
                   onChange={handleSelectAllTabs}
                 />
               </TableCell>
-              <TableCell>Tent Info</TableCell>
-              <TableCell>Order ID</TableCell>
-              <TableCell>Rental Dates</TableCell>
-              <TableCell>Payment Info</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Customer Name</TableCell>
+              <TableCell>Customer ID</TableCell>
+              <TableCell>User Role</TableCell>
+              <TableCell>Date Joined</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => {
-              const isTabSelected = selectedTab.includes(order.id);
+            {customers.map((customer) => {
+              const isTabSelected = selectedTab.includes(customer._id);
 
               return (
-                <TableRow hover key={order.id} selected={isTabSelected}>
+                <TableRow hover key={customer._id} selected={isTabSelected}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isTabSelected}
-                      onChange={(event) => handleSelectOneTab(event, order.id)}
+                      onChange={(event) =>
+                        handleSelectOneTab(event, customer._id)
+                      }
                       value={isTabSelected}
                     />
                   </TableCell>
@@ -149,7 +132,7 @@ export const OrderTable = (props) => {
                       }}
                     >
                       <Avatar
-                        src={order.avatar}
+                        src={customer.avatar}
                         sx={{
                           height: 42,
                           width: 42,
@@ -158,16 +141,16 @@ export const OrderTable = (props) => {
                       <Box sx={{ ml: 1 }}>
                         <NextLink href="#" passHref>
                           <Link color="inherit" variant="subtitle2">
-                            {userLoading ? (
-                              <Loader />
-                            ) : (
-                              `${user.firstName} ${user.lastName}`
-                            )}
+                            {`${customer.firstName} ${customer.lastName}`}
                           </Link>
                         </NextLink>
 
-                        <Typography color="textSecondary" variant="body2">
-                          {order.tent}
+                        <Typography
+                          color="textSecondary"
+                          variant="body2"
+                          sx={{ fontSize: ".75rem" }}
+                        >
+                          {customer._id}
                         </Typography>
                       </Box>
                     </Box>
@@ -179,35 +162,23 @@ export const OrderTable = (props) => {
                         display: "flex",
                       }}
                     >
-                      <NextLink
-                        href={{
-                          pathname: `/user/orders/[slug]`,
-                          query: { slug: `${order.id}` },
-                        }}
-                        passHref
-                      >
-                        <Link color="inherit" variant="subtitle2">
-                          {`${order.id}`}
-                        </Link>
-                      </NextLink>
+                      {`${customer.email}`}
                     </Box>
                   </TableCell>
-                  <TableCell>{`${moment(order.pickupDate).format(
-                    "LL"
-                  )} - ${moment(order.dropDate).format("LL")}`}</TableCell>
                   <TableCell align="center">
-                    <Typography color="success.main" variant="subtitle2">
-                      {numeral(order.amountPaid).format(
-                        `${order.currency}0,0.00`
-                      )}
-                    </Typography>
-                    <Typography color="success.main" variant="subtitle2">
-                      {moment(order.paidAt).format("LL")}
-                    </Typography>
+                    {customer.role === "admin" ? (
+                      <Typography color="success.main" variant="subtitle2">
+                        {customer.role}
+                      </Typography>
+                    ) : (
+                      <Typography variant="subtitle2">
+                        {customer.role}
+                      </Typography>
+                    )}
                   </TableCell>
                   <TableCell>
                     <Typography variant="subtitle2">
-                      {orderStatus(order.status)}
+                      {moment(customer.createdAt).format("LLL")}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -216,17 +187,13 @@ export const OrderTable = (props) => {
                         <PencilAltIcon fontSize="small" />
                       </IconButton>
                     </NextLink>
-                    <NextLink
-                      href={{
-                        pathname: `/user/orders/[slug]`,
-                        query: { slug: `${order.id}` },
+                    <IconButton
+                      onClick={() => {
+                        console.log(customer._id);
                       }}
-                      passHref
                     >
-                      <IconButton component="a">
-                        <ArrowRightIcon fontSize="small" />
-                      </IconButton>
-                    </NextLink>
+                      <TrashCan fontSize="small" />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               );
@@ -236,7 +203,7 @@ export const OrderTable = (props) => {
       </Scrollbar>
       <TablePagination
         component="div"
-        count={ordersCount}
+        count={customerCount}
         onPageChange={onPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         page={page}
@@ -247,9 +214,9 @@ export const OrderTable = (props) => {
   );
 };
 
-OrderTable.propTypes = {
-  orders: PropTypes.array.isRequired,
-  ordersCount: PropTypes.number.isRequired,
+CustomerTable.propTypes = {
+  customers: PropTypes.array.isRequired,
+  customerCount: PropTypes.number.isRequired,
   onPageChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
   page: PropTypes.number.isRequired,

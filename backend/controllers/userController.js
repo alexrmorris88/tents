@@ -8,6 +8,17 @@ import { extendMoment } from "moment-range";
 
 const moment = extendMoment(Moment);
 
+// Get All Users
+// Path: /api/admin/customers
+const getAllUsers = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
 // Get All User Booking
 // Path: /api/rentals/user
 const getUserOrders = catchAsyncErrors(async (req, res, next) => {
@@ -59,4 +70,4 @@ const getOrderDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { getUserOrders, getOrderDetails };
+export { getAllUsers, getUserOrders, getOrderDetails };

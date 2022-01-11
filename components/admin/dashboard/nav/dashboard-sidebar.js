@@ -96,12 +96,12 @@ const getSections = (t) => [
     items: [
       {
         title: t("Customers"),
-        path: "/dashboard/customers",
+        path: "/admin/customers",
         icon: <UsersIcon fontSize="small" />,
         children: [
           {
             title: t("List"),
-            path: "/dashboard/customers",
+            path: "/admin/customers",
           },
           {
             title: t("Details"),

@@ -1,4 +1,7 @@
 import {
+  GET_USERS_A_REQUEST,
+  GET_USERS_A_SUCCESS,
+  GET_USERS_A_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
@@ -23,6 +26,39 @@ import {
   USER_ORDER_DETAILS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/userConstants";
+
+// Get All Users Reducer - ADMIN
+export const getAllUsersAdminReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case GET_USERS_A_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_USERS_A_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        users: action.payload,
+      };
+
+    case GET_USERS_A_FAIL:
+      return {
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
 
 // Auth reducer
 export const registerUserReducer = (state = { loading: false }, action) => {
