@@ -139,7 +139,10 @@ export const CustomerTable = (props) => {
                         }}
                       ></Avatar>
                       <Box sx={{ ml: 1 }}>
-                        <NextLink href="#" passHref>
+                        <NextLink
+                          href={`/admin/customers/${customer._id}`}
+                          passHref
+                        >
                           <Link color="inherit" variant="subtitle2">
                             {`${customer.firstName} ${customer.lastName}`}
                           </Link>
@@ -182,7 +185,10 @@ export const CustomerTable = (props) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    <NextLink href="#" passHref>
+                    <NextLink
+                      href={`/admin/customers/${customer._id}`}
+                      passHref
+                    >
                       <IconButton component="a">
                         <PencilAltIcon fontSize="small" />
                       </IconButton>

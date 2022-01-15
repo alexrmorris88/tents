@@ -103,14 +103,6 @@ const getSections = (t) => [
             title: t("List"),
             path: "/admin/customers",
           },
-          {
-            title: t("Details"),
-            path: "/dashboard/customers/1",
-          },
-          {
-            title: t("Edit"),
-            path: "/dashboard/customers/1/edit",
-          },
         ],
       },
       {

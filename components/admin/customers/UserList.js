@@ -25,7 +25,6 @@ import {
 import { CustomerTable } from "./utils/CustomerTable";
 // Icon Imports
 import { Download as DownloadIcon } from "../../../icons/download";
-import { Plus as PlusIcon } from "../../../icons/plus";
 import { Search as SearchIcon } from "../../../icons/search";
 import { Upload as UploadIcon } from "../../../icons/upload";
 // Utils Imports
@@ -38,8 +37,8 @@ const tabs = [
     value: "all",
   },
   {
-    label: "Accepts Marketing",
-    value: "hasAcceptedMarketing",
+    label: "Admin",
+    value: "admin",
   },
   {
     label: "Prospect",
@@ -74,7 +73,7 @@ const applyFilters = (customers, filters) =>
   customers.filter((user) => {
     if (filters.query) {
       let queryMatched = false;
-      const properties = ["email", "name"];
+      const properties = ["role"];
 
       properties.forEach((property) => {
         if (
@@ -89,7 +88,7 @@ const applyFilters = (customers, filters) =>
       }
     }
 
-    if (filters.hasAcceptedMarketing && !user.hasAcceptedMarketing) {
+    if (filters.admin && !user.admin) {
       return false;
     }
 
@@ -151,7 +150,7 @@ const UserList = () => {
   const [sort, setSort] = useState(sortOptions[0].value);
   const [filters, setFilters] = useState({
     query: "",
-    hasAcceptedMarketing: null,
+    admin: null,
     isProspect: null,
     isReturning: null,
   });
@@ -161,9 +160,6 @@ const UserList = () => {
     error: usersError,
     loading: usersLoading,
   } = useSelector((state) => state.getAllUsersAdmin);
-  const { user, loading: userLoading } = useSelector(
-    (state) => state.loadedUser
-  );
 
   useEffect(() => {
     dispatch(getAllUsersAdmin());
@@ -194,7 +190,7 @@ const UserList = () => {
   const handleTabsChange = (event, value) => {
     const updatedFilters = {
       ...filters,
-      hasAcceptedMarketing: null,
+      admin: null,
       isProspect: null,
       isReturning: null,
     };

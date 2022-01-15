@@ -2,6 +2,9 @@ import {
   GET_USERS_A_REQUEST,
   GET_USERS_A_SUCCESS,
   GET_USERS_A_FAIL,
+  USER_DETAILS_A_REQUEST,
+  USER_DETAILS_A_SUCCESS,
+  USER_DETAILS_A_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
@@ -27,6 +30,27 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
+
+// Get All User Details - ADMIN
+export const getAllUserDetailsAdmin = (customerID) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_A_REQUEST,
+    });
+
+    const { data } = await axios.get(`/api/admin/users/${customerID}`);
+
+    dispatch({
+      type: USER_DETAILS_A_SUCCESS,
+      payload: data.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DETAILS_A_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Get All Users - ADMIN
 export const getAllUsersAdmin = () => async (dispatch) => {

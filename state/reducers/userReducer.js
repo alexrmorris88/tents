@@ -2,6 +2,9 @@ import {
   GET_USERS_A_REQUEST,
   GET_USERS_A_SUCCESS,
   GET_USERS_A_FAIL,
+  USER_DETAILS_A_REQUEST,
+  USER_DETAILS_A_SUCCESS,
+  USER_DETAILS_A_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
@@ -43,6 +46,42 @@ export const getAllUsersAdminReducer = (state = { users: [] }, action) => {
       };
 
     case GET_USERS_A_FAIL:
+      return {
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// Get All Users Reducer - ADMIN
+export const getAllUserDetailsAdminReducer = (
+  state = { users: {} },
+  action
+) => {
+  switch (action.type) {
+    case USER_DETAILS_A_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case USER_DETAILS_A_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        user: action.payload,
+      };
+
+    case USER_DETAILS_A_FAIL:
       return {
         loading: false,
         success: false,
