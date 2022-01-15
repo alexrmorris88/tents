@@ -5,6 +5,9 @@ import {
   USER_DETAILS_A_REQUEST,
   USER_DETAILS_A_SUCCESS,
   USER_DETAILS_A_FAIL,
+  EDIT_USER_DETAILS_A_REQUEST,
+  EDIT_USER_DETAILS_A_SUCCESS,
+  EDIT_USER_DETAILS_A_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
@@ -70,18 +73,21 @@ export const getAllUserDetailsAdminReducer = (
 ) => {
   switch (action.type) {
     case USER_DETAILS_A_REQUEST:
+    case EDIT_USER_DETAILS_A_REQUEST:
       return {
         loading: true,
       };
 
     case USER_DETAILS_A_SUCCESS:
+    case EDIT_USER_DETAILS_A_SUCCESS:
       return {
         loading: false,
         success: true,
-        user: action.payload,
+        userData: action.payload,
       };
 
     case USER_DETAILS_A_FAIL:
+    case EDIT_USER_DETAILS_A_FAIL:
       return {
         loading: false,
         success: false,

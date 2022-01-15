@@ -2,8 +2,8 @@
 import React from "react";
 import { getSession } from "next-auth/client";
 //Component Imports
-import CustomerID from "../../../components/admin/customers/customerID";
-import { DashboardLayout } from "../../../components/admin/dashboard/nav/dashboard-layout";
+import CustomerID from "../../../../components/admin/customers/customerID";
+import { DashboardLayout } from "../../../../components/admin/dashboard/nav/dashboard-layout";
 
 const CustomerList = () => {
   return (

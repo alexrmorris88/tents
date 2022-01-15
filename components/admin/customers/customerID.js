@@ -53,10 +53,12 @@ const CustomerID = () => {
   const { customerID } = router.query;
 
   const {
-    user: customer = {},
+    userData = {},
     loading,
     error,
   } = useSelector((state) => state.getAllUserDetailsAdmin);
+
+  const { user: customer = {}, rental = [] } = userData;
 
   useEffect(() => {
     dispatch(getAllUserDetailsAdmin(customerID));
@@ -126,7 +128,10 @@ const CustomerID = () => {
                       )}`}
                     </Avatar>
                     <div>
-                      <Typography variant="h4">{customer.email}</Typography>
+                      <Typography variant="h4">{`${customer.firstName} ${customer.lastName}`}</Typography>
+                      <Typography variant="subtitle2">
+                        {customer.email}
+                      </Typography>
                       <Box
                         sx={{
                           display: "flex",
@@ -143,7 +148,10 @@ const CustomerID = () => {
                     </div>
                   </Grid>
                   <Grid item sx={{ m: -1 }}>
-                    <NextLink href="/dashboard/customers/1/edit" passHref>
+                    <NextLink
+                      href={`/admin/customers/${customer._id}/edit`}
+                      passHref
+                    >
                       <Button
                         component="a"
                         endIcon={<PencilAltIcon fontSize="small" />}

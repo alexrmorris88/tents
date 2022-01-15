@@ -15,23 +15,39 @@ const allUserDetailsAdmin = catchAsyncErrors(async (req, res) => {
     return next(new ErrorHandler("No user with this ID", 400));
   }
 
-  // const rental = await Rentals.findOne({ user: customerID });
+  const rental = await Rentals.find({ user: customerID });
 
-  // if (!rental) {
-  //   return next((rental = []), new ErrorHandler("No user with this ID", 400));
-  // }
-
-  // const tent = await Tent.findById({user: customerID});
-
-  // const userData = {
-  //   user,
-  //   rental,
-  // };
+  const userData = {
+    user,
+    rental,
+  };
 
   res.status(200).json({
     success: true,
-    user,
+    userData,
   });
 });
 
-export { allUserDetailsAdmin };
+// Edit All User Details
+// Path: /api/admin/user
+const editUserDetailsAdmin = catchAsyncErrors(async (req, res) => {
+  const { customerID } = req.query;
+  let user = await User.findById(customerID);
+
+  if (!user) {
+    return next(new ErrorHandler("No user with this ID", 400));
+  }
+
+  user = await User.findByIdAndUpdate(customerID, req.body, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "User has been updated",
+  });
+});
+
+export { allUserDetailsAdmin, editUserDetailsAdmin };

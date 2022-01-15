@@ -2,6 +2,9 @@ import {
   GET_USERS_A_REQUEST,
   GET_USERS_A_SUCCESS,
   GET_USERS_A_FAIL,
+  EDIT_USER_DETAILS_A_REQUEST,
+  EDIT_USER_DETAILS_A_SUCCESS,
+  EDIT_USER_DETAILS_A_FAIL,
   USER_DETAILS_A_REQUEST,
   USER_DETAILS_A_SUCCESS,
   USER_DETAILS_A_FAIL,
@@ -31,18 +34,43 @@ import {
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
 
+// Edit All User Details - ADMIN
+export const editAllUserDetailsAdmin =
+  (customerID, customerData) => async (dispatch) => {
+    try {
+      dispatch({
+        type: USER_DETAILS_A_REQUEST,
+      });
+
+      const { data } = await axios.put(
+        `/api/admin/users/${customerID}`,
+        customerData
+      );
+
+      dispatch({
+        type: USER_DETAILS_A_SUCCESS,
+        payload: data.userData,
+      });
+    } catch (error) {
+      dispatch({
+        type: EDIT_USER_DETAILS_A_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
 // Get All User Details - ADMIN
 export const getAllUserDetailsAdmin = (customerID) => async (dispatch) => {
   try {
     dispatch({
-      type: USER_DETAILS_A_REQUEST,
+      type: EDIT_USER_DETAILS_A_REQUEST,
     });
 
     const { data } = await axios.get(`/api/admin/users/${customerID}`);
 
     dispatch({
-      type: USER_DETAILS_A_SUCCESS,
-      payload: data.user,
+      type: EDIT_USER_DETAILS_A_SUCCESS,
+      payload: data.userData,
     });
   } catch (error) {
     dispatch({
