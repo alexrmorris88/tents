@@ -206,10 +206,10 @@ export const DashboardSidebar = (props) => {
               >
                 <div>
                   <Typography color="inherit" variant="subtitle1">
-                    Acme Inc
+                    SJ Tents
                   </Typography>
                   <Typography color="neutral.400" variant="body2">
-                    {t("Your tier")} : Premium
+                    {t("Role")} : Admin
                   </Typography>
                 </div>
                 <SelectorIcon
@@ -255,7 +255,7 @@ export const DashboardSidebar = (props) => {
             <Typography color="neutral.500" variant="body2">
               {t("Check our docs")}
             </Typography>
-            <NextLink href="/docs/welcome" passHref>
+            <NextLink href="#" passHref>
               <Button
                 color="secondary"
                 component="a"

@@ -24,6 +24,8 @@ import {
   calendarAvailabilityReducer,
   userRentalsReducer,
 } from "./rentalReducer";
+// Orders Reducer
+import { getOrdersReducer } from "./ordersReducer";
 
 const reducer = combineReducers({
   // tent reducer
@@ -44,6 +46,8 @@ const reducer = combineReducers({
   checkRental: checkRentalReducer,
   calendarAvailability: calendarAvailabilityReducer,
   userRentals: userRentalsReducer,
+  // Orders Reducer
+  getOrders: getOrdersReducer,
 });
 
 export default reducer;

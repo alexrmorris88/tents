@@ -50,4 +50,32 @@ const editUserDetailsAdmin = catchAsyncErrors(async (req, res) => {
   });
 });
 
-export { allUserDetailsAdmin, editUserDetailsAdmin };
+// Get All User Orders
+// Path: /api/admin/orders
+const getUserOrdersAdmin = catchAsyncErrors(async (req, res, next) => {
+  const orders = await Rentals.find();
+
+  const {
+    paymentInfo,
+    _id,
+    tent,
+    user,
+    rentalPickupDate,
+    rentalDroptDate,
+    amountPaid,
+    dayOfRental,
+    paidAt,
+    createdAt,
+  } = orders;
+
+  if (!orders) {
+    return next(new ErrorHandler("No order with this ID", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    orders,
+  });
+});
+
+export { allUserDetailsAdmin, editUserDetailsAdmin, getUserOrdersAdmin };
