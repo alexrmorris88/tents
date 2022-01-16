@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllOrdersAdmin,
+  getOrderAdmin,
   clearErrors,
 } from "../../../state/actions/orderActions";
 // UI Imports
@@ -150,8 +151,6 @@ const AdminOrders = () => {
     loading,
     error,
   } = useSelector((state) => state.getOrders);
-
-  console.log(orders);
 
   useEffect(() => {
     dispatch(getAllOrdersAdmin());
@@ -321,7 +320,7 @@ const AdminOrders = () => {
               containerRef={rootRef}
               onClose={handleCloseDrawer}
               open={drawer.isOpen}
-              order={orders.find((order) => order.id === drawer.orderId)}
+              order={orders.find((order) => order._id === drawer.orderId)}
             />
           </Box>
         </>

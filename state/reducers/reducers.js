@@ -25,7 +25,7 @@ import {
   userRentalsReducer,
 } from "./rentalReducer";
 // Orders Reducer
-import { getOrdersReducer } from "./ordersReducer";
+import { getOrdersReducer, getOrderDetailsReducer } from "./ordersReducer";
 
 const reducer = combineReducers({
   // tent reducer
@@ -48,6 +48,7 @@ const reducer = combineReducers({
   userRentals: userRentalsReducer,
   // Orders Reducer
   getOrders: getOrdersReducer,
+  getOrderDetails: getOrderDetailsReducer,
 });
 
 export default reducer;

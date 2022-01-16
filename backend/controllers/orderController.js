@@ -5,7 +5,7 @@ import ErrorHandler from "../utils/errorHandler";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import APIFeatures from "../utils/apiFeatures";
 
-// Get All User Details
+// Get All User Details - ADMIN
 // Path: /api/admin/user
 const allUserDetailsAdmin = catchAsyncErrors(async (req, res) => {
   const { customerID } = req.query;
@@ -28,7 +28,7 @@ const allUserDetailsAdmin = catchAsyncErrors(async (req, res) => {
   });
 });
 
-// Edit All User Details
+// Edit All User Details - ADMIN
 // Path: /api/admin/user
 const editUserDetailsAdmin = catchAsyncErrors(async (req, res) => {
   const { customerID } = req.query;
@@ -50,7 +50,7 @@ const editUserDetailsAdmin = catchAsyncErrors(async (req, res) => {
   });
 });
 
-// Get All User Orders
+// Get All User Orders - ADMIN
 // Path: /api/admin/orders
 const getUserOrdersAdmin = catchAsyncErrors(async (req, res, next) => {
   const orders = await Rentals.find();
@@ -78,4 +78,55 @@ const getUserOrdersAdmin = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { allUserDetailsAdmin, editUserDetailsAdmin, getUserOrdersAdmin };
+// Get User Order - ADMIN
+// Path: /api/admin/orders/:orderID
+const getUserOrderAdmin = catchAsyncErrors(async (req, res, next) => {
+  const orderInfo = await Rentals.findById(req.query.orderID);
+
+  const {
+    paymentInfo,
+    _id,
+    tent,
+    user,
+    rentalPickupDate,
+    rentalDroptDate,
+    amountPaid,
+    dayOfRental,
+    paidAt,
+    createdAt,
+  } = orderInfo;
+
+  if (!orderInfo) {
+    return next(new ErrorHandler("No order with this ID", 400));
+  }
+
+  const userInfo = await User.findById(user);
+
+  if (!userInfo) {
+    return next(new ErrorHandler("No user with this ID", 400));
+  }
+
+  const tentInfo = await Tent.findById(tent);
+
+  if (!tentInfo) {
+    return next(new ErrorHandler("No tent with this ID", 400));
+  }
+
+  const order = {
+    orderInfo,
+    userInfo,
+    tentInfo,
+  };
+
+  res.status(200).json({
+    success: true,
+    order,
+  });
+});
+
+export {
+  allUserDetailsAdmin,
+  editUserDetailsAdmin,
+  getUserOrdersAdmin,
+  getUserOrderAdmin,
+};

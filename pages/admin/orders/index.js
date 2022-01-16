@@ -8,7 +8,7 @@ import { DashboardLayout } from "../../../components/admin/dashboard/nav/dashboa
 const Orders = () => {
   return (
     <DashboardLayout>
-      <AdminOrders title="Tents" />
+      <AdminOrders title="Orders" />
     </DashboardLayout>
   );
 };

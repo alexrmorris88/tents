@@ -1,5 +1,11 @@
 // Next-React Imports
-import { useState } from "react";
+import { useState, useEffect } from "react";
+// Redux Imports
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getOrderAdmin,
+  clearErrors,
+} from "../../../../../state/actions/orderActions";
 // UI imports
 import {
   Box,
@@ -27,6 +33,8 @@ import { Scrollbar } from "../../../../../utils/scrollbar";
 import { format } from "date-fns";
 import PropTypes from "prop-types";
 import numeral from "numeral";
+import moment from "moment";
+import Loader from "../../../../layout/Loader";
 
 const statusOptions = [
   {
@@ -48,6 +56,7 @@ const statusOptions = [
 ];
 
 const OrderPreview = (props) => {
+  const dispatch = useDispatch();
   const { lgUp, onApprove, onEdit, onReject, order } = props;
   const align = lgUp ? "horizontal" : "vertical";
 
@@ -102,34 +111,34 @@ const OrderPreview = (props) => {
         <PropertyListItem
           align={align}
           disableGutters
-          label="ID"
-          value={order.id}
+          label="Order ID"
+          value={order._id}
         />
         <PropertyListItem
           align={align}
           disableGutters
-          label="Number"
-          value={order.number}
+          label="Tent Rented"
+          value={order.tent}
         />
-        <PropertyListItem align={align} disableGutters label="Customer">
+        <PropertyListItem align={align} disableGutters label="Customer ID">
           <Typography color="primary" variant="body2">
-            {order.customer.name}
+            {order.user}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {order.customer.address1}
+            {``}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {order.customer.city}
+            {``}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {order.customer.country}
+            {``}
           </Typography>
         </PropertyListItem>
         <PropertyListItem
           align={align}
           disableGutters
           label="Date"
-          value={format(order.createdAt, "dd/MM/yyyy HH:mm")}
+          value={moment(order.createdAt).format("LLL")}
         />
         <PropertyListItem
           align={align}
@@ -141,7 +150,7 @@ const OrderPreview = (props) => {
           align={align}
           disableGutters
           label="Total Amount"
-          value={`${order.currency}${order.totalAmount}`}
+          value={`$${order.amountPaid}`}
         />
         <PropertyListItem
           align={align}
@@ -164,17 +173,25 @@ const OrderPreview = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {order.items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>
-                  {item.name} x {item.quantity}
-                </TableCell>
-                <TableCell>{item.billingCycle}</TableCell>
-                <TableCell>
-                  {numeral(item.unitAmount).format(`${item.currency}0,0.00`)}
-                </TableCell>
-              </TableRow>
-            ))}
+            {order.tent && order.tent ? (
+              <h6>Order items</h6>
+            ) : (
+              <>
+                {order.tent.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {item.name} x {item.quantity}
+                    </TableCell>
+                    <TableCell>{item.billingCycle}</TableCell>
+                    <TableCell>
+                      {numeral(item.unitAmount).format(
+                        `${item.currency}0,0.00`
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </>
+            )}
           </TableBody>
         </Table>
       </Scrollbar>
@@ -251,7 +268,7 @@ const OrderForm = (props) => {
         label="Customer name"
         margin="normal"
         name="customer_name"
-        value={order.customer.name}
+        value={order.firstName}
       />
       <TextField
         disabled
@@ -259,35 +276,35 @@ const OrderForm = (props) => {
         label="Date"
         margin="normal"
         name="date"
-        value={format(order.createdAt, "dd/MM/yyyy HH:mm")}
+        value={moment(order.createdAt).format("LLL")}
       />
       <TextField
         fullWidth
         label="Address"
         margin="normal"
         name="address"
-        value={order.customer.address1}
+        value={""}
       />
       <TextField
         fullWidth
         label="Country"
         margin="normal"
         name="country"
-        value={order.customer.country}
+        value={""}
       />
       <TextField
         fullWidth
         label="State/Region"
         margin="normal"
         name="state_region"
-        value={order.customer.city}
+        value={""}
       />
       <TextField
         fullWidth
         label="Total Amount"
         margin="normal"
         name="amount"
-        value={order.totalAmount}
+        value={order.amountPaid}
       />
       <TextField
         fullWidth
@@ -296,7 +313,7 @@ const OrderForm = (props) => {
         name="status"
         select
         SelectProps={{ native: true }}
-        value={order.status}
+        value={""}
       >
         {statusOptions.map((statusOption) => (
           <option key={statusOption.value} value={statusOption.value}>
