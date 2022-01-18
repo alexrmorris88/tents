@@ -74,7 +74,7 @@ const BookingComponent = (props) => {
       onClick={onClick}
       ref={ref}
     >
-      {value ? value : "CHECK-IN"}
+      {value ? value : "Rental Start"}
     </DateButton>
   ));
 
@@ -83,7 +83,7 @@ const BookingComponent = (props) => {
       onClick={onClick}
       ref={ref}
     >
-      {value ? value : "CHECKOUT"}
+      {value ? value : "Rental End"}
     </DateButton>
   ));
 
@@ -129,8 +129,6 @@ const BookingComponent = (props) => {
             width: '50%',
             }}
           >
-
-
             <DatePicker
               onChange={date => setRentalStartDate(date)}
               selected={RentalStartDate}

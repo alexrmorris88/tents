@@ -218,12 +218,13 @@ export default function productDetails() {
 
                 <Divider />
 
-          {reviewLoading && userLoading ? 
-          (
-          <Loader /> 
-          ) : (
-          <ReviewsComponent user={user} reviews={reviews} id={id} />
-          )}
+                  {reviewLoading && userLoading ? 
+                  (
+                  <Loader /> 
+                  ) : (
+                  <ReviewsComponent user={user} reviews={reviews} id={id} />
+                  )}
+                  
               </Grid>
               <Grid
                 item

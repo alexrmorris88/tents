@@ -33,6 +33,8 @@ const NewReview = ({ reviewID }) => {
     (state) => state.tentDetails
   );
 
+  console.log(reviewID)
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -51,6 +53,10 @@ const NewReview = ({ reviewID }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClick = () => {
+    setOpen(false);
 
     const reviewData = {
       rating,
@@ -64,7 +70,7 @@ const NewReview = ({ reviewID }) => {
   return (
     <>
       <Grid sx={{ m: 2 }}>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button variant="text" size="small" onClick={handleClickOpen}>
           Submit Review
         </Button>
         <Dialog
@@ -103,7 +109,10 @@ const NewReview = ({ reviewID }) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} sx={{ p: 0 }}>
+            <Button variant="outlined" onClick={handleClose} sx={{ p: 1, mr: 2 }}>
+              Close
+            </Button>
+            <Button variant="contained" onClick={handleClick} sx={{ p: 1, mr: 2 }}>
               Submit Review
             </Button>
           </DialogActions>

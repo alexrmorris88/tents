@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import { FormHelperText, Avatar } from "@mui/material";
-import Divider from "@mui/material/Divider";
+import Carousel from 'react-material-ui-carousel'
 
 const ReviewText = styled(Typography)(({ theme }) => ({
   ...theme.typography.button,
@@ -21,10 +21,30 @@ const ListReviews = ({ reviews }) => {
         <Typography color="primary" variant="overline" display="block">
           Rating:
         </Typography>
+        <Grid 
+  container 
+  justifyContent="flex-end"
+    sx={{
+      display: 'inline-flex',
+      flexDirection: 'row',
+      mt: -15,
+      p: 0
+      }}
+  >
+        { user ? (
+          <NewReview reviewID={id} />
+          ) : (
+            <></>
+          )}
+  </Grid>
       </Grid>
+      <Carousel
+
+      >
       {reviews &&
         reviews.map((review) => (
           <>
+          
             <Grid
               item
               sx={{
@@ -60,10 +80,9 @@ const ListReviews = ({ reviews }) => {
             <ReviewText sx={{ ml: 2, mb: 1, p: 0 }}>
               {review.comment}
             </ReviewText>
-
-            {reviews.length > 1 ? <Divider /> : <></>}
           </>
         ))}
+        </Carousel>
     </>
   );
 };
