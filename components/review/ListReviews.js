@@ -45,7 +45,6 @@ const ListReviews = ({ reviews, user, id }) => {
                 alignItems: "center",
                 display: "flex",
                 overflow: "hidden",
-                mt: 1,
               }}
             >
               <Avatar

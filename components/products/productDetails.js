@@ -1,31 +1,22 @@
 // Next-React Imports
-import React, { useEffect, useState, forwardRef } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 // UI imports
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Image from "next/image";
-import Carousel from "react-material-ui-carousel";
 import Divider from "@mui/material/Divider";
-import Rating from "@mui/material/Rating";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import { FormHelperText } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
-import { styled } from "@mui/material/styles";
-import { Calendar } from "../../icons/calendar";
 // Component Imports
 import Layout from "../layout/Layout";
 import PictureComponent from "./components/PictureComponent";
 import TitleComponent from "./components/TitleComponent";
 import BookingComponent from "./components/BookingComponent";
-import ReviewsComponent from "./components/ReviewsComponent"; 
-import DescComponent from './components/DescComponent';
-import FeaturesComponent from './components/FeaturesComponent';
-import HeaderComponent from './components/HeaderComponent';
+import ReviewsComponent from "./components/ReviewsComponent";
+import DescComponent from "./components/DescComponent";
+import FeaturesComponent from "./components/FeaturesComponent";
+import HeaderComponent from "./components/HeaderComponent";
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
 import { useSelector, useDispatch } from "react-redux";
@@ -37,7 +28,6 @@ import { getReview } from "../../state/actions/tentsAction";
 import { CHECK_RENTAL_RESET } from "../../state/constants/rentalConstants";
 // Utils Imports
 import axios from "axios";
-import "react-datepicker/dist/react-datepicker.css";
 import getStripe from "../../utils/getStripe";
 import Loader from "../../components/layout/Loader";
 
@@ -90,9 +80,8 @@ export default function productDetails() {
     };
   }, [dispatch, id]);
 
-
   const onChange = (endDate) => {
-    setRentalEndDate(endDate)
+    setRentalEndDate(endDate);
 
     if (RentalStartDate && endDate) {
       // Calclate days of stay
@@ -104,11 +93,7 @@ export default function productDetails() {
       setRentalDays(days);
 
       dispatch(
-        checkRental(
-          id,
-          RentalStartDate.toISOString(),
-          endDate.toISOString()
-        )
+        checkRental(id, RentalStartDate.toISOString(), endDate.toISOString())
       );
     }
   };
@@ -147,7 +132,6 @@ export default function productDetails() {
   };
 
   const rentTent = async (id, amount) => {
-
     setPaymentLoading(true);
 
     try {
@@ -168,7 +152,6 @@ export default function productDetails() {
     }
   };
 
-
   return (
     <>
       <Layout title="Products">
@@ -185,7 +168,6 @@ export default function productDetails() {
           }}
         >
           <Grid container justifyContent="center" sx={{ p: 3 }}>
-
             <TitleComponent name={name} />
 
             <Grid
@@ -194,7 +176,11 @@ export default function productDetails() {
               justifyContent="center"
               spacing={3}
             >
-              {tentLoading ? <Loader /> : <PictureComponent productImages={images} productName={name} />}
+              {tentLoading ? (
+                <Loader />
+              ) : (
+                <PictureComponent productImages={images} productName={name} />
+              )}
               <Grid
                 item
                 lg={8}
@@ -205,26 +191,23 @@ export default function productDetails() {
                   order: 1,
                 }}
               >
-
                 <HeaderComponent title={name} manufacturer={"XYZ Tents"} />
 
-               <Divider />
+                <Divider />
 
-                  <FeaturesComponent />
+                <FeaturesComponent />
 
                 <Divider />
 
-                  <DescComponent description={description} />
+                <DescComponent description={description} />
 
                 <Divider />
 
-                  {reviewLoading && userLoading ? 
-                  (
-                  <Loader /> 
-                  ) : (
+                {reviewLoading && userLoading ? (
+                  <Loader />
+                ) : (
                   <ReviewsComponent user={user} reviews={reviews} id={id} />
-                  )}
-                  
+                )}
               </Grid>
               <Grid
                 item
@@ -236,9 +219,20 @@ export default function productDetails() {
                   order: 2,
                 }}
               >
-
-                <BookingComponent id={id} price={price} user={user} available={available} RentalStartDate={RentalStartDate} RentalEndDate={RentalEndDate} onChange={onChange} excludedDates={excludedDates} rentTent={rentTent} setRentalStartDate={setRentalStartDate} setRentalEndDate={setRentalEndDate} />
-
+                <BookingComponent
+                  id={id}
+                  price={price}
+                  user={user}
+                  available={available}
+                  RentalStartDate={RentalStartDate}
+                  RentalEndDate={RentalEndDate}
+                  reviews={reviews}
+                  excludedDates={excludedDates}
+                  onChange={onChange}
+                  rentTent={rentTent}
+                  setRentalStartDate={setRentalStartDate}
+                  setRentalEndDate={setRentalEndDate}
+                />
               </Grid>
             </Grid>
           </Grid>
