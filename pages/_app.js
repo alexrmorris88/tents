@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "../theme";
 import { wrapper } from "../state/store";
 import { Provider } from "next-auth/client";
+import "./react-datepicker-custom.css";
 
 function MyApp({ Component, pageProps }) {
   return (

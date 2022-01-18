@@ -9,7 +9,7 @@ import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { FormHelperText, Avatar } from "@mui/material";
-import Carousel from 'react-material-ui-carousel'
+import Carousel from "react-material-ui-carousel";
 
 const ReviewText = styled(Typography)(({ theme }) => ({
   ...theme.typography.button,
@@ -27,55 +27,52 @@ const ListReviews = ({ reviews, user, id }) => {
           </Typography>
         </Box>
         <Box sx={{ order: 2, mt: -2.5 }}>
-          { user ? (
-            <NewReview reviewID={id} />
-            ) : (
-              <></>
-            )}
+          {user ? <NewReview reviewID={id} /> : <></>}
         </Box>
       </Grid>
       <Carousel>
-      {reviews &&
-        reviews.map((review) => (
-          <>
-          
-            <Grid
-              item
-              sx={{
-                alignItems: "center",
-                display: "flex",
-                overflow: "hidden",
-              }}
-            >
-              <Avatar
-                src={""}
-                sx={{
-                  height: 45,
-                  m: 1,
-                  width: 45,
-                }}
-              ></Avatar>
+        {reviews &&
+          reviews.map((review) => (
+            <>
               <Grid
                 item
+                key={review.user}
                 sx={{
                   alignItems: "center",
-                  display: "block",
+                  display: "flex",
                   overflow: "hidden",
                 }}
               >
-                <Rating readOnly value={review.rating} />
-                <FormHelperText>
-                  {`by ${review.firstName} ${review.lastName}`}
-                </FormHelperText>
+                <Avatar
+                  src={""}
+                  key={review.user}
+                  sx={{
+                    height: 45,
+                    m: 1,
+                    width: 45,
+                  }}
+                ></Avatar>
+                <Grid
+                  item
+                  sx={{
+                    alignItems: "center",
+                    display: "block",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Rating readOnly value={review.rating} />
+                  <FormHelperText>
+                    {`by ${review.firstName} ${review.lastName}`}
+                  </FormHelperText>
+                </Grid>
               </Grid>
-            </Grid>
-            <FormHelperText>comment:</FormHelperText>
-            <ReviewText sx={{ ml: 2, mb: 1, p: 0 }}>
-              {review.comment}
-            </ReviewText>
-          </>
-        ))}
-        </Carousel>
+              <FormHelperText>comment:</FormHelperText>
+              <ReviewText sx={{ ml: 2, mb: 1, p: 0 }}>
+                {review.comment}
+              </ReviewText>
+            </>
+          ))}
+      </Carousel>
     </>
   );
 };

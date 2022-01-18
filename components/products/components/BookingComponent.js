@@ -10,7 +10,6 @@ import {
   FormHelperText,
   Grid,
 } from "@mui/material";
-import Rating from "@mui/material/Rating";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
 // Icon Imports
@@ -19,7 +18,6 @@ import { Star } from "../../../icons/star";
 // Utils Imports
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 const DateButton = styled(Button)({
   variant: "text",
@@ -68,19 +66,17 @@ const BookingComponent = (props) => {
   } = props;
   const classes = useStyles();
 
-  console.log(reviews);
-
   const CalendarComponentStart = forwardRef(({ value, onClick }, ref) => (
-    <DateButton onClick={onClick} ref={ref}>
-      <Typography variant={"subtitle2"}>
+    <DateButton onClick={onClick} ref={ref} sx={{ m: 0.5 }}>
+      <Typography variant={"subtitle2"} sx={{ fontSize: "0.775rem" }}>
         {value ? value : "Rental Start"}
       </Typography>
     </DateButton>
   ));
 
   const CalendarComponentEnd = forwardRef(({ value, onClick }, ref) => (
-    <DateButton onClick={onClick} ref={ref}>
-      <Typography variant={"subtitle2"}>
+    <DateButton onClick={onClick} ref={ref} sx={{ m: 0.5 }}>
+      <Typography variant={"subtitle2"} sx={{ fontSize: "0.775rem" }}>
         {value ? value : "Rental End"}
       </Typography>
     </DateButton>
@@ -171,6 +167,7 @@ const BookingComponent = (props) => {
               excludeDates={excludedDates}
               withPortal
               selectsStart
+              monthsShown={2}
               customInput={<CalendarComponentStart />}
             />
           </Grid>
@@ -191,6 +188,7 @@ const BookingComponent = (props) => {
               excludeDates={excludedDates}
               withPortal
               selectsEnd
+              monthsShown={2}
               customInput={<CalendarComponentEnd />}
             />
           </Grid>
@@ -203,12 +201,16 @@ const BookingComponent = (props) => {
             }}
           >
             <ServicesButton>
-              <Box sx={{ flexGrow: 1, order: 1 }}>
-                <Typography variant="subtitle2" align={"left"}>
+              <Box sx={{ flexGrow: 1, order: 1, display: "flex" }}>
+                <Typography
+                  variant="subtitle2"
+                  align={"left"}
+                  sx={{ fontSize: "0.775rem", m: 0.5 }}
+                >
                   Services
                 </Typography>
               </Box>
-              <Box sx={{ order: 2 }}>
+              <Box sx={{ order: 2, display: "flex" }}>
                 <ChevronDown />
               </Box>
             </ServicesButton>

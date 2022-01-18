@@ -17,6 +17,7 @@ import ReviewsComponent from "./components/ReviewsComponent";
 import DescComponent from "./components/DescComponent";
 import FeaturesComponent from "./components/FeaturesComponent";
 import HeaderComponent from "./components/HeaderComponent";
+import CalendarComponent from "./components/CalendarComponent";
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
 import { useSelector, useDispatch } from "react-redux";
@@ -98,36 +99,28 @@ export default function productDetails() {
     }
   };
 
-  const newBookingHandler = async () => {
-    const [RentalStartDate, RentalEndDate] = calendarDates;
+  const onChangeCalendarComponent = (date) => {
+    let [RentalStartDate, RentalEndDate] = date;
 
-    const bookingData = {
-      tent: id,
-      rentalPickupDate: RentalStartDate,
-      rentalDroptDate: RentalEndDate,
-      dayOfRental: rentalDays,
-      amountPaid: 90,
-      paymentInfo: {
-        id: "STRIPE_PAYMENT_ID",
-        status: "STRIPE_PAYMENT_STATUS",
-      },
-      paidAt: Date.now(),
-    };
+    setRentalStartDate(RentalStartDate);
+    setRentalEndDate(RentalEndDate);
 
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+    if (RentalStartDate && RentalEndDate) {
+      // Calclate days of stay
 
-      const { data } = await axios.post("/api/rentals", bookingData, config);
+      const days = Math.floor(
+        (new Date(RentalEndDate) - new Date(RentalStartDate)) / 86400000 + 1
+      );
 
-      if (data) {
-        toast.success(`${tent.name} booked!`);
-      }
-    } catch (error) {
-      toast.error(error.response);
+      setRentalDays(days);
+
+      dispatch(
+        checkRental(
+          id,
+          RentalStartDate.toISOString(),
+          RentalEndDate.toISOString()
+        )
+      );
     }
   };
 
@@ -200,6 +193,20 @@ export default function productDetails() {
                 <Divider />
 
                 <DescComponent description={description} />
+
+                <Divider />
+
+                <CalendarComponent
+                  available={available}
+                  RentalStartDate={RentalStartDate}
+                  RentalEndDate={RentalEndDate}
+                  excludeDates={excludedDates}
+                  onChange={onChangeCalendarComponent}
+                  setRentalStartDate={setRentalStartDate}
+                  setRentalEndDate={setRentalEndDate}
+                  rentalDays={rentalDays}
+                  user={user}
+                />
 
                 <Divider />
 
