@@ -139,6 +139,7 @@ const BookingComponent = (props) => {
               minDate={new Date()}
               excludeDates={excludedDates}
               withPortal
+              selectsStart
               customInput={<CalendarComponentStart />}
             />
 
@@ -160,6 +161,7 @@ const BookingComponent = (props) => {
               minDate={new Date()}
               excludeDates={excludedDates}
               withPortal
+              selectsEnd
               customInput={<CalendarComponentEnd />}
             />
 
