@@ -21,22 +21,6 @@ const ListReviews = ({ reviews }) => {
         <Typography color="primary" variant="overline" display="block">
           Rating:
         </Typography>
-        <Grid 
-  container 
-  justifyContent="flex-end"
-    sx={{
-      display: 'inline-flex',
-      flexDirection: 'row',
-      mt: -15,
-      p: 0
-      }}
-  >
-        { user ? (
-          <NewReview reviewID={id} />
-          ) : (
-            <></>
-          )}
-  </Grid>
       </Grid>
       <Carousel
 

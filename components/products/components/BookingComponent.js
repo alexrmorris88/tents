@@ -74,7 +74,7 @@ const BookingComponent = (props) => {
       onClick={onClick}
       ref={ref}
     >
-      {value ? value : "Rental Start"}
+      <Typography variant={"subtitle2"}>{value ? value : "Rental Start"}</Typography>
     </DateButton>
   ));
 
@@ -83,9 +83,24 @@ const BookingComponent = (props) => {
       onClick={onClick}
       ref={ref}
     >
-      {value ? value : "Rental End"}
+      <Typography variant={"subtitle2"}>{value ? value : "Rental End"}</Typography>
     </DateButton>
   ));
+
+  const lineItems = [
+    {
+      item: '$1,000 x 3 Nights',
+      price: '$3,000'
+    },
+    {
+      item: 'Setup Fee',
+      price: '$500'
+    },
+    {
+      item: 'Delivery Fee',
+      price: '$25'
+    }
+  ]
 
   return (
     <Card className={classes.root} elevation={15} sx={{ border: 1, borderColor: 'divider', m: 1, p: 1 }}>
@@ -176,9 +191,14 @@ const BookingComponent = (props) => {
               }}
           >
             <ServicesButton
-              endIcon={<ChevronDown />}
             >
-              <span style={{marginRight: '70%'}}>Services</span>
+              <Box sx={{ flexGrow: 1, order: 1 }}>
+                <Typography variant="subtitle2" align={"left"}>
+                  Services
+                </Typography>
+              </Box>
+              <Box sx={{ order: 2  }}><ChevronDown /></Box>
+
             </ServicesButton>
           </Grid>
 
@@ -260,6 +280,8 @@ const BookingComponent = (props) => {
 
         <Grid sx={{ml: 4, mr: 4, mb: 1 }}>
 
+          {lineItems.map(item => 
+          <>
           <Grid 
               sx={{
                 display: 'inline-flex',
@@ -268,7 +290,7 @@ const BookingComponent = (props) => {
                 }}
             >
               <Typography variant='body1' component={'body'}>
-                $1,000 X 3 nights
+                {item.item}
               </Typography>
             </Grid>
 
@@ -282,61 +304,10 @@ const BookingComponent = (props) => {
                 }}
             >
               <Typography variant='body1' component={'body'}>
-                $3,000
+                {item.price}
               </Typography>
-            </Grid>
+            </Grid></>)}
 
-            <Grid 
-              sx={{
-                display: 'inline-flex',
-                flexDirection: 'row',
-                width: '50%',
-                }}
-            >
-              <Typography variant='body1' component={'body'}>
-                Setup Fee
-              </Typography>
-            </Grid>
-
-            <Grid 
-            container 
-            justifyContent="flex-end"
-              sx={{
-                display: 'inline-flex',
-                flexDirection: 'row',
-                width: '50%',
-                }}
-            >
-              <Typography variant='body1' component={'body'}>
-                $500
-              </Typography>
-            </Grid>
-
-            <Grid 
-              sx={{
-                display: 'inline-flex',
-                flexDirection: 'row',
-                width: '50%',
-                }}
-            >
-              <Typography variant='body1' component={'body'}>
-                Delivery Fee
-              </Typography>
-            </Grid>
-
-            <Grid 
-            container 
-            justifyContent="flex-end"
-              sx={{
-                display: 'inline-flex',
-                flexDirection: 'row',
-                width: '50%',
-                }}
-            >
-              <Typography variant='body1' component={'body'}>
-                $25
-              </Typography>
-            </Grid>
 
             <Divider />
 
