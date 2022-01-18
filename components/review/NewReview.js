@@ -33,8 +33,6 @@ const NewReview = ({ reviewID }) => {
     (state) => state.tentDetails
   );
 
-  console.log(reviewID)
-
   useEffect(() => {
     if (error) {
       toast.error(error);

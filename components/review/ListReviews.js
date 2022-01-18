@@ -1,9 +1,12 @@
 // Next-React Imports
 import React from "react";
+// Component Imports
+import NewReview from "../review/NewReview";
 // UI Imports
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { FormHelperText, Avatar } from "@mui/material";
 import Carousel from 'react-material-ui-carousel'
@@ -14,17 +17,24 @@ const ReviewText = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-const ListReviews = ({ reviews }) => {
+const ListReviews = ({ reviews, user, id }) => {
   return (
     <>
-      <Grid sx={{ mt: 2 }}>
-        <Typography color="primary" variant="overline" display="block">
-          Rating:
-        </Typography>
+      <Grid container sx={{ mt: 2 }}>
+        <Box sx={{ flexGrow: 1, order: 1 }}>
+          <Typography color="primary" variant="overline">
+            Rating:
+          </Typography>
+        </Box>
+        <Box sx={{ order: 2, mt: -2.5 }}>
+          { user ? (
+            <NewReview reviewID={id} />
+            ) : (
+              <></>
+            )}
+        </Box>
       </Grid>
-      <Carousel
-
-      >
+      <Carousel>
       {reviews &&
         reviews.map((review) => (
           <>
