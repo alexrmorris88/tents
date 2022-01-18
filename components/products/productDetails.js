@@ -19,8 +19,13 @@ import { styled } from "@mui/material/styles";
 import { Calendar } from "../../icons/calendar";
 // Component Imports
 import Layout from "../layout/Layout";
-import NewReview from "../review/NewReview";
-import ListReviews from "../review/ListReviews";
+import PictureComponent from "./components/PictureComponent";
+import TitleComponent from "./components/TitleComponent";
+import BookingComponent from "./components/BookingComponent";
+import ReviewsComponent from "./components/ReviewsComponent"; 
+import DescComponent from './components/DescComponent';
+import FeaturesComponent from './components/FeaturesComponent';
+import HeaderComponent from './components/HeaderComponent';
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
 import { useSelector, useDispatch } from "react-redux";
@@ -32,7 +37,6 @@ import { getReview } from "../../state/actions/tentsAction";
 import { CHECK_RENTAL_RESET } from "../../state/constants/rentalConstants";
 // Utils Imports
 import axios from "axios";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import getStripe from "../../utils/getStripe";
 import Loader from "../../components/layout/Loader";
@@ -43,7 +47,8 @@ export default function productDetails() {
   const theme = useTheme();
   const { id } = router.query;
 
-  const [calendarDates, setCalendarDates] = useState([null, null]);
+  const [RentalStartDate, setRentalStartDate] = useState("");
+  const [RentalEndDate, setRentalEndDate] = useState("");
   const [rentalDays, setRentalDays] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
 
@@ -85,16 +90,15 @@ export default function productDetails() {
     };
   }, [dispatch, id]);
 
-  const onChange = (calendarDates) => {
-    const [RentalStartDate, RentalEndDate] = calendarDates;
 
-    setCalendarDates([RentalStartDate, RentalEndDate]);
+  const onChange = (endDate) => {
+    setRentalEndDate(endDate)
 
-    if (RentalStartDate && RentalEndDate) {
+    if (RentalStartDate && endDate) {
       // Calclate days of stay
 
       const days = Math.floor(
-        (new Date(RentalEndDate) - new Date(RentalStartDate)) / 86400000 + 1
+        (new Date(endDate) - new Date(RentalStartDate)) / 86400000 + 1
       );
 
       setRentalDays(days);
@@ -103,7 +107,7 @@ export default function productDetails() {
         checkRental(
           id,
           RentalStartDate.toISOString(),
-          RentalEndDate.toISOString()
+          endDate.toISOString()
         )
       );
     }
@@ -143,7 +147,6 @@ export default function productDetails() {
   };
 
   const rentTent = async (id, amount) => {
-    const [RentalStartDate, RentalEndDate] = calendarDates;
 
     setPaymentLoading(true);
 
@@ -165,23 +168,6 @@ export default function productDetails() {
     }
   };
 
-  const NextImage = styled(Image)(({ theme }) => ({
-    borderRadius: 1,
-  }));
-
-  const CalendarComponent = forwardRef(({ value, onClick }, ref) => (
-    <Button
-      startIcon={<Calendar />}
-      variant="outlined"
-      onClick={onClick}
-      ref={ref}
-    >
-      <Typography variant="overline">
-        {" "}
-        {value ? value : "MM/DD/YYYY - MM/DD/YYYY"}
-      </Typography>
-    </Button>
-  ));
 
   return (
     <>
@@ -199,157 +185,61 @@ export default function productDetails() {
           }}
         >
           <Grid container justifyContent="center" sx={{ p: 3 }}>
+
+            <TitleComponent name={name} />
+
             <Grid
               alignItems="top"
               container
               justifyContent="center"
               spacing={3}
             >
+              {tentLoading ? <Loader /> : <PictureComponent productImages={images} productName={name} />}
               <Grid
                 item
-                lg={6}
-                md={6}
+                lg={8}
+                md={8}
                 sm={12}
                 xs={12}
                 sx={{
                   order: 1,
                 }}
               >
-                <Carousel autoPlay={false} controls={true} indicators={true}>
-                  {images &&
-                    images.map((image) => {
-                      return (
-                        <NextImage
-                          key={image.url}
-                          src={image.url}
-                          alt={name}
-                          title={name}
-                          width="100%"
-                          height="65%"
-                          layout="responsive"
-                          objectFit="contain"
-                          className="avatar"
-                          priority
-                        />
-                      );
-                    })}
-                </Carousel>
+
+                <HeaderComponent title={name} manufacturer={"XYZ Tents"} />
+
+               <Divider />
+
+                  <FeaturesComponent />
+
+                <Divider />
+
+                  <DescComponent description={description} />
+
+                <Divider />
+
+          {reviewLoading && userLoading ? 
+          (
+          <Loader /> 
+          ) : (
+          <ReviewsComponent user={user} reviews={reviews} id={id} />
+          )}
               </Grid>
               <Grid
                 item
-                lg={6}
-                md={6}
+                lg={4}
+                md={4}
                 sm={12}
                 xs={12}
                 sx={{
                   order: 2,
                 }}
               >
-                <Typography color="primary" variant="h1">
-                  {name}
-                </Typography>
 
-                <Typography variant="h3">${price}</Typography>
-                <Typography variant="body1">{description}</Typography>
+                <BookingComponent id={id} price={price} user={user} available={available} RentalStartDate={RentalStartDate} RentalEndDate={RentalEndDate} onChange={onChange} excludedDates={excludedDates} rentTent={rentTent} setRentalStartDate={setRentalStartDate} setRentalEndDate={setRentalEndDate} />
 
-                <Grid sx={{ mb: 1, mt: 2 }}>
-                  <Typography variant="overline">Rental Date</Typography>
-                </Grid>
-                {/* Calandar */}
-
-                <DatePicker
-                  selectsRange
-                  startDate={calendarDates[0]}
-                  onChange={onChange}
-                  startDate={calendarDates[0]}
-                  endDate={calendarDates[1]}
-                  minDate={new Date()}
-                  excludeDates={excludedDates}
-                  withPortal
-                  customInput={<CalendarComponent />}
-                />
-                {available === true && (
-                  <FormHelperText sx={{ color: "green" }}>
-                    Room is available. Book now.
-                  </FormHelperText>
-                )}
-
-                {available === false && (
-                  <FormHelperText error>
-                    Room not available. Try different dates.
-                  </FormHelperText>
-                )}
-
-                {available && !user && (
-                  <FormHelperText error>Login to book room.</FormHelperText>
-                )}
-
-                <Grid item mt={3} width={200}>
-                  <Stack spacing={2} direction="column">
-                    <Button
-                      variant="contained"
-                      color="addToCart"
-                      sx={{ boxShadow: 3 }}
-                    >
-                      Add to Cart
-                    </Button>
-
-                    {available && user ? (
-                      <Button
-                        variant="contained"
-                        color="BuyNow"
-                        sx={{ boxShadow: 3 }}
-                        onClick={() => rentTent(id, price)}
-                      >
-                        Rent Now
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="BuyNow"
-                        sx={{ boxShadow: 3 }}
-                        onClick={() => {
-                          if (!user && available) {
-                            toast.error("Please login");
-                          }
-
-                          if (user && !available) {
-                            toast.error("Please select different dates");
-                          }
-
-                          if (!user && !available) {
-                            toast.error(
-                              "Please login & select different dates"
-                            );
-                          }
-                        }}
-                      >
-                        Rent Now
-                      </Button>
-                    )}
-                  </Stack>
-                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid sx={{ p: 1 }}>
-            {userLoading ? (
-              <Loader />
-            ) : user ? (
-              <NewReview reviewID={id} />
-            ) : (
-              <></>
-            )}
-          </Grid>
-          <Divider />
-          <Grid sx={{ p: 1 }}>
-            {reviewLoading ? (
-              <Loader />
-            ) : reviews && reviews.length > 0 ? (
-              <ListReviews reviews={reviews} />
-            ) : (
-              <></>
-            )}
           </Grid>
         </Container>
       </Layout>

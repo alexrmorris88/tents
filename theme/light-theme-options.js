@@ -13,7 +13,7 @@ const neutral = {
 };
 
 const background = {
-  default: "#F9FAFC",
+  default: "#fff",
   paper: "#FFFFFF",
 };
 
