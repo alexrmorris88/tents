@@ -99,8 +99,10 @@
   background-color: #fff;
   border-radius: 0.3rem;
   color: #000;
+  font-weight: bold;
   display: inline-block;
   position: relative;
+  margin: 5px;
 }
 
 .react-datepicker--time-only .react-datepicker__triangle {

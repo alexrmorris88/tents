@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 // Utils Imports
 import DatePicker from "react-datepicker";
-// Utils Import
 import moment from "moment";
 
 const CalendarComponent = (props) => {
@@ -25,32 +24,69 @@ const CalendarComponent = (props) => {
     setRentalEndDate,
     rentalDays,
     user,
+    clearDates,
     ...other
   } = props;
 
   return (
     <>
-      <Grid
-        container
-        sx={{ mt: 2, mb: 1, ml: 4, display: "flex", flexDirection: "column" }}
-      >
-        {rentalDays < 1 ? (
-          <Typography variant="subtitle1">Select Rental Dates</Typography>
-        ) : (
-          <Typography variant="subtitle1"> {rentalDays} Day Rental</Typography>
-        )}
+      <Grid container sx={{ display: "flex", flexDirection: "column" }}>
+        <Grid>
+          <Box
+            sx={{
+              order: 1,
+              mt: 2,
+              ml: 4,
+              display: "flex",
+              alignItems: "flex-start",
+              flexDirection: "column",
+            }}
+          >
+            {rentalDays < 1 ? (
+              <Typography variant="subtitle1">Select Rental Dates</Typography>
+            ) : (
+              <Typography variant="subtitle1">
+                {" "}
+                {rentalDays} Day Rental
+              </Typography>
+            )}
+          </Box>
+        </Grid>
 
-        {RentalStartDate && RentalEndDate ? (
-          <FormHelperText>
-            {moment(RentalStartDate).format("MMM DD, YYYY")} -{" "}
-            {moment(RentalEndDate).format("MMM DD, YYYY")}
-          </FormHelperText>
-        ) : (
-          <FormHelperText>
-            Add your rental dates for exact pricing
-          </FormHelperText>
-        )}
+        <Grid container sx={{ justifyContent: "space-between" }}>
+          <Box
+            sx={{
+              ml: 4,
+              flexDirection: "row",
+              display: "flex",
+              order: 2,
+            }}
+          >
+            <Typography
+              color="text.secondary"
+              variant="subtitle2"
+              component="p"
+            >
+              {RentalStartDate && RentalEndDate ? (
+                <FormHelperText>
+                  {moment(RentalStartDate).format("MMM DD, YYYY")} -{" "}
+                  {moment(RentalEndDate).format("MMM DD, YYYY")}
+                </FormHelperText>
+              ) : (
+                <FormHelperText>
+                  Add your rental dates for exact pricing
+                </FormHelperText>
+              )}
+            </Typography>
+          </Box>
+          <Box sx={{ order: 3, mr: 6, display: "flex" }}>
+            <Typography variant="body1" component={"body"} display="inline">
+              <Button onClick={clearDates}>Clear Dates</Button>
+            </Typography>
+          </Box>
+        </Grid>
       </Grid>
+
       <Grid
         container
         spacing={0}
@@ -73,18 +109,18 @@ const CalendarComponent = (props) => {
       <Grid container justifyContent="center" sx={{ mb: 2 }}>
         {available === true && (
           <FormHelperText sx={{ color: "green" }}>
-            Tent is available. Book now.
+            Tent is available. Reserve now.
           </FormHelperText>
         )}
 
         {available === false && (
           <FormHelperText error>
-            Tent not available. Try different dates.
+            Tent not available, please try different dates.
           </FormHelperText>
         )}
 
         {available && !user && (
-          <FormHelperText error>Login to book tent.</FormHelperText>
+          <FormHelperText error>Login to reserve your tent.</FormHelperText>
         )}
       </Grid>
     </>

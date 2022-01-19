@@ -31,6 +31,7 @@ import { CHECK_RENTAL_RESET } from "../../state/constants/rentalConstants";
 import axios from "axios";
 import getStripe from "../../utils/getStripe";
 import Loader from "../../components/layout/Loader";
+import moment from "moment";
 
 export default function productDetails() {
   const dispatch = useDispatch();
@@ -38,8 +39,12 @@ export default function productDetails() {
   const theme = useTheme();
   const { id } = router.query;
 
+  const NewDate = Date.now();
+
   const [RentalStartDate, setRentalStartDate] = useState("");
   const [RentalEndDate, setRentalEndDate] = useState("");
+  const [StartDateInput, setStartDateInput] = useState("Add Date");
+  const [EndDateInput, setEndDateInput] = useState("Add Date");
   const [rentalDays, setRentalDays] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
 
@@ -81,29 +86,31 @@ export default function productDetails() {
     };
   }, [dispatch, id]);
 
-  const onChange = (endDate) => {
-    setRentalEndDate(endDate);
-
-    if (RentalStartDate && endDate) {
-      // Calclate days of stay
-
-      const days = Math.floor(
-        (new Date(endDate) - new Date(RentalStartDate)) / 86400000 + 1
-      );
-
-      setRentalDays(days);
-
-      dispatch(
-        checkRental(id, RentalStartDate.toISOString(), endDate.toISOString())
-      );
-    }
+  const clearDatedCalendarComponent = () => {
+    setRentalStartDate("");
+    setStartDateInput("Add Date");
+    setRentalEndDate("");
+    setEndDateInput("Add Date");
+    setRentalDays(0);
   };
 
   const onChangeCalendarComponent = (date) => {
+    setRentalStartDate("");
+    setStartDateInput("Add Date");
+    setRentalEndDate("");
+    setEndDateInput("Add Date");
+    setRentalDays(0);
+
     let [RentalStartDate, RentalEndDate] = date;
 
-    setRentalStartDate(RentalStartDate);
-    setRentalEndDate(RentalEndDate);
+    if (RentalStartDate) {
+      setRentalStartDate(RentalStartDate);
+      setStartDateInput(moment(RentalStartDate).format("MMM DD, YYYY"));
+    }
+    if (RentalEndDate) {
+      setRentalEndDate(RentalEndDate);
+      setEndDateInput(moment(RentalEndDate).format("MMM DD, YYYY"));
+    }
 
     if (RentalStartDate && RentalEndDate) {
       // Calclate days of stay
@@ -206,6 +213,7 @@ export default function productDetails() {
                   setRentalEndDate={setRentalEndDate}
                   rentalDays={rentalDays}
                   user={user}
+                  clearDates={clearDatedCalendarComponent}
                 />
 
                 <Divider />
@@ -235,10 +243,14 @@ export default function productDetails() {
                   RentalEndDate={RentalEndDate}
                   reviews={reviews}
                   excludedDates={excludedDates}
-                  onChange={onChange}
+                  rentalDays={rentalDays}
+                  StartDateInput={StartDateInput}
+                  EndDateInput={EndDateInput}
+                  onChange={onChangeCalendarComponent}
                   rentTent={rentTent}
                   setRentalStartDate={setRentalStartDate}
                   setRentalEndDate={setRentalEndDate}
+                  clearDates={clearDatedCalendarComponent}
                 />
               </Grid>
             </Grid>
