@@ -1,5 +1,9 @@
 // Next-React Imports
 import React, { forwardRef, useState } from "react";
+import { useRouter } from "next/router";
+// Redux Imports
+import { useSelector, useDispatch } from "react-redux";
+import { getReview } from "../../../state/actions/tentsAction";
 // UI Imports
 import {
   Box,
@@ -26,6 +30,8 @@ import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import { borderRadius } from "@mui/system";
+import Loader from "../../../components/layout/Loader";
+import { useEffect } from 'react';
 
 const DateField = styled(TextField)({
   width: "100%",
@@ -67,11 +73,11 @@ const BookingComponent = (props) => {
     rentTent,
     setRentalStartDate,
     setRentalEndDate,
-    reviews,
     rentalDays,
     StartDateInput,
     EndDateInput,
     clearDates,
+    reviews,
     ...other
   } = props;
   const classes = useStyles();
@@ -100,6 +106,18 @@ const BookingComponent = (props) => {
       price: "$25",
     },
   ];
+
+
+  const reviewList = [
+    {reviewItem: "Quality", rating: "5"}, {reviewItem: "Communication", rating: "4"}, 
+    {reviewItem: "Value", rating: "2.5"}, {reviewItem: "On Time", rating: "3"},
+  ]
+
+  const overallRating = (rating) => {
+    const [ qualityRating, valueRating, communicationRating, timeRating ] = rating;
+    return ((Number(qualityRating.rating) + Number(valueRating.rating) + Number(communicationRating.rating) + Number(timeRating.rating)) / rating.length).toFixed(1)
+  }
+
 
   return (
     <Card
@@ -135,9 +153,9 @@ const BookingComponent = (props) => {
             </Typography>
           </Box>
           <Box sx={{ order: 2, mr: 3, display: "flex" }}>
-            <Star color="primary" />
-            <Typography variant="body1" component={"body"} display="inline">
-              5 - 2 Reviews
+            <Star color="primary" style={{ fontSize: 20 }} />
+            <Typography variant="body1" component={"body"} display="inline" sx={{ mt:-0.2 }}>
+            {overallRating(reviewList)} - {reviews && reviews ?  reviews.length : '0'} Reviews
             </Typography>
           </Box>
         </Grid>

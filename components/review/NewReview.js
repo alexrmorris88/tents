@@ -16,9 +16,21 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from '@mui/material/styles';
 // Utils Imports
 import { toast } from "react-toastify";
 import Loader from "../../components/layout/Loader";
+
+
+const StyledRating = styled(Rating)({
+  '& .MuiRating-iconFilled': {
+    color: '#797AD6',
+  },
+  '& .MuiRating-iconHover': {
+    color: '#6566B7',
+  },
+});
+
 
 const NewReview = ({ reviewID }) => {
   const [session, loading] = useSession();
@@ -88,7 +100,7 @@ const NewReview = ({ reviewID }) => {
                   Rating:
                 </Typography>
               </Grid>
-              <Rating
+              <StyledRating
                 value={rating}
                 onChange={(event, newRating) => setRating(newRating)}
               />

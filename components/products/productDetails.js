@@ -226,6 +226,7 @@ export default function productDetails() {
                   order: 2,
                 }}
               >
+
                 <BookingComponent
                   id={id}
                   price={price}
@@ -257,11 +258,9 @@ export default function productDetails() {
               >
                <Divider />
 
-                {reviewLoading && userLoading ? (
-                  <Loader />
-                ) : (
+
                   <ReviewsComponent user={user} reviews={reviews} id={id} />
-                )}
+
               </Grid>
             </Grid>
           </Grid>

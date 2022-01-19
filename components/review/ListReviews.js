@@ -3,37 +3,63 @@ import React from "react";
 // Component Imports
 import NewReview from "../review/NewReview";
 // UI Imports
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { FormHelperText, Avatar } from "@mui/material";
+import Slider from '@mui/material/Slider';
+// Icon Imports
+import { Star } from '../../icons/star'
+// Uitls Imports
+import { getInitials } from "../../utils/get-initials";
+import moment from 'moment'
 
-const ReviewText = styled(Typography)(({ theme }) => ({
-  ...theme.typography.button,
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(1),
-}));
 
 const ListReviews = ({ reviews, user, id }) => {
 
 
   const reviewList = [
-    {reviewItem: "Quality", rating: "5"}, {reviewItem: "Communication", rating: "5"}, 
-    {reviewItem: "Value", rating: "5"}, {reviewItem: "On Time", rating: "5"},
+    {reviewItem: "Quality", rating: "5"}, {reviewItem: "Communication", rating: "4"}, 
+    {reviewItem: "Value", rating: "2.5"}, {reviewItem: "On Time", rating: "3"},
   ]
+
+  const overallRating = (rating) => {
+    const [ qualityRating, valueRating, communicationRating, timeRating ] = rating;
+    return ((Number(qualityRating.rating) + Number(valueRating.rating) + Number(communicationRating.rating) + Number(timeRating.rating)) / rating.length).toFixed(1)
+  }
+
 
   return (
     <>
-      <Grid container sx={{ mt: 2,   }}>
-        <Box sx={{ flexGrow: 1, order: 1 }}>
-          <Typography color="primary" variant="overline">
-            Rating:
-          </Typography>
-        </Box>
-        <Box sx={{ order: 2, mt: -2.5 }}>
-          {user ? <NewReview reviewID={id} /> : <></>}
+      <Grid container sx={{ mt: 2}}>
+        <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1}}>
+
+          <Box sx={{ flexGrow: 1,  order: 1}}>
+            <Box sx={{display: "flex", flexDirection: "row", ml: 2}}>
+              <Box sx={{ ml: 1, mr: 1, display: "flex" }}>
+                <Star color={"primary"} />
+                <Typography variant="subtitle1">
+                  {overallRating(reviewList)}
+                </Typography>
+              </Box>
+              <Box sx={{ mr: 1}}>
+                <Typography variant="subtitle1" >
+                  -
+                </Typography>
+              </Box>
+
+              <Box sx={{ mr: 1}}>
+                <Typography variant="subtitle1">
+                 {reviews && reviews ? `${reviews.length} reviews` : "0"}
+                </Typography>
+              </Box>
+
+              </Box>
+          </Box>
+        
+          <Box sx={{ order: 2, mt: -3, mr: 10 }}>
+            {user ? <NewReview reviewID={id} /> : <></>}
+          </Box>
         </Box>
       </Grid>
 
@@ -47,91 +73,148 @@ const ListReviews = ({ reviews, user, id }) => {
               <Grid
                 item
                 key={item.reviewItem}
-                xs={6}
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                xl={6}
                 sx={{
-                 mt: .5, mb: .5
+                  mt: .5, mb: .5
                 }}
               >
-<div style={{ width: '100%'}}>
-<Box sx={{display: 'flex'}}>
-                  <Box sx={{ width: '50%'}}>
-                  <Typography varient={"subtitle1"} >
-                    {item.reviewItem}
-                  </Typography>
-                  </Box>                  
-                  
-                  <Box sx={{width: '50%'}}>
-                  <Typography varient={"subtitle1"} >
-                    {item.rating}
-                  </Typography>
+                <div style={{ width: '100%'}}>
+                  <Box sx={{display: 'flex', ml: 3}}>
+                    <Box sx={{ width: '50%'}}>
+
+                      
+                        <Typography varient={"subtitle1"} >
+                          {item.reviewItem}
+                        </Typography>
+
+                    </Box> 
+
+                    <Box sx={{ width: '50%', display: 'flex' }}>
+                      <Box sx={{ width: '50%', display: 'flex' }}>
+                          <Slider 
+                            value={item.rating} 
+                            size="small" 
+                            marks 
+                            min={0} 
+                            max={5} 
+                            sx={{
+                              '& .MuiSlider-thumb': {
+                                borderRadius: '50%',
+                                width: '6px',
+                                height: '6px',
+                                m:0
+                              }
+                            }}
+                           />
+                      </Box>                 
+                    
+                      <Box sx={{ ml: 2, display: 'flex' }}>
+                        <Typography varient={"subtitle1"} >
+                          {item.rating}
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Box>
-                  </Box>
-</div>
+                </div>
 
               </Grid>
             </>
           ))}
-          </Grid>
+        </Grid>
 
 
 
 
 
-      <Grid container sx={{}}>
+      <Grid container sx={{ }}>
         {reviews &&
           reviews.map((review) => (
             <>
               <Grid
                 item
-                key={review.user}
-                xs={6}
+                xs={12}
+                sm={6}
+                md={6}
+                lg={6}
+                xl={6}
                 sx={{
                   alignItems: "center",
-                  display: "flex",
-                  overflow: "hidden",
                   mb: 1,
+                  
+                  
                 }}
               >
-                <Avatar
-                  src={""}
-                  key={review.user}
+              <Box
                   sx={{
-                    height: 45,
-                    m: 1,
-                    width: 45,
-                  }}
-                ></Avatar>
-                <Grid
-                  item
-                  sx={{
-                    alignItems: "center",
-                    display: "block",
-                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
+                    flexGrow: 1,
+                    ml: 2,
+
                   }}
                 >
-                  <Rating readOnly value={review.rating} />
-                  <FormHelperText>
-                    {`by ${review.firstName} ${review.lastName}`}
-                  </FormHelperText>
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    alignItems: "center",
-                    display: "block",
-                    overflow: "hidden",
-                  }}
-                >
-              <FormHelperText>comment:</FormHelperText>
-              <ReviewText sx={{ ml: 2, mb: 1, p: 0 }}>
-                {review.comment}
-              </ReviewText>
-              </Grid>
+
+
+                  <Box 
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      mb: 1
+                      }}>
+                      
+                      <Avatar
+                        src={""}
+                        sx={{
+                          height: 64,
+                          width: 64,  
+                          mr: 1
+                        }}
+                      >
+                        {`${getInitials(review.firstName)}${getInitials(
+                          review.lastName
+                        )}`}
+                      </Avatar>
+
+                   <Box
+                    sx={{
+                      display: "flex",    
+                      flexDirection: "column",
+                      }}>
+                   <Box sx={{ display: "flex", mb: -0.7, mt: 1 }}>
+                    <Typography variant={"subtitle1"}>
+                      {review.firstName}
+                    </Typography>
+                   </Box>
+
+
+                    <Box sx={{ display: "flex", }}>
+                        <Typography variant={"caption"} sx={{ color: 'text.secondary' }}>
+                          {moment(review.createdAt).format("MMM DD, YYYY")}
+                        </Typography>
+                    </Box>
+                  </Box>
+                 
+                 
+                 
+                </Box >
+
+
+
+                     <Box>
+                       <Typography variant="body2" sx={{ ml: 2, mb: 1, p: 0 }}>
+                         {review.comment}
+                        </Typography>
+                      </Box>
+               </Box>
               </Grid>
             </>
           ))}
-          </Grid>
-          </>
+        </Grid>
+      </>
   );
 };
 
