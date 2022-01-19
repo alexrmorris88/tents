@@ -289,25 +289,55 @@ const BookingComponent = (props) => {
                     />
                   </Grid>
                   <Grid container justifyContent="center" sx={{ mb: 2 }}>
-                    {available === true && RentalStartDate && RentalEndDate && (
-                      <FormHelperText sx={{ color: "green" }}>
-                        Tent is available. Reserve now.
-                      </FormHelperText>
-                    )}
-
-                    {available === false &&
-                      RentalStartDate &&
-                      RentalEndDate && (
-                        <FormHelperText error>
-                          Tent not available, please try different dates.
-                        </FormHelperText>
-                      )}
-
-                    {available && !user && RentalStartDate && RentalEndDate && (
-                      <FormHelperText error>
-                        Login to reserve your tent.
-                      </FormHelperText>
-                    )}
+                    <Grid
+                      container
+                      spacing={0}
+                      direction="column"
+                      alignItems="center"
+                      justifyContent="center"
+                      sx={{ width: "100%" }}
+                    >
+                      {available === true &&
+                        RentalStartDate &&
+                        RentalEndDate && (
+                          <FormHelperText sx={{ color: "green" }}>
+                            Tent is available. Reserve now.
+                          </FormHelperText>
+                        )}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={0}
+                      direction="column"
+                      alignItems="center"
+                      justifyContent="center"
+                      sx={{ width: "100%" }}
+                    >
+                      {available === false &&
+                        RentalStartDate &&
+                        RentalEndDate && (
+                          <FormHelperText error>
+                            Tent not available, please try different dates.
+                          </FormHelperText>
+                        )}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={0}
+                      direction="column"
+                      alignItems="center"
+                      justifyContent="center"
+                      sx={{ width: "100%" }}
+                    >
+                      {available &&
+                        !user &&
+                        RentalStartDate &&
+                        RentalEndDate && (
+                          <FormHelperText error>
+                            Login to reserve your tent.
+                          </FormHelperText>
+                        )}
+                    </Grid>
                   </Grid>
                 </>
               </DialogContentText>
@@ -386,21 +416,46 @@ const BookingComponent = (props) => {
         </Grid>
 
         <Grid container justifyContent="center" sx={{ mb: 1 }}>
-          {available === true && RentalStartDate && RentalEndDate &&  (
-            <FormHelperText sx={{ color: "green" }}>
-              Tent is available. Reserve now.
-            </FormHelperText>
-          )}
-
-          {available === false && RentalStartDate && RentalEndDate &&  (
-            <FormHelperText error>
-              Tent not available, please try different dates.
-            </FormHelperText>
-          )}
-
-          {available && !user && RentalStartDate && RentalEndDate &&  (
-            <FormHelperText error>Login to reserve your tent.</FormHelperText>
-          )}
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ width: "100%" }}
+          >
+            {available === true && RentalStartDate && RentalEndDate && (
+              <FormHelperText sx={{ color: "green" }}>
+                Tent is available. Reserve now.
+              </FormHelperText>
+            )}
+          </Grid>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ width: "100%" }}
+          >
+            {available === false && RentalStartDate && RentalEndDate && (
+              <FormHelperText error>
+                Tent not available, please try different dates.
+              </FormHelperText>
+            )}
+          </Grid>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ width: "100%" }}
+          >
+            {available && !user && RentalStartDate && RentalEndDate && (
+              <FormHelperText error>Login to reserve your tent.</FormHelperText>
+            )}
+          </Grid>
         </Grid>
 
         <Grid sx={{ m: 1, mb: 2 }}>
