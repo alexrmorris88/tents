@@ -27,9 +27,9 @@ const divider = "#E6E8F0";
 // };
 
 const primary = {
-  main: "#216ba5",
-  light: "#2a87d0",
-  dark: "#1A5584",
+  main: "#797AD6",
+  light: "#8283EA",
+  dark: "#6566B7",
   contrastText: "#FFFFFF",
 };
 

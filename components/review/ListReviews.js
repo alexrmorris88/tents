@@ -9,7 +9,6 @@ import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { FormHelperText, Avatar } from "@mui/material";
-import Carousel from "react-material-ui-carousel";
 
 const ReviewText = styled(Typography)(({ theme }) => ({
   ...theme.typography.button,
@@ -18,9 +17,16 @@ const ReviewText = styled(Typography)(({ theme }) => ({
 }));
 
 const ListReviews = ({ reviews, user, id }) => {
+
+
+  const reviewList = [
+    {reviewItem: "Quality", rating: "5"}, {reviewItem: "Communication", rating: "5"}, 
+    {reviewItem: "Value", rating: "5"}, {reviewItem: "On Time", rating: "5"},
+  ]
+
   return (
     <>
-      <Grid container sx={{ mt: 2 }}>
+      <Grid container sx={{ mt: 2,   }}>
         <Box sx={{ flexGrow: 1, order: 1 }}>
           <Typography color="primary" variant="overline">
             Rating:
@@ -30,17 +36,60 @@ const ListReviews = ({ reviews, user, id }) => {
           {user ? <NewReview reviewID={id} /> : <></>}
         </Box>
       </Grid>
-      <Carousel>
+
+
+
+
+      <Grid container  sx={{ mt: 2, mb: 2 }} >
+        {reviewList &&
+          reviewList.map((item) => (
+            <>
+              <Grid
+                item
+                key={item.reviewItem}
+                xs={6}
+                sx={{
+                 mt: .5, mb: .5
+                }}
+              >
+<div style={{ width: '100%'}}>
+<Box sx={{display: 'flex'}}>
+                  <Box sx={{ width: '50%'}}>
+                  <Typography varient={"subtitle1"} >
+                    {item.reviewItem}
+                  </Typography>
+                  </Box>                  
+                  
+                  <Box sx={{width: '50%'}}>
+                  <Typography varient={"subtitle1"} >
+                    {item.rating}
+                  </Typography>
+                  </Box>
+                  </Box>
+</div>
+
+              </Grid>
+            </>
+          ))}
+          </Grid>
+
+
+
+
+
+      <Grid container sx={{}}>
         {reviews &&
           reviews.map((review) => (
             <>
               <Grid
                 item
                 key={review.user}
+                xs={6}
                 sx={{
                   alignItems: "center",
                   display: "flex",
                   overflow: "hidden",
+                  mb: 1,
                 }}
               >
                 <Avatar
@@ -65,15 +114,24 @@ const ListReviews = ({ reviews, user, id }) => {
                     {`by ${review.firstName} ${review.lastName}`}
                   </FormHelperText>
                 </Grid>
-              </Grid>
+                <Grid
+                  item
+                  sx={{
+                    alignItems: "center",
+                    display: "block",
+                    overflow: "hidden",
+                  }}
+                >
               <FormHelperText>comment:</FormHelperText>
               <ReviewText sx={{ ml: 2, mb: 1, p: 0 }}>
                 {review.comment}
               </ReviewText>
+              </Grid>
+              </Grid>
             </>
           ))}
-      </Carousel>
-    </>
+          </Grid>
+          </>
   );
 };
 

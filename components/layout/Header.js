@@ -107,7 +107,7 @@ export default function Header(props) {
     >
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ minHeight: 64 }}>
-          <NextLink href="/" passHref>
+          {/* <NextLink href="/" passHref>
             <a>
               <Logo
                 sx={{
@@ -120,7 +120,7 @@ export default function Header(props) {
                 }}
               />
             </a>
-          </NextLink>
+          </NextLink> */}
           <Box sx={{ flexGrow: 1 }} />
           <IconButton
             color="inherit"

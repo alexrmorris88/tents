@@ -215,14 +215,6 @@ export default function productDetails() {
                   user={user}
                   clearDates={clearDatedCalendarComponent}
                 />
-
-                <Divider />
-
-                {reviewLoading && userLoading ? (
-                  <Loader />
-                ) : (
-                  <ReviewsComponent user={user} reviews={reviews} id={id} />
-                )}
               </Grid>
               <Grid
                 item
@@ -252,6 +244,24 @@ export default function productDetails() {
                   setRentalEndDate={setRentalEndDate}
                   clearDates={clearDatedCalendarComponent}
                 />
+              </Grid>
+              <Grid
+                item
+                lg={12}
+                md={12}
+                sm={12}
+                xs={12}
+                sx={{
+                  order: 3,
+                }}
+              >
+               <Divider />
+
+                {reviewLoading && userLoading ? (
+                  <Loader />
+                ) : (
+                  <ReviewsComponent user={user} reviews={reviews} id={id} />
+                )}
               </Grid>
             </Grid>
           </Grid>
