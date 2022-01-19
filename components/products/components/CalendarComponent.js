@@ -107,19 +107,19 @@ const CalendarComponent = (props) => {
         />
       </Grid>
       <Grid container justifyContent="center" sx={{ mb: 2 }}>
-        {available === true && (
+        {available === true && RentalStartDate && RentalEndDate && (
           <FormHelperText sx={{ color: "green" }}>
             Tent is available. Reserve now.
           </FormHelperText>
         )}
 
-        {available === false && (
+        {available === false && RentalStartDate && RentalEndDate &&  (
           <FormHelperText error>
             Tent not available, please try different dates.
           </FormHelperText>
         )}
 
-        {available && !user && (
+        {available && !user && RentalStartDate && RentalEndDate && (
           <FormHelperText error>Login to reserve your tent.</FormHelperText>
         )}
       </Grid>
