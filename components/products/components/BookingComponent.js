@@ -1,9 +1,5 @@
 // Next-React Imports
-import React, { forwardRef, useState } from "react";
-import { useRouter } from "next/router";
-// Redux Imports
-import { useSelector, useDispatch } from "react-redux";
-import { getReview } from "../../../state/actions/tentsAction";
+import React, { useRef, useState, useEffect } from "react";
 // UI Imports
 import {
   Box,
@@ -12,6 +8,7 @@ import {
   Divider,
   Typography,
   FormHelperText,
+  ButtonBase,
   Grid,
   TextField,
 } from "@mui/material";
@@ -22,16 +19,17 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
+// Component Imports
+import { ServicesPopover } from '../utils/ServicesPopover';
 // Icon Imports
 import { ChevronDown } from "../../../icons/chevron-down";
+import { ChevronUp } from "../../../icons/chevron-up";
 import { Star } from "../../../icons/star";
 // Utils Imports
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import { borderRadius } from "@mui/system";
 import Loader from "../../../components/layout/Loader";
-import { useEffect } from 'react';
 
 const DateField = styled(TextField)({
   width: "100%",
@@ -81,8 +79,24 @@ const BookingComponent = (props) => {
     ...other
   } = props;
   const classes = useStyles();
-
+  const anchorRef = useRef(null);
+  const [openPopover, setOpenPopover] = useState(false);
   const [open, setOpen] = useState(false);
+  const [ChangeImage, setChangeImage] = useState(false)
+  const [SetupFee, setSetupFee] = useState(false)
+  const [DeliveryFee, setDeliveryFee] = useState(false)
+
+  console.log(SetupFee, DeliveryFee)
+
+  const handleOpenPopover = () => {
+    setOpenPopover(true);
+    setChangeImage(true)
+  };
+
+  const handleClosePopover = () => {
+    setOpenPopover(false);
+    setChangeImage(false)
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -91,21 +105,6 @@ const BookingComponent = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const lineItems = [
-    {
-      item: "$1,000 x 3 Nights",
-      price: "$3,000",
-    },
-    {
-      item: "Setup Fee",
-      price: "$500",
-    },
-    {
-      item: "Delivery Fee",
-      price: "$25",
-    },
-  ];
 
 
   const reviewList = [
@@ -179,7 +178,7 @@ const BookingComponent = (props) => {
               label="Rental Start"
               onClick={handleClickOpen}
               variant="outlined"
-              inputProps={{ style: { fontSize: "0.875rem" } }}
+              inputProps={{ style: { fontSize: "0.875rem", fontWeight: 400 } }}
               sx={{ mr: 0.15 }}
               InputLabelProps={{
                 shrink: true,
@@ -199,7 +198,7 @@ const BookingComponent = (props) => {
               label="Rental End"
               onClick={handleClickOpen}
               variant="outlined"
-              inputProps={{ style: { fontSize: "0.875rem" } }}
+              inputProps={{ style: { fontSize: "0.875rem", fontWeight: 400  } }}
               sx={{ ml: 0.15 }}
               InputLabelProps={{
                 shrink: true,
@@ -374,24 +373,34 @@ const BookingComponent = (props) => {
               border: 1,
               borderColor: "divider",
               borderRadius: 1,
-              mt: 0.5,
+              mt: 0.5,    
             }}
           >
-            <ServicesButton>
+            <ServicesButton onClick={handleOpenPopover} ref={anchorRef}>
               <Box sx={{ flexGrow: 1, order: 1, display: "flex" }}>
                 <Typography
                   variant="subtitle2"
                   align={"left"}
-                  sx={{ fontSize: "0.875rem", m: 0.3, color: "text.primary" }}
+                  sx={{ fontSize: "0.875rem", m: 0.3, color: "text.primary", fontWeight: 400  }}
                 >
                   Services
                 </Typography>
               </Box>
               <Box sx={{ order: 2, display: "flex" }}>
-                <ChevronDown color="action" />
+                {ChangeImage && ChangeImage ? <ChevronUp color='primary' /> : <ChevronDown color="primary" />}
               </Box>
             </ServicesButton>
+
+            <ServicesPopover   
+              anchorEl={anchorRef.current}
+              onClose={handleClosePopover}
+              open={openPopover}
+              setSetupFee={setSetupFee}
+              setDeliveryFee={setDeliveryFee}
+            />
+
           </Grid>
+  
         </Grid>
 
         <Grid
@@ -483,8 +492,10 @@ const BookingComponent = (props) => {
         </Grid>
 
         <Grid sx={{ ml: 4, mr: 4, mb: 1 }}>
-          {lineItems.map((item) => (
-            <>
+
+
+              {rentalDays > 0 ?
+              <>
               <Grid
                 sx={{
                   display: "inline-flex",
@@ -493,7 +504,7 @@ const BookingComponent = (props) => {
                 }}
               >
                 <Typography variant="body1" component={"body"}>
-                  {item.item}
+                   ${price} X {rentalDays} days
                 </Typography>
               </Grid>
 
@@ -507,11 +518,70 @@ const BookingComponent = (props) => {
                 }}
               >
                 <Typography variant="body1" component={"body"}>
-                  {item.price}
+                  ${price*rentalDays}
                 </Typography>
               </Grid>
-            </>
-          ))}
+              </> : <></>}
+
+
+             {SetupFee ? 
+             <>
+             <Grid
+                sx={{
+                  display: "inline-flex",
+                  flexDirection: "row",
+                  width: "50%",
+                }}
+              >
+                <Typography variant="body1" component={"body"}>
+                  Professional Setup
+                </Typography>
+              </Grid>
+
+              <Grid
+                container
+                justifyContent="flex-end"
+                sx={{
+                  display: "inline-flex",
+                  flexDirection: "row",
+                  width: "50%",
+                }}
+              >
+                <Typography variant="body1" component={"body"}>
+                  $500
+                </Typography>
+              </Grid>
+              </> : <></>}
+
+              {DeliveryFee && 
+              <>
+              <Grid
+                sx={{
+                  display: "inline-flex",
+                  flexDirection: "row",
+                  width: "50%",
+                }}
+              >
+                <Typography variant="body1" component={"body"}>
+                  Delivery
+                </Typography>
+              </Grid>
+
+              <Grid
+                container
+                justifyContent="flex-end"
+                sx={{
+                  display: "inline-flex",
+                  flexDirection: "row",
+                  width: "50%",
+                }}
+              >
+                <Typography variant="body1" component={"body"}>
+                  $25
+                </Typography>
+              </Grid>
+              </>}
+
 
           <Divider />
 
