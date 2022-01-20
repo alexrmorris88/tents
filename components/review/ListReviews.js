@@ -169,8 +169,8 @@ const ListReviews = ({ reviews, user, id }) => {
                       <Avatar
                         src={""}
                         sx={{
-                          height: 64,
-                          width: 64,  
+                          height: 50,
+                          width: 50,  
                           mr: 1
                         }}
                       >
