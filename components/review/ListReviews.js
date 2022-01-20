@@ -38,7 +38,7 @@ const ListReviews = ({ reviews, user, id }) => {
             <Box sx={{display: "flex", flexDirection: "row", ml: 2}}>
               <Box sx={{ ml: 1, mr: 1, display: "flex" }}>
                 <Star color={"primary"} />
-                <Typography variant="subtitle1">
+                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem' }} >
                   {overallRating(reviewList)}
                 </Typography>
               </Box>
@@ -49,7 +49,7 @@ const ListReviews = ({ reviews, user, id }) => {
               </Box>
 
               <Box sx={{ mr: 1}}>
-                <Typography variant="subtitle1">
+                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem' }} >
                  {reviews && reviews ? `${reviews.length} reviews` : "0"}
                 </Typography>
               </Box>

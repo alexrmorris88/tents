@@ -3,21 +3,7 @@ import React from 'react'
 import ListReviews from "../../review/ListReviews";
 // UI Imports
 import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  Drawer,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography,
   Grid,
-  Chip,
 } from "@mui/material";
 
 const ReviewsComponent = (props) => {

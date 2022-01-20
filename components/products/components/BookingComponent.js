@@ -143,23 +143,24 @@ const BookingComponent = (props) => {
               order: 1,
             }}
           >
-            <Typography variant="h5" component={"body"} display="inline">
+            <Typography variant="h5" component={"body"} >
               ${price}
             </Typography>
-            <Typography variant="body1" component={"body"} display="inline">
+            <Typography variant="body1" component={"body"} >
               {" /day"}
             </Typography>
           </Box>
-          <Box sx={{ order: 2, mr: 3, display: "flex" }}>
+          <Box sx={{ order: 2, mr: 3, mt: 0.5, display: "flex" }}>
             <Star color="primary" style={{ fontSize: 20 }} />
-            <Typography variant="body1" component={"body"} display="inline" sx={{ mt:-0.2 }}>
-            {overallRating(reviewList)} - {reviews && reviews ?  reviews.length : '0'} Reviews
+            <Typography variant="body1" component={"body"} sx={{ fontSize: '0.85rem', fontWeight: 500 }}>
+            {overallRating(reviewList)} - {reviews && reviews ?  reviews.length : '0'} reviews
             </Typography>
           </Box>
         </Grid>
 
         <Grid
           sx={{
+            mt: 0.5,
             ml: 4,
             mr: 4,
             width: "auto",

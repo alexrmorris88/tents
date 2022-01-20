@@ -14,13 +14,12 @@ const TitleComponent = (props) => {
           <Box
             sx={{
               order: 1,
-              mr: 3,
               display: "flex",
               alignItems: "flex-start",
               flexDirection: "column",
             }}
           >
-            <Typography color="text.primary" variant="h3" component="h1">
+            <Typography color="text.primary" variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '2rem' }}>
               {name}
             </Typography>
           </Box>
@@ -38,7 +37,7 @@ const TitleComponent = (props) => {
               color="text.secondary"
               variant="subtitle2"
               component="p"
-              sx={{ ml: 1 }}
+              sx={{ fontWeight: 500, fontSize: '0.8rem' }}
             >
               Some text to support the title!
             </Typography>

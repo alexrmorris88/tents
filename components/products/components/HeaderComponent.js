@@ -19,7 +19,7 @@ const HeaderComponent = (props) => {
               order: 1,
             }}
           >
-            <Typography variant="h5" component={"h1"}>
+            <Typography color="text.primary" variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '1.2rem' }}>
               {title} by {manufacturer}
             </Typography>
           </Box>
@@ -28,13 +28,12 @@ const HeaderComponent = (props) => {
           <Box
             sx={{
               order: 2,
-              mr: 3,
               display: "flex",
               alignItems: "flex-start",
               flexDirection: "column",
             }}
           >
-            <Typography variant="body1" component={"body"} sx={{ ml: 1 }}>
+            <Typography color="text.primary" variant="subtitle2" component="h2" sx={{ fontWeight: 400,  }}>
               {" "}
               1 Tent - 50 - 100 People Capacity
             </Typography>
