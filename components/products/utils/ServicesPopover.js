@@ -6,12 +6,22 @@ export const ServicesPopover = (props) => {
   const { anchorEl, onClose, open, setSetupFee, setDeliveryFee, ...other } = props;
 
 
-  const deliveryHandler = () => {
-    setDeliveryFee(true)
+  const deliveryHandler = (e) => {
+    if(e.target.checked){
+      setDeliveryFee(true)
+    }
+    if(!e.target.checked){
+      setDeliveryFee(false)
+    }
   } 
 
-  const setupHandler = () => {
-    setSetupFee(true)
+  const setupHandler = (e) => {
+    if(e.target.checked){
+      setSetupFee(true)
+    }
+    if(!e.target.checked){
+      setSetupFee(false)
+    }
   } 
 
   return (

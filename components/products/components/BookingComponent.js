@@ -86,7 +86,6 @@ const BookingComponent = (props) => {
   const [SetupFee, setSetupFee] = useState(false)
   const [DeliveryFee, setDeliveryFee] = useState(false)
 
-  console.log(SetupFee, DeliveryFee)
 
   const handleOpenPopover = () => {
     setOpenPopover(true);

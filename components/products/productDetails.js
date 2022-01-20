@@ -48,7 +48,7 @@ export default function productDetails() {
   const [rentalDays, setRentalDays] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
 
-  const { tent } = useSelector((state) => state.tentDetails);
+  const { tent = {} } = useSelector((state) => state.tentDetails);
   const {
     name,
     price,
