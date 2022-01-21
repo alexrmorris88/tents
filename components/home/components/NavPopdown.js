@@ -16,7 +16,7 @@ const StyledBox = styled(Box)({
     borderColor: "primary.main",
     borderRadius: 16,
     cursor: 'pointer',
-    boxShadow: "0px 0px 0px 8px #E6E8F0",
+    boxShadow: "0px 0px 0px 9px #E6E8F0",
   }
 });
 

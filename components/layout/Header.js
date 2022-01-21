@@ -66,13 +66,16 @@ const LoggedInUser = () => {
           border: 1,
           borderColor: 'divider',
           borderRadius: 16,
-          p: 0.5
+          p: 0.5,
+          ":hover": {
+            backgroundColor: 'divider'
+          }
         }}
       >
         <Box
         sx={{
           alignItems: "center",
-          display: "flex",
+          display: "flex"
         }}
         >
         <MenuIcon fontSize="small" />
@@ -109,7 +112,6 @@ export default function Header(props) {
   const { onOpenSidebar } = props;
   const router = useRouter();
   const dispatch = useDispatch();
-  const RemoveNavRef = useRef(null)
   const [Scroll, setScroll] = useState({scrollOne: false});
 
   const { user, loading } = useSelector((state) => state.loadedUser);
@@ -163,12 +165,11 @@ export default function Header(props) {
           </NextLink> */}
               <Grow 
                in={Scroll.scrollOne} 
-               style={{ transformOrigin: '0 100 0' }}
+               style={{ transformOrigin: '100 100 100' }}
                sx={{ flexGrow: 1, width: '40%'}}
                {...(Scroll.scrollOne ? { timeout: { exit: 0, enter: 1000 } } : {})}
              >
                 <Box
-                  ref={RemoveNavRef}
                   addEventListener={Scroll.scrollOne}
                 >
                   <NavPopdown />

@@ -9,7 +9,6 @@ import NavPopdown from "./components/NavPopdown";
 import Grow from '@mui/material/Grow';
 
 const Home = () => {
-  const RemoveNavRef = useRef(null)
   const [Scroll, setScroll] = useState({scrollOne: true});
 
   useLayoutEffect(() => {
@@ -31,11 +30,10 @@ const Home = () => {
 
     <Grow 
     in={Scroll.scrollOne} 
-    style={{ transformOrigin: '0 100 0' }}
+    style={{ transformOrigin: '100 100 100' }}
     {...(Scroll.scrollOne ? { timeout: { exit: 0, enter: 1000 } } : {})}
     >
       <Box
-      ref={RemoveNavRef}
       addEventListener={Scroll.scrollOne}
       >
       <NavPopdown />
