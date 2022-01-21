@@ -11,10 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
-import { Cog as CogIcon } from "../../icons/cog";
-import { Lock as LockIcon } from "../../icons/lock";
-import { MinusOutlined as MinusOutlinedIcon } from "../../icons/minus-outlined";
-import { Template as TemplateIcon } from "../../icons/template";
+// Icon Imports
+import { Cog as CogIcon } from "../../../icons/cog";
+import { Lock as LockIcon } from "../../../icons/lock";
+import { MinusOutlined as MinusOutlinedIcon } from "../../../icons/minus-outlined";
+import { Template as TemplateIcon } from "../../../icons/template";
 
 const getFeatures = (theme) => [
   {

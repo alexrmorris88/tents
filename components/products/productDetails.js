@@ -39,8 +39,6 @@ export default function productDetails() {
   const theme = useTheme();
   const { id } = router.query;
 
-  const NewDate = Date.now();
-
   const [RentalStartDate, setRentalStartDate] = useState("");
   const [RentalEndDate, setRentalEndDate] = useState("");
   const [StartDateInput, setStartDateInput] = useState("Add Date");
@@ -87,18 +85,23 @@ export default function productDetails() {
   }, [dispatch, id]);
 
   const clearDatedCalendarComponent = () => {
+    
     setRentalStartDate("");
     setStartDateInput("Add Date");
+
     setRentalEndDate("");
     setEndDateInput("Add Date");
+
     setRentalDays(0);
   };
 
   const onChangeCalendarComponent = (date) => {
     setRentalStartDate("");
     setStartDateInput("Add Date");
+
     setRentalEndDate("");
     setEndDateInput("Add Date");
+
     setRentalDays(0);
 
     let [RentalStartDate, RentalEndDate] = date;
@@ -163,8 +166,6 @@ export default function productDetails() {
           maxWidth="lg"
           sx={{
             backgroundColor: theme.palette.background.paper,
-            borderRadius: 1,
-            mb: 2,
           }}
         >
           <Grid container justifyContent="center" sx={{ p: 3 }}>

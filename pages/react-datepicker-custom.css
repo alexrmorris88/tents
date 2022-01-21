@@ -102,7 +102,7 @@
   font-weight: bold;
   display: inline-block;
   position: relative;
-  margin: 5px;
+  margin: 4px;
 }
 
 .react-datepicker--time-only .react-datepicker__triangle {
@@ -459,8 +459,8 @@
 .react-datepicker__time-name {
   color: #000;
   display: inline-block;
-  width: 2.5rem;
-  line-height: 2.5rem;
+  width: 2.3rem;
+  line-height: 2.3rem;
   text-align: center;
   margin: 0.166rem;
 }

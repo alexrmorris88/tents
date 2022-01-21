@@ -35,8 +35,6 @@ const CalendarComponent = (props) => {
           <Box
             sx={{
               order: 1,
-              mt: 2,
-              ml: 4,
               display: "flex",
               flexDirection: "column",
           
@@ -106,21 +104,7 @@ const CalendarComponent = (props) => {
       >
 
       <Box
-        sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex', xl: 'flex'} }}
-      >
-        <DatePicker
-          selected={RentalStartDate}
-          onChange={(date) => onChange(date)}
-          startDate={RentalStartDate}
-          endDate={RentalEndDate}
-          monthsShown={2}
-          excludeDates={excludeDates}
-          selectsRange
-          inline
-        />
-      </Box>
-      <Box
-        sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'none', xl: 'none'}, m: -2 }}
+        sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex'} }}
       >
         <DatePicker
           selected={RentalStartDate}

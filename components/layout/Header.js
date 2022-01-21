@@ -24,6 +24,7 @@ import Loader from "../../components/layout/Loader";
 import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
 import PropTypes from "prop-types";
+// Icon Imports
 import { Menu as MenuIcon } from "../../icons/menu";
 import { Logo } from "./logo";
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
@@ -60,17 +61,38 @@ const LoggedInUser = () => {
           alignItems: "center",
           display: "flex",
           ml: 2,
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: 16,
+          p: 0.5
         }}
       >
+        <Box
+        sx={{
+          alignItems: "center",
+          display: "flex",
+        }}
+        >
+        <MenuIcon fontSize="small" />
+        </Box>
+        <Box
+        sx={{
+          alignItems: "center",
+          display: "flex",
+          ml: 0.5,
+          mr: 0.5
+        }}
+        >
         <Avatar
           sx={{
-            height: 40,
-            width: 40,
+            height: 30,
+            width: 30,
           }}
           src={user.avatar}
         >
-          <UserCircleIcon fontSize="small" />
+          <UserCircleIcon fontSize="medium"  />
         </Avatar>
+        </Box>
       </Box>
       <NavPopout
         anchorEl={anchorRef.current}

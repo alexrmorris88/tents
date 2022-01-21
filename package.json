@@ -53,6 +53,7 @@
     "redux-thunk": "^2.4.1",
     "simplebar-react": "^2.3.6",
     "stripe": "^8.195.0",
+    "styled-components": "^5.3.3",
     "tar": "^6.1.11",
     "validator": "^13.7.0",
     "yup": "^0.32.11"
