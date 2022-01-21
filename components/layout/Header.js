@@ -1,5 +1,5 @@
 // Next-React Imports
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 // UI Imports
@@ -20,6 +20,7 @@ import { styled } from "@mui/material/styles";
 import { loadUser } from "../../state/actions/userActions";
 import { NavPopout } from "./nav-popout";
 import Loader from "../../components/layout/Loader";
+import NavPopdown from "../home/components/NavPopdown"
 // Redux Imports
 import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
@@ -28,6 +29,7 @@ import PropTypes from "prop-types";
 import { Menu as MenuIcon } from "../../icons/menu";
 import { Logo } from "./logo";
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
+import Grow from '@mui/material/Grow';
 
 const HeaderLink = styled(Link)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -107,8 +109,24 @@ export default function Header(props) {
   const { onOpenSidebar } = props;
   const router = useRouter();
   const dispatch = useDispatch();
+  const RemoveNavRef = useRef(null)
+  const [Scroll, setScroll] = useState({scrollOne: false});
 
   const { user, loading } = useSelector((state) => state.loadedUser);
+
+  useLayoutEffect(() => {
+
+  const onScroll = () => {
+    if (window.scrollY > 0) {
+      setScroll(state => ({ ...state, scrollOne: true }));
+    } if (window.scrollY === 0) {
+      setScroll(state => ({ ...state, scrollOne: false }));
+    }
+  };
+
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scorll', onScroll)
+  }, [])
 
   useEffect(() => {
     if (!user) {
@@ -143,7 +161,21 @@ export default function Header(props) {
               />
             </a>
           </NextLink> */}
-          <Box sx={{ flexGrow: 1 }} />
+              <Grow 
+               in={Scroll.scrollOne} 
+               style={{ transformOrigin: '0 100 0' }}
+               sx={{ flexGrow: 1, width: '40%'}}
+               {...(Scroll.scrollOne ? { timeout: { exit: 0, enter: 1000 } } : {})}
+             >
+                <Box
+                  ref={RemoveNavRef}
+                  addEventListener={Scroll.scrollOne}
+                >
+                  <NavPopdown />
+                </Box> 
+              </Grow>
+
+          <Box />
           <IconButton
             color="inherit"
             onClick={onOpenSidebar}

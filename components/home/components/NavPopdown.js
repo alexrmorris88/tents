@@ -1,23 +1,17 @@
 // Next-React Imports
-import React from 'react';
+import React, { useEffect, useState, useRef, createRef, useLayoutEffect } from 'react';
 // UI Imports
 import {
   Box,
   Typography,
 } from "@mui/material";
 import { makeStyles } from '@mui/styles';
-import styled, { ThemeProvider } from 'styled-components';
-import {
-  createTheme,
-  ThemeProvider as MuiThemeProvider,
-} from '@mui/material/styles';
-import { deepPurple } from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 // Icon Imports
 import { Search } from '../../../icons/search'
 
 const StyledBox = styled(Box)({
   "&:hover": {
-
     backgroundColor: '#E6E8F0',
     borderColor: "primary.main",
     borderRadius: 16,
@@ -26,34 +20,42 @@ const StyledBox = styled(Box)({
   }
 });
 
+
 const WhiteTypography = styled(Typography)({
   color: '#fff'
 });
 
 
-const NavPopdown = () => {
+const NavPopdown = ({ RemoveNavRef, eventListner }) => {
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1  }}>
 
-      <Box 
+    <Box
+      ref={RemoveNavRef}
+      addEventListener={eventListner}
       sx={{ 
         display: 'flex', 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        border: 1, 
-        borderColor: 'divider', 
-        borderRadius: 16, 
-        width: '40vw', 
-        p: 1,
-         }}
-      > 
+        justifyContent: 'center', 
+        mb: 1,
+        }}>
+
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          flexDirection: 'row', 
+          justifyContent: 'space-between', 
+          border: 1, 
+          borderColor: 'divider', 
+          borderRadius: 16, 
+          width: '40vw', 
+          p: 1,
+          }}
+        > 
         <StyledBox 
           onClick={() => {
             console.log("hello")
           }}
           sx={{ 
-            ml: 1, 
             display: 'flex', 
             justifyContent: 'center', 
             flexDirection: 'column', 
@@ -71,7 +73,7 @@ const NavPopdown = () => {
 
 
           <Box sx={{ ml: 2, display: 'flex',   alignContent: 'center' }}>
-            <Typography variant='subtitle2' sx={{ fontSize: '0.7rem', color: 'text.secondary' }}>
+            <Typography variant='subtitle2' sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
                 Add Dates
             </Typography>
 
@@ -113,7 +115,7 @@ const NavPopdown = () => {
             </Box>
 
             <Box sx={{ ml: 2, display: 'flex',   alignContent: 'center' }}>
-              <Typography variant='subtitle2' sx={{ fontSize: '0.7rem', color: 'text.secondary' }}>
+              <Typography variant='subtitle2' sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
                   Add Dates
               </Typography>
             </Box>
@@ -121,7 +123,7 @@ const NavPopdown = () => {
         </Box>
 
 
-        <Box sx={{ display: 'flex', mr: 1 }}>
+        <StyledBox sx={{ display: 'flex' }}>
 
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', p:1,  mr: 1, backgroundColor: 'primary.main', borderRadius: 16 }}>
             <Box sx={{ display: 'flex', mr: 0.3}}>
@@ -133,7 +135,7 @@ const NavPopdown = () => {
             </Box>
           </Box>
 
-        </Box>
+        </StyledBox>
       </Box>
     </Box>
   );
