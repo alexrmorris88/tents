@@ -35,7 +35,7 @@ const NavPopdown = ({ RemoveNavRef, eventListner }) => {
       addEventListener={eventListner}
       sx={{ 
         display: 'flex', 
-        justifyContent: 'center', 
+        justifyContent: 'center',
         mb: 1,
         }}>
 
@@ -47,7 +47,8 @@ const NavPopdown = ({ RemoveNavRef, eventListner }) => {
           border: 1, 
           borderColor: 'divider', 
           borderRadius: 16, 
-          width: '40vw', 
+          backgroundColor: "#fff",
+          width: { xs: '70vw', sm: '60vw', md: '50vw', lg: '40vw', xl: '30vw' }, 
           p: 1,
           }}
         > 

@@ -46,29 +46,22 @@ const Header = () => {
   }, [])
 
   return (
-  <AppBar
-  elevation={0}
-  sx={{
-    backgroundColor: "background.paper",
-    borderBottomColor: "divider",
-    borderBottomStyle: "solid",
-    borderBottomWidth: 1,
-    boxShadow: 3,
-    color: "text.secondary",
-    mt: 1
-  }}
->
-  <Container>
-    <Toolbar disableGutters sx={{ minHeight: 64 }}>
+  <Box
+    sx={{
+      backgroundColor: "background.default",
+      pt: 0.5,
+      pb: 0.5,
+      position: "sticky",
+      top: "0px",
+    }}
 
+  >
 
-        <Box>
-          <NavPopdown />
-        </Box> 
+    <Box>
+      <NavPopdown />
+    </Box> 
 
-        </Toolbar>
-      </Container>
-    </AppBar>
+  </Box>
 
         );
 };

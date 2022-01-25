@@ -1,8 +1,17 @@
 // Next-React Imports
 import React from 'react';
+// UI imports
+import { Box } from '@mui/material';
+// Components Imports
+import HomeHero from '../home/components/home-products'
 
-export default function HomeTest() {
+
+const HomeTest = () => {
   return (
-    <h1>Hello</h1>
+    <main>
+      <HomeHero />
+    </main>
   );
 }
+
+export default HomeTest;

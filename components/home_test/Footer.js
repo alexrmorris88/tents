@@ -48,118 +48,141 @@ const Footer = (props) => {
 
 
   return (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      backgroundColor: "background.default",
-      borderTopColor: "divider",
-      borderTopStyle: "solid",
-      borderTopWidth: 1,
-      pt: 0.5,
-    }}
-    {...props}
-  >
 
-
-
-<NextLink href="/home_test" passHref>
     <Box
-    sx={{
-      asPath: "/home_test",
-      display: 'flex',
-      flexDirection: 'column',
-      color: router.asPath === "/home_test" ? "primary.main" : "secondary.main",
-      "&:hover": { color: "primary.main", cursor: 'pointer' }
-    }}
-    >
-      <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center'
-        }}
-      >
-      <Search fontSize="large" />
-      </Box>
-      <Box>
-        <Typography>
-          Search
-        </Typography>
-      </Box>
-    </Box>
-</NextLink> 
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: "background.default",
+        borderTopColor: "divider",
+        borderTopStyle: "solid",
+        borderTopWidth: 1,
+        p: 0.5,
+        position: "sticky",
+        bottom: "0px",
+      }}
 
- 
-    <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      "&:hover": { color: "primary.main", cursor: 'pointer'}
-    }}
     >
+
       <Box
       sx={{
+        width: { xs: '70vw', sm: '60vw', md: '50vw', lg: '40vw', xl: '30vw' },
         display: 'flex',
-        justifyContent: 'center'
-        }}
-      >
-      <ShoppingBag fontSize="large" />
-      </Box>
-      <Box>
-        <Typography  >
-          Orders
-        </Typography>
-      </Box>
-    </Box>
-
-    <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      "&:hover": { color: "primary.main", cursor: 'pointer'}
-    }}
-    >
-      <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center'
-        }}
-      >
-      <MailOpen fontSize="large" />
-      </Box>
-      <Box>
-        <Typography>
-          Inbox
-        </Typography>
-      </Box>
-    </Box>
-
-
-    <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      "&:hover": { color: "primary.main", cursor: 'pointer'}
-    }}
-    >
-      <Box
-      sx={{
-      display: 'flex',
-      justifyContent: 'center'
+        flexDirection: 'row',
+        justifyContent: 'space-around',
       }}
       >
-      <UserCircleIcon fontSize="large" />
+
+      <NextLink href="/home_test" passHref>
+          <Box
+          sx={{
+            asPath: "/home_test",
+            display: 'flex',
+            flexDirection: 'column',
+            color: router.asPath === "/home_test" ? "primary.main" : "secondary.light",
+            "&:hover": { color: "primary.main", cursor: 'pointer' }
+          }}
+          >
+            <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center'
+              }}
+            >
+            <Search fontSize="large" />
+            </Box>
+            <Box>
+              <Typography>
+                Search
+              </Typography>
+            </Box>
+          </Box>
+      </NextLink> 
+
+
+      <NextLink href="/#" passHref>
+      <Box
+      sx={{
+        asPath: "/#",
+        display: 'flex',
+        flexDirection: 'column',
+        color: 'lightgray',
+        "&:hover": { color: "primary.main", cursor: 'pointer'}
+      }}
+      >
+        <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center'
+          }}
+        >
+        <ShoppingBag fontSize="large" />
+        </Box>
+        <Box>
+          <Typography  >
+            Orders
+          </Typography>
+        </Box>
       </Box>
-      <Box>
-        <Typography>
-          Profile
-        </Typography>
+      </NextLink>
+
+      <NextLink href="/#" passHref>
+      <Box
+      sx={{
+        asPath: "/#",
+        display: 'flex',
+        flexDirection: 'column',
+        color: 'lightgray',
+        "&:hover": { color: "primary.main", cursor: 'pointer'}
+      }}
+      >
+        <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center'
+          }}
+        >
+        <MailOpen fontSize="large" />
+        </Box>
+        <Box>
+          <Typography>
+            Inbox
+          </Typography>
+        </Box>
+      </Box>
+      </NextLink>
+
+      <NextLink href="/#" passHref>
+      <Box
+      sx={{
+        asPath: "/#",
+        display: 'flex',
+        flexDirection: 'column',
+        color: 'lightgray',
+        "&:hover": { color: "primary.main", cursor: 'pointer'}
+      }}
+      >
+        <Box
+        sx={{
+        display: 'flex',
+        justifyContent: 'center'
+        }}
+        >
+        <UserCircleIcon fontSize="large" />
+        </Box>
+        <Box>
+          <Typography>
+            Profile
+          </Typography>
+        </Box>
+      </Box>
+      </NextLink>
+      
       </Box>
     </Box>
-    
 
-  </Box>)}
+    )}
 
 
 export default Footer;

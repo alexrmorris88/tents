@@ -1,25 +1,31 @@
 //Next-React
 import React, { useState } from "react";
 import Head from "next/head";
-//UI Components
+// UI Imports
+import {
+  AppBar,
+  Box,
+  Container,
+  IconButton,
+  ButtonBase,
+  Avatar,
+  Link,
+  Toolbar,
+  Button,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
-//Components
+// Components
 import Header from "./Header";
 import Footer from "./Footer";
 // CSS
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const MainLayoutRoot = styled("div")(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-  height: "100%",
-  paddingTop: 64,
-}));
-
 const Layout = ({ children, title = "Saint John Tents" }) => {
 
   return (
-    <MainLayoutRoot>
+    <div>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -29,9 +35,11 @@ const Layout = ({ children, title = "Saint John Tents" }) => {
       <Header />
 
       <ToastContainer />
+
       {children}
+
       <Footer />
-    </MainLayoutRoot>
+    </div>
   );
 };
 
