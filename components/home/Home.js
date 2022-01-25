@@ -10,20 +10,24 @@ import Grow from '@mui/material/Grow';
 
 const Home = () => {
   const [Scroll, setScroll] = useState({scrollOne: true});
+  let scrollDisplay = "block"
 
   useLayoutEffect(() => {
 
   const onScroll = () => {
     if (window.scrollY > 0) {
       setScroll(state => ({ ...state, scrollOne: false }));
+      scrollDisplay = "none"
     } if (window.scrollY === 0) {
       setScroll(state => ({ ...state, scrollOne: true }));
+      scrollDisplay = "block"
     }
   };
 
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scorll', onScroll)
   }, [])
+
 
   return (
     <main>
@@ -35,6 +39,7 @@ const Home = () => {
     >
       <Box
       addEventListener={Scroll.scrollOne}
+      sx={{display: scrollDisplay}}
       >
       <NavPopdown />
       </Box> 
