@@ -39,10 +39,12 @@ const DescComponent = (props) => {
 
 
   return (
-    <Grid sx={{m: 2}}>
+    <Grid
+    sx={{ mt: 1}}
+    >
       <Box sx={{ display:'flex', flexDirection: "column" }}>
         <Box>
-        <Typography className={classes.multiLineEllipsis} variant="body1" component={"body"} sx={{m:1, pl: 1 }} >{description}</Typography>
+        <Typography className={classes.multiLineEllipsis} variant="body1" component={"body"} >{description}</Typography>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row-reverse'}}>
           <Button onClick={handleClickOpen}>

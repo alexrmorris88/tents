@@ -25,19 +25,34 @@ import NavPopdown from "../home/components/NavPopdown"
 import { useDispatch, useSelector } from "react-redux";
 // Utils Imports
 import PropTypes from "prop-types";
-// Icon Imports
+import { Fade } from "@mui/material";
 import Grow from '@mui/material/Grow';
+import Slide from '@mui/material/Slide';
 
 const Header = () => {
-  const [Scroll, setScroll] = useState({scrollOne: false});
+  const [Scroll, setScroll] = useState(false);
+  const [BGColor, setBGColor] = useState("primary.main");
+  const [BoxDisplay, setBoxDisplay] = useState("flex")
+  const [BoxDisplay2, setBoxDisplay2] = useState("none")
+  const [Fade, setFade] = useState({scrollOne: false})
 
   useLayoutEffect(() => {
 
   const onScroll = () => {
-    if (window.scrollY > 0) {
-      setScroll(state => ({ ...state, scrollOne: true }));
-    } if (window.scrollY === 0) {
-      setScroll(state => ({ ...state, scrollOne: false }));
+    const scroll = window.scrollY
+
+    if (scroll > 1) {
+      setScroll(true);
+      setBGColor("background.default")
+      setBoxDisplay("none")
+      setBoxDisplay2('flex')
+      setFade(state => ({ ...state, scrollOne: true }))
+    } if (scroll === 0) {
+      setScroll(false);
+      setBGColor("primary.main")
+      setBoxDisplay("flex")
+      setBoxDisplay2("none")
+      setFade(state => ({ ...state, scrollOne: false }))
     }
   };
 
@@ -48,18 +63,54 @@ const Header = () => {
   return (
   <Box
     sx={{
-      backgroundColor: "background.default",
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: BGColor,
       pt: 0.5,
       pb: 0.5,
       position: "sticky",
       top: "0px",
+      zIndex: 999,
+      height: "75px",
+      maxHeight: "75px",
     }}
 
   >
 
-    <Box>
-      <NavPopdown />
-    </Box> 
+    <Grow 
+      in={!Fade.scrollOne} 
+      style={{ transformOrigin: '100 100 100' }}
+      {...(Fade.scrollOne ? {} : { timeout: { exit: 10, enter: 50 } } )}
+      mountOnEnter unmountOnExit
+      >
+        <Box
+        sx={{
+          display: BoxDisplay,
+          justifyContent: 'center',
+        }}
+        >
+          <Typography color="text.primary" variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '3rem' }}>
+            Test
+          </Typography>
+        </Box> 
+      </Grow>
+
+      <Grow 
+      in={Fade.scrollOne} 
+      style={{ transformOrigin: '100 100 100' }}
+      {...(Fade.scrollOne ? { timeout: { exit: 10, enter: 50 } } : {} )}
+      mountOnEnter unmountOnExit
+      >
+        <Box
+          sx={{
+            display: BoxDisplay2,
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}
+        >
+          <NavPopdown />
+        </Box> 
+      </Grow>
 
   </Box>
 

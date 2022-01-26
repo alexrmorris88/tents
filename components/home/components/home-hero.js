@@ -14,21 +14,17 @@ export const HomeHero = (props) => {
     <Grid
       sx={{
         display: 'block', 
-        overflow: 'hidden', 
-        width: '102vw', 
-        height: 'auto', 
+        width: '100vw', 
+        height: '30%', 
         WebkitBackgroundSize: 'cover', 
-        marginLeft: '-1vw', 
-        marginRight: '-1vw', 
-        // marginTop: '-1vh', 
-        maxWidth: '102vw',
+        maxWidth: '100vw',
       }}
     >
       <Image 
         src={'/home/hero/heroImage.jpg'}
         alt={'SJ Tents'}
-        width={'100%'}
-        height={'70%'}
+        width='100vw'
+        height='30%' 
         layout="responsive"
         objectFit="cover"
       />

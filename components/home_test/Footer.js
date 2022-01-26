@@ -52,8 +52,7 @@ const Footer = (props) => {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         backgroundColor: "background.default",
         borderTopColor: "divider",
         borderTopStyle: "solid",
@@ -61,6 +60,7 @@ const Footer = (props) => {
         p: 0.5,
         position: "sticky",
         bottom: "0px",
+        zIndex: 999,
       }}
 
     >
@@ -147,7 +147,7 @@ const Footer = (props) => {
         </Box>
         <Box>
           <Typography>
-            Inbox
+            Contact Us
           </Typography>
         </Box>
       </Box>

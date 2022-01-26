@@ -37,8 +37,8 @@ const NavPopdown = ({ RemoveNavRef, eventListner }) => {
         display: 'flex', 
         justifyContent: 'center',
         mb: 1,
+        height: 66,
         }}>
-
       <Box 
         sx={{ 
           display: 'flex', 
