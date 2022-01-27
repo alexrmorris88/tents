@@ -86,11 +86,10 @@ const Header = () => {
         <Box
         sx={{
           display: BoxDisplay,
-          justifyContent: 'center',
         }}
         >
-          <Typography color="text.primary" variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '3rem' }}>
-            Test
+          <Typography color="#fff" variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '1.2rem' }}>
+            Testing the font color
           </Typography>
         </Box> 
       </Grow>

@@ -17,7 +17,7 @@ export const HomeHero = (props) => {
         width: '100vw', 
         height: '30%', 
         WebkitBackgroundSize: 'cover', 
-        maxWidth: '100vw',
+        maxWidth: '100%',
       }}
     >
       <Image 

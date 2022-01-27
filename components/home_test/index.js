@@ -16,6 +16,7 @@ import ReviewsComponent from "../../components/products/components/ReviewsCompon
 import DescComponent from "../../components/products/components/DescComponent";
 import Pictures from "../../components/home_test/components/Pictures";
 import NavPopdown from "../home/components/NavPopdown";
+import HomeDesc from "./components/HomeDesc";
 import { HomeHero } from '../../components/home/components/home-hero';
 // Redux Imports
 import { clearErrors } from "../../state/actions/tentsAction";
@@ -206,7 +207,7 @@ const HomeTest = () => {
         display: 'flex',
         justifyContent: 'center',
       }}
-      >
+      >     
         <Box
         sx={{
           display: 'flex',
@@ -215,7 +216,13 @@ const HomeTest = () => {
 
         }}
         >
+
           <Box>
+            <HomeDesc />
+          </Box>
+
+          <Box>
+            <Divider />
             <Pictures />
           </Box>
 

@@ -43,7 +43,7 @@ aria-describedby="alert-dialog-description"
         }}
       >
 
-<Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 600 }} >
+          <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 600 }} >
             Rental Information
           </Typography>
 

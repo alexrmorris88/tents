@@ -14,6 +14,7 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
+  Button
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { MinusOutlined as MinusOutlinedIcon } from "../../icons/minus-outlined";
@@ -178,6 +179,16 @@ const Footer = (props) => {
         </Box>
       </Box>
       </NextLink>
+      
+      
+      <Box
+        sx={{
+        display: 'flex',
+        justifyContent: 'center'
+        }}
+        >
+        <Button variant="contained">Rent Now!</Button>
+      </Box>
       
       </Box>
     </Box>
