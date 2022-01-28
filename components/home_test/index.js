@@ -46,8 +46,6 @@ const HomeTest = () => {
   const [EndDateInput, setEndDateInput] = useState("Add Date");
   const [rentalDays, setRentalDays] = useState(0);
   const [paymentLoading, setPaymentLoading] = useState(false);
-  const [Fade, setFade] = useState({scrollOne: true})
-  const [BoxDisplay, setBoxDisplay] = useState("flex")
 
   const { available } = useSelector((state) => state.checkRental);
   const { dates } = useSelector((state) => state.calendarAvailability);
@@ -77,23 +75,6 @@ const HomeTest = () => {
     };
   }, [dispatch, id]);
 
-  useLayoutEffect(() => {
-
-    const onScroll = () => {
-      const scroll = window.scrollY
-
-      if (scroll > 1) {
-        setFade(state => ({ ...state, scrollOne: false }))
-        setBoxDisplay("none")
-      } if (scroll === 0) {
-        setFade(state => ({ ...state, scrollOne: true }))
-        setBoxDisplay("flex")
-      }
-    };
-  
-      window.addEventListener('scroll', onScroll)
-      return () => window.removeEventListener('scorll', onScroll)
-    }, [])
 
   const clearDatedCalendarComponent = () => {
     
@@ -181,20 +162,10 @@ const HomeTest = () => {
           >         
               <Box
                 sx={{
-                  pt: 1,
                   display: 'flex',
                   justifyContent: 'center',
                 }}
               >
-                  <Grow 
-                    in={Fade.scrollOne}
-                    style={{ transformOrigin: '100 100 100' }}
-                    {...(Fade.scrollOne ? { timeout: { exit: 10, enter: 50 } } : {} )}
-                  >
-                    <Box>
-                    <NavPopdown />
-                    </Box>
-                  </Grow>
               </Box>
             <Box>
               <HomeHero />

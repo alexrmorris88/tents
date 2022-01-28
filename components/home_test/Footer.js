@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { MinusOutlined as MinusOutlinedIcon } from "../../icons/minus-outlined";
+import useMediaQuery from '@mui/material/useMediaQuery';
 // Icon Imports
 import { Search } from '../../icons/search';
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
@@ -46,7 +47,15 @@ const Footer = (props) => {
     [router.isReady, router.asPath]
   );
 
+  const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
+  const iconProps = {
+    fontSize: isSmallScreen ? "small" : "large"
+  }
+  
+  const buttonProps = {
+    size: isSmallScreen ? "small" : "large"
+  };
 
   return (
 
@@ -91,10 +100,10 @@ const Footer = (props) => {
               justifyContent: 'center'
               }}
             >
-            <Search fontSize="large" />
+            <Search {...iconProps} />
             </Box>
             <Box>
-              <Typography>
+              <Typography sx={{ fontSize: { xs: '0.7rem', sm: '0.7rem', md: '1rem', lg: '1rem', xl: '1rem', } }} >
                 Search
               </Typography>
             </Box>
@@ -118,10 +127,10 @@ const Footer = (props) => {
           justifyContent: 'center'
           }}
         >
-        <ShoppingBag fontSize="large" />
+        <ShoppingBag {...iconProps} />
         </Box>
         <Box>
-          <Typography  >
+          <Typography sx={{ fontSize: { xs: '0.7rem', sm: '0.7rem', md: '1rem', lg: '1rem', xl: '1rem', } }} >
             Orders
           </Typography>
         </Box>
@@ -144,10 +153,10 @@ const Footer = (props) => {
           justifyContent: 'center'
           }}
         >
-        <MailOpen fontSize="large" />
+        <MailOpen {...iconProps} />
         </Box>
         <Box>
-          <Typography>
+          <Typography sx={{ fontSize: { xs: '0.7rem', sm: '0.7rem', md: '1rem', lg: '1rem', xl: '1rem', } }} >
             Contact Us
           </Typography>
         </Box>
@@ -170,10 +179,10 @@ const Footer = (props) => {
         justifyContent: 'center'
         }}
         >
-        <UserCircleIcon fontSize="large" />
+        <UserCircleIcon {...iconProps} />
         </Box>
         <Box>
-          <Typography>
+          <Typography sx={{ fontSize: { xs: '0.7rem', sm: '0.7rem', md: '1rem', lg: '1rem', xl: '1rem', } }} >
             Profile
           </Typography>
         </Box>
@@ -187,7 +196,7 @@ const Footer = (props) => {
         justifyContent: 'center'
         }}
         >
-        <Button variant="contained">Rent Now!</Button>
+        <Button {...buttonProps} variant="contained" >Rent Now!</Button>
       </Box>
       
       </Box>

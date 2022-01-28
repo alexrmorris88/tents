@@ -32,9 +32,7 @@ import Slide from '@mui/material/Slide';
 const Header = () => {
   const [Scroll, setScroll] = useState(false);
   const [BGColor, setBGColor] = useState("primary.main");
-  const [BoxDisplay, setBoxDisplay] = useState("flex")
-  const [BoxDisplay2, setBoxDisplay2] = useState("none")
-  const [Fade, setFade] = useState({scrollOne: false})
+  const [TextColor, setTextColor] = useState("#fff");
 
   useLayoutEffect(() => {
 
@@ -44,15 +42,11 @@ const Header = () => {
     if (scroll > 1) {
       setScroll(true);
       setBGColor("background.default")
-      setBoxDisplay("none")
-      setBoxDisplay2('flex')
-      setFade(state => ({ ...state, scrollOne: true }))
+      setTextColor("primary.main")
     } if (scroll === 0) {
       setScroll(false);
       setBGColor("primary.main")
-      setBoxDisplay("flex")
-      setBoxDisplay2("none")
-      setFade(state => ({ ...state, scrollOne: false }))
+      setTextColor("#fff")
     }
   };
 
@@ -64,52 +58,44 @@ const Header = () => {
   <Box
     sx={{
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       backgroundColor: BGColor,
-      pt: 0.5,
-      pb: 0.5,
+      pt: 1,
       position: "sticky",
       top: "0px",
       zIndex: 999,
-      height: "75px",
-      maxHeight: "75px",
+      height: '75px',
     }}
 
   >
 
-    <Grow 
-      in={!Fade.scrollOne} 
-      style={{ transformOrigin: '100 100 100' }}
-      {...(Fade.scrollOne ? {} : { timeout: { exit: 10, enter: 50 } } )}
-      mountOnEnter unmountOnExit
-      >
+
         <Box
         sx={{
-          display: BoxDisplay,
+          display: 'flex',
+          pl: 4
         }}
         >
-          <Typography color="#fff" variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '1.2rem' }}>
-            Testing the font color
+          <Typography color={TextColor} variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '1.2rem' }}>
+            Icon
           </Typography>
         </Box> 
-      </Grow>
 
-      <Grow 
-      in={Fade.scrollOne} 
-      style={{ transformOrigin: '100 100 100' }}
-      {...(Fade.scrollOne ? { timeout: { exit: 10, enter: 50 } } : {} )}
-      mountOnEnter unmountOnExit
-      >
         <Box
           sx={{
-            display: BoxDisplay2,
+            display: 'flex',
             justifyContent: 'center',
             alignContent: 'center',
           }}
         >
           <NavPopdown />
         </Box> 
-      </Grow>
+
+        <Box>
+        </Box>
+
 
   </Box>
 
