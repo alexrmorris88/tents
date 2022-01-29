@@ -22,7 +22,12 @@ import Footer from "./Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Layout = ({ children, title = "Saint John Tents" }) => {
+
+const Layout = (props) => {
+  const {
+    children, 
+    title = "Saint John Tents", 
+    ...other } = props
 
   return (
     <div>
@@ -31,13 +36,9 @@ const Layout = ({ children, title = "Saint John Tents" }) => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-
       <Header />
-
-      <ToastContainer />
-
-      {children}
-
+        <ToastContainer />
+        {children}
       <Footer />
     </div>
   );

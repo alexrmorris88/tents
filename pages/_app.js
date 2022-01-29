@@ -1,8 +1,12 @@
+// React-Next Imports
 import React from "react";
+// Context Provider Imports
 import {
   SettingsConsumer,
   SettingsProvider,
 } from "../contexts/settings-context";
+import { CalendarProvider } from '../contexts/calendar-context'
+// UI Imports
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "../theme";
 import { wrapper } from "../state/store";
@@ -22,7 +26,9 @@ function MyApp({ Component, pageProps }) {
                 mode: settings.theme,
               })}
             >
-              <Component {...pageProps} />
+              <CalendarProvider>
+                  <Component {...pageProps} />
+              </CalendarProvider>
             </ThemeProvider>
           )}
         </SettingsConsumer>

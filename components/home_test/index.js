@@ -3,6 +3,8 @@ import React, { useEffect, useState, useLayoutEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+// Context Imports
+import { useCalendar } from '../../contexts/calendar-context'
 // UI imports
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -32,7 +34,8 @@ import axios from "axios";
 import getStripe from "../../utils/getStripe";
 import moment from "moment";
 
-const HomeTest = () => {
+const HomeTest = (props) => {
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -40,15 +43,24 @@ const HomeTest = () => {
 
   const description = "This is test text. Do not pay attention to anything that is wirtten here fro now. Currently, this is a place holder for an actual description. The text will start to repeate now. This is test text. Do not pay attention to anything that is wirtten here fro now. Currently, this is a place holder for an actual description. The text will start to repeate now. This is test text. Do not pay attention to anything that is wirtten here fro now. Currently, this is a place holder for an actual description. The text will start to repeate now. "
 
-  const [RentalStartDate, setRentalStartDate] = useState("");
-  const [RentalEndDate, setRentalEndDate] = useState("");
-  const [StartDateInput, setStartDateInput] = useState("Add Date");
-  const [EndDateInput, setEndDateInput] = useState("Add Date");
-  const [rentalDays, setRentalDays] = useState(0);
+  const { 
+    StartDate, 
+    EndDate,
+    StartDate_Input,
+    EndDate_Input,
+    RentalDays,
+    Open,
+    excludedDates,
+    clearDatedCalendarComponent,
+    onChangeCalendarComponent
+  } = useCalendar()
+  const [RentalStartDate, setRentalStartDate] = StartDate;
+  const [RentalEndDate, setRentalEndDate] = EndDate;
+  const [rentalDays, setRentalDays] = RentalDays;
+
   const [paymentLoading, setPaymentLoading] = useState(false);
 
   const { available } = useSelector((state) => state.checkRental);
-  const { dates } = useSelector((state) => state.calendarAvailability);
   const { reviews, loading: reviewLoading } = useSelector(
     (state) => state.review
   );
@@ -56,12 +68,6 @@ const HomeTest = () => {
     (state) => state.loadedUser
   );
 
-  const excludedDates = [];
-  if (dates) {
-    dates.forEach((date) => {
-      excludedDates.push(new Date(date));
-    });
-  }
 
   useEffect(() => {
     dispatch(getCalendarAvailability(id));
@@ -75,56 +81,6 @@ const HomeTest = () => {
     };
   }, [dispatch, id]);
 
-
-  const clearDatedCalendarComponent = () => {
-    
-    setRentalStartDate("");
-    setStartDateInput("Add Date");
-
-    setRentalEndDate("");
-    setEndDateInput("Add Date");
-
-    setRentalDays(0);
-  };
-
-  const onChangeCalendarComponent = (date) => {
-    setRentalStartDate("");
-    setStartDateInput("Add Date");
-
-    setRentalEndDate("");
-    setEndDateInput("Add Date");
-
-    setRentalDays(0);
-
-    let [RentalStartDate, RentalEndDate] = date;
-
-    if (RentalStartDate) {
-      setRentalStartDate(RentalStartDate);
-      setStartDateInput(moment(RentalStartDate).format("MMM DD, YYYY"));
-    }
-    if (RentalEndDate) {
-      setRentalEndDate(RentalEndDate);
-      setEndDateInput(moment(RentalEndDate).format("MMM DD, YYYY"));
-    }
-
-    if (RentalStartDate && RentalEndDate) {
-      // Calclate days of stay
-
-      const days = Math.floor(
-        (new Date(RentalEndDate) - new Date(RentalStartDate)) / 86400000 + 1
-      );
-
-      setRentalDays(days);
-
-      dispatch(
-        checkRental(
-          id,
-          RentalStartDate.toISOString(),
-          RentalEndDate.toISOString()
-        )
-      );
-    }
-  };
 
   const rentTent = async (id, amount) => {
     setPaymentLoading(true);
@@ -210,11 +166,11 @@ const HomeTest = () => {
               RentalStartDate={RentalStartDate}
               RentalEndDate={RentalEndDate}
               excludeDates={excludedDates}
-              onChange={onChangeCalendarComponent}
               setRentalStartDate={setRentalStartDate}
               setRentalEndDate={setRentalEndDate}
               rentalDays={rentalDays}
               user={user}
+              onChange={onChangeCalendarComponent}
               clearDates={clearDatedCalendarComponent}
             />
           </Box>  

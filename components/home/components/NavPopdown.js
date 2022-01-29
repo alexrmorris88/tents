@@ -1,5 +1,7 @@
 // Next-React Imports
-import React, { useEffect, useState, useRef, createRef, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useRef, createRef, useLayoutEffect, useContext } from 'react';
+// Context Imports
+import { useCalendar } from '../../../contexts/calendar-context'
 // UI Imports
 import {
   Box,
@@ -42,31 +44,30 @@ const ServicesButton = styled(Button)({
   },
 });
 
-const NavPopdown = ({ RemoveNavRef, eventListner }) => {
+const NavPopdown = (props) => {
+  const {
+    RemoveNavRef, 
+    eventListner } = props;
+
+  const { 
+    StartDate_Input, 
+    EndDate_Input,
+    handleOpenPopover,
+    handleClosePopover, 
+    handleClickOpen,
+    handleClose,
+    Open,
+    openPopover,
+    ChangeImage,
+  } = useCalendar()
+  const [StartDateInput, setStartDateInput] = StartDate_Input;
+  const [EndDateInput, setEndDateInput] = EndDate_Input;
+  const [open, setOpen] = Open;
+
   const anchorRef = useRef(null);
-  const [openPopover, setOpenPopover] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [ChangeImage, setChangeImage] = useState(false)
   const [SetupFee, setSetupFee] = useState(false)
   const [DeliveryFee, setDeliveryFee] = useState(false)
 
-  const handleOpenPopover = () => {
-    setOpenPopover(true);
-    setChangeImage(true)
-  };
-
-  const handleClosePopover = () => {
-    setOpenPopover(false);
-    setChangeImage(false)
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
 
@@ -94,7 +95,7 @@ const NavPopdown = ({ RemoveNavRef, eventListner }) => {
         > 
         <StyledBox 
           onClick={() => {
-            console.log("hello")
+            handleClickOpen()
           }}
           sx={{ 
             display: 'flex', 
@@ -113,7 +114,8 @@ const NavPopdown = ({ RemoveNavRef, eventListner }) => {
 
           <Box sx={{ ml: 2, display: 'flex' }}>
             <Typography variant='subtitle2' sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
-                Add Dates
+                
+                {StartDateInput}
             </Typography>
           </Box>
 
@@ -125,7 +127,7 @@ const NavPopdown = ({ RemoveNavRef, eventListner }) => {
 
           <StyledBox 
             onClick={() => {
-              console.log("hi")
+              handleClickOpen()
             }}
             sx={{ 
               display: 'flex', 
@@ -143,7 +145,7 @@ const NavPopdown = ({ RemoveNavRef, eventListner }) => {
 
             <Box sx={{ ml: 2, display: 'flex',   alignContent: 'center' }}>
               <Typography variant='subtitle2' sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
-                  Add Dates
+                  {EndDateInput}
               </Typography>
             </Box>
           </StyledBox>
