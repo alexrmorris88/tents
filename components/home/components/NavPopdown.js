@@ -92,7 +92,7 @@ const NavPopdown = (props) => {
         display: 'flex', 
         justifyContent: 'center',
         mb: 1,
-        height: 66,
+        height: { xs: 50, sm: 60, md: 60, lg: 60, xl: 60 },
         }}>
       <Box 
         sx={{ 

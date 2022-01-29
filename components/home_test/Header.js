@@ -60,7 +60,7 @@ const Header = () => {
           pl: 4
         }}
         >
-          <Typography color={TextColor} variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: '1.2rem' }}>
+          <Typography color={TextColor} variant="subtitle2" component="h1" sx={{ fontWeight: 500, fontSize: { xs: '0.8rem', sm: '1.2rem', md: '1.2rem', lg: '1.2rem', xl: '1.2rem', } }}>
             Icon
           </Typography>
         </Box> 
