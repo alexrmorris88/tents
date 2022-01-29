@@ -34,7 +34,7 @@ import axios from "axios";
 import getStripe from "../../utils/getStripe";
 import moment from "moment";
 
-const HomeTest = (props) => {
+const HomeTest = () => {
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -46,10 +46,7 @@ const HomeTest = (props) => {
   const { 
     StartDate, 
     EndDate,
-    StartDate_Input,
-    EndDate_Input,
     RentalDays,
-    Open,
     excludedDates,
     clearDatedCalendarComponent,
     onChangeCalendarComponent

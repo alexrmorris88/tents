@@ -2,70 +2,19 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
-// Context Imports
-import { useCalendar } from '../../contexts/calendar-context'
 // UI Imports
 import {
-  AppBar,
   Box,
-  Container,
-  IconButton,
-  ButtonBase,
-  Avatar,
-  Link,
-  Toolbar,
-  Button,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 // Component Imports
-import { loadUser } from "../../state/actions/userActions";
-import { NavPopout } from "../layout/nav-popout";
-import Loader from "../../components/layout/Loader";
 import NavPopdown from "../home/components/NavPopdown"
-import CalendarDialogBox from "../../components/products/utils/CalendarDialogBox";
-// Redux Imports
-import { useDispatch, useSelector } from "react-redux";
-// Utils Imports
-import PropTypes from "prop-types";
-import { Fade } from "@mui/material";
-import Grow from '@mui/material/Grow';
-import Slide from '@mui/material/Slide';
 
 const Header = () => {
 
   const [Scroll, setScroll] = useState(false);
   const [BGColor, setBGColor] = useState("primary.main");
   const [TextColor, setTextColor] = useState("#fff");
-
-  const user = useSession();
-
-  const { 
-    StartDate,
-    EndDate,
-    StartDate_Input, 
-    EndDate_Input,
-    handleOpenPopover,
-    handleClosePopover, 
-    handleClickOpen,
-    RentalDays,
-    handleClose,
-    Open,
-    openPopover,
-    ChangeImage,
-    available,
-    excludedDates,
-    clearDatedCalendarComponent,
-    onChangeCalendarComponent,
-  } = useCalendar()
-  const [StartDateInput, setStartDateInput] = StartDate_Input;
-  const [EndDateInput, setEndDateInput] = EndDate_Input;
-  const [RentalStartDate, setRentalStartDate] = StartDate;
-  const [RentalEndDate, setRentalEndDate] = EndDate;
-  const [rentalDays, setRentalDays] = RentalDays;
-  const [open, setOpen] = Open;
-
 
   useLayoutEffect(() => {
 
@@ -124,19 +73,6 @@ const Header = () => {
           }}
         >
           <NavPopdown />
-
-          <CalendarDialogBox 
-            open={open} 
-            available={available} 
-            rentalDays={rentalDays} 
-            clearDates={clearDatedCalendarComponent} 
-            excludedDates={excludedDates} 
-            RentalStartDate={RentalStartDate} 
-            RentalEndDate={RentalEndDate}
-            user={user}
-            onChange={onChangeCalendarComponent}
-            handleClose={handleClose} 
-            />
 
         </Box> 
 

@@ -1,5 +1,6 @@
 // Next-React Imports
 import React, { useEffect, useState, useRef, createRef, useLayoutEffect, useContext } from 'react';
+import { useSession } from "next-auth/client";
 // Context Imports
 import { useCalendar } from '../../../contexts/calendar-context'
 // UI Imports
@@ -12,6 +13,7 @@ import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/material/styles';
 // Components Import
 import { ServicesPopover } from '../../products/utils/ServicesPopover';
+import CalendarDialogBox from "../../../components/products/utils/CalendarDialogBox";
 // Icon Imports
 import { Search } from '../../../icons/search'
 import { ChevronDown } from "../../../icons/chevron-down";
@@ -49,19 +51,31 @@ const NavPopdown = (props) => {
     RemoveNavRef, 
     eventListner } = props;
 
+  const user = useSession();
+
   const { 
+    StartDate,
+    EndDate,
     StartDate_Input, 
     EndDate_Input,
     handleOpenPopover,
-    handleClosePopover, 
+    handleClosePopover,
     handleClickOpen,
     handleClose,
+    RentalDays,
     Open,
     openPopover,
     ChangeImage,
+    available,
+    excludedDates,
+    clearDatedCalendarComponent,
+    onChangeCalendarComponent,
   } = useCalendar()
+  const [RentalStartDate, setRentalStartDate] = StartDate;
+  const [RentalEndDate, setRentalEndDate] = EndDate;
   const [StartDateInput, setStartDateInput] = StartDate_Input;
   const [EndDateInput, setEndDateInput] = EndDate_Input;
+  const [rentalDays, setRentalDays] = RentalDays;
   const [open, setOpen] = Open;
 
   const anchorRef = useRef(null);
@@ -89,7 +103,7 @@ const NavPopdown = (props) => {
           borderColor: 'divider', 
           borderRadius: 16, 
           backgroundColor: "#fff",
-          width: { xs: '90vw', sm: '60vw', md: '50vw', lg: '40vw', xl: '30vw' }, 
+          width: { xs: '70vw', sm: '60vw', md: '50vw', lg: '40vw', xl: '30vw' }, 
           p: 1,
           }}
         > 
@@ -106,14 +120,14 @@ const NavPopdown = (props) => {
           }}>
         
           <Box sx={{ ml: 2, display: 'flex' }}>
-              <Typography variant='subtitle2' sx={{ fontSize: '0.7rem' }}>
+              <Typography variant='subtitle2' sx={{ fontSize: { xs: '0.5rem', sm: '0.7rem', md: '0.7rem', lg: '0.7rem', xl: '0.7rem', } }}>
                 Rental Start
               </Typography>
           </Box>
 
 
           <Box sx={{ ml: 2, display: 'flex' }}>
-            <Typography variant='subtitle2' sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
+            <Typography variant='subtitle2' sx={{ fontSize: { xs: '0.5rem', sm: '0.7rem', md: '0.7rem', lg: '0.7rem', xl: '0.7rem', }, color: 'text.secondary' }}>
                 
                 {StartDateInput}
             </Typography>
@@ -138,13 +152,13 @@ const NavPopdown = (props) => {
             }}>
 
             <Box sx={{ ml: 2, display: 'flex', alignContent: 'center'}}>
-              <Typography variant='subtitle2' sx={{ fontSize: '0.7rem' }}>
-                Rental Start
+              <Typography variant='subtitle2' sx={{ fontSize: { xs: '0.5rem', sm: '0.7rem', md: '0.7rem', lg: '0.7rem', xl: '0.7rem', } }}>
+                Rental End
               </Typography>
             </Box>
 
             <Box sx={{ ml: 2, display: 'flex',   alignContent: 'center' }}>
-              <Typography variant='subtitle2' sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
+              <Typography variant='subtitle2' sx={{ fontSize: { xs: '0.5rem', sm: '0.7rem', md: '0.7rem', lg: '0.7rem', xl: '0.7rem', }, color: 'text.secondary' }}>
                   {EndDateInput}
               </Typography>
             </Box>
@@ -181,7 +195,7 @@ const NavPopdown = (props) => {
                       }}>
 
                         <Box sx={{ display: "flex", alignContent: 'center' }}>
-                          <Typography variant='subtitle2' sx={{ fontSize: '0.7rem' }}>
+                          <Typography variant='subtitle2' sx={{ fontSize: { xs: '0.5rem', sm: '0.7rem', md: '0.7rem', lg: '0.7rem', xl: '0.7rem', } }}>
                             Services
                           </Typography>
                         </Box>
@@ -192,7 +206,7 @@ const NavPopdown = (props) => {
                     </Box>
 
                       <Box sx={{ display: 'flex', alignContent: 'center', mt: -0.6}}>
-                        <Typography variant='subtitle2' sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
+                        <Typography variant='subtitle2' sx={{ fontSize: { xs: '0.5rem', sm: '0.7rem', md: '0.7rem', lg: '0.7rem', xl: '0.7rem', }, color: 'text.secondary' }}>
                           Add Services
                         </Typography>
                       </Box>
@@ -214,7 +228,7 @@ const NavPopdown = (props) => {
                   <Search fontSize="small" style={{ color: "#fff" }} />
                 </Box>
 
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
                   <WhiteTypography sx={{ fontColor: '#fff'}}>Search</WhiteTypography>
                 </Box>
 
@@ -222,6 +236,18 @@ const NavPopdown = (props) => {
 
         </StyledBox>
       </Box>
+      <CalendarDialogBox 
+        open={open} 
+        available={available} 
+        rentalDays={rentalDays} 
+        clearDates={clearDatedCalendarComponent} 
+        excludedDates={excludedDates} 
+        RentalStartDate={RentalStartDate} 
+        RentalEndDate={RentalEndDate}
+        user={user}
+        onChange={onChangeCalendarComponent}
+        handleClose={handleClose} 
+        />
     </Box>
   );
 };
